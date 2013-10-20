@@ -1,11 +1,5 @@
 <div class="row">
 <div class="col-lg-6">
-<h2>
-<%= link_to @issue.project.name, @issue.project %>
-</h2>
-<%= hbr(@issue.project.description) %>
-</div>
-<div class="col-lg-6">
 <div class="issue">
   <div class="issue-author text-muted">
     <b><%= @issue.author.username %></b> opened this issue <%= time_ago_in_words(@issue.created_at) %> ago
@@ -55,6 +49,12 @@
     </div>
   <% end %>
 </div>
+</div>
+<div class="col-lg-6">
+  <h2>
+    <%= link_to @issue.project.name, @issue.project %>
+  </h2>
+  <%= hbr(@issue.project.description) %>
 </div>
 </div>
 
