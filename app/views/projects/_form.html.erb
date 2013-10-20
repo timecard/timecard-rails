@@ -19,6 +19,14 @@
     <%= f.label :description %><br>
     <%= f.text_area :description, class: "form-control" %>
   </div>
+  
+  <% if @project.id %>
+  <div class="form-group">
+    <%= f.label :github_full_name %><br>
+    <%= f.text_field :github_full_name, class: "form-control" %>
+  </div>
+  <% end %>
+
   <div class="checkbox">
     <%= f.check_box :is_public %>
     <%= f.label :is_public %>

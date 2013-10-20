@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @project.update(project_params)
+      if @project.modify(project_params)
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -106,7 +106,9 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :description, :is_public, :parent_id, :status)
+      res = params.require(:project).permit(:name, :description, :is_public, :parent_id, :status)
+      res["github_full_name"] = params[:github_full_name]
+      return res
     end
 
     def require_admin
