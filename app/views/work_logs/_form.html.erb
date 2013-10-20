@@ -1,0 +1,25 @@
+<%= form_for(@work_log) do |f| %>
+  <% if @work_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@work_log.errors.count, "error") %> prohibited this work_log from being saved:</h2>
+
+      <ul>
+      <% @work_log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :start_at %><br>
+    <%= f.datetime_select :start_at %>
+  </div>
+  <div class="form-group">
+    <%= f.label :end_at %><br>
+    <%= f.datetime_select :end_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: "btn btn-default" %>
+  </div>
+<% end %>

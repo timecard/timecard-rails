@@ -1,0 +1,103 @@
+<%= link_to "Back to all projects", projects_path %>
+<div class="project-header">
+  <div class="project-name">
+    <h2>
+      <%= @project.name %>
+    </h2>
+  </div>
+  <div class="project-description">
+    <p><%= hbr(@project.description) %></p>
+  </div>
+  <div class="project-is-public">
+    <% if @project.is_public %>
+      <span class="label label-info">Public</span>
+    <% else %>
+      <span class="label label-default">Private</span>
+    <% end %>
+  </div>
+  <% if @project.admin?(current_user) %>
+    <div class="project-actions">
+      <% if @project.status == Project::STATUS_ACTIVE %>
+        <%= link_to "Add a member", project_members_path(@project), class: "btn btn-default" %>
+        <%= link_to "Edit", edit_project_path(@project), class: "btn btn-default" %>
+        <%= link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch %>
+        <%= link_to "Archive", archive_project_path(@project), class: "btn btn-default", method: :patch %>
+      <% else %>
+        <%= link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+<div class="col-lg-4">
+  <h3>
+    Issue
+    <% if @project.status == Project::STATUS_ACTIVE %>
+      <% if @project.member?(current_user) %>
+        <%= link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default" %>
+      <% end %>
+    <% end %>
+  </h3>
+  <div id="issues">
+    <div class="media-list">
+      <% @issues.each do |issue| %>
+        <div class="media issue">
+          <div class="issue-subject">
+            <b style="margin:0">
+              <%= link_to issue.subject, issue %>
+            </b>
+          </div>
+          <div class="issue-author">
+            Opend by <%= issue.author.username %> <%= time_ago_in_words(issue.created_at) %> ago
+          </div>
+          <div class="issue-status">
+            <% if issue.status == 1 %>
+              <span class="label label-success">Open</span>
+            <% else %>
+              <span class="label label-danger">Close</span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div> 
+  </div>
+</div>
+<div class="col-lg-4">
+  <h3>
+    Comments
+  </h3>
+  <div id="comments">
+    <ul class="media-list">
+      <% @comments.each do |comment| %>
+        <li class="media">
+          <div class="comment">
+            <div class="comment-author">
+              <%= comment.user.username %> @ <%= time_ago_in_words(comment.created_at) %> ago
+            </div>
+            <div class="comment-body">
+              <%= simple_format(comment.body) %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<div class="col-lg-4">
+  <h3>
+    WorkLogs
+  </h3>
+  <div id="work-logs">
+    <ul class="media-list">
+      <% @work_logs.each do |work_log| %>
+        <li class="media">
+          <%= work_log.user.username %><br />
+           
+          <%= time_ago_in_words(work_log.start_at) %> - <%= time_ago_in_words(work_log.end_at) %>
+          (<%= formatted_time_distance(work_log.start_at, work_log.end_at) %>)
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

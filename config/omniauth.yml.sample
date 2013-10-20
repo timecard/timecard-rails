@@ -1,0 +1,9 @@
+development:
+  github:
+    key: "0b484240d006f61ad10a"
+    secret: "109956d7bb6ecdd1aac93f2af9fd7bcc9cc5533f"
+
+production:
+  github:
+    key: "your-github-api-key"
+    secret: "your-github-api-secret"

@@ -1,0 +1,30 @@
+<div class="new-project" style="margin-bottom:20px">
+  <%= link_to "New Project", new_project_path, class: "btn btn-default" %>
+</div>
+<div class="btn-group btn-group-sm" style="margin-bottom:20px">
+  <%= link_to "Active", projects_path(status: Project::STATUS_ACTIVE), class: "btn btn-default" %>
+  <%= link_to "Closed", projects_path(status: Project::STATUS_CLOSED), class: "btn btn-default" %>
+  <%= link_to "Archive", projects_path(status: Project::STATUS_ARCHIVED), class: "btn btn-default" %>
+</div>
+<div class="row">
+  <% @projects.each do |project| %>
+    <div class="col-md-4" style="margin-bottom:20px;">
+      <%= div_for project, style: "height:200px;" do %>
+        <div class="project-name">
+          <%= link_to_unless (project.status == Project::STATUS_ARCHIVED), project.name, project %>
+          <% if project.status == Project::STATUS_ARCHIVED %>
+            <%= link_to "Active", active_project_path(project), class: "btn btn-xs btn-default", method: :patch %>
+          <% end %>
+        </div>
+        <div>
+          <p><%= project.description.truncate(50) if project.description %></p>
+        </div>
+        <div id="members">
+          <% project.members.each do |member| %>
+            <%= member.user.username %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
