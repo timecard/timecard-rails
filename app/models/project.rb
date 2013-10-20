@@ -34,8 +34,20 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def modify(params)
+    if params[:github_full_name]
+      self.add_github(params[:github_full_name])
+      params.delete(:github_full_name)
+    end
+    self.update(params)
+  end
+
+  def github_full_name
+    self.github ? self.github.full_name : nil
+  end
+
   def github
-    ProjectGithub.find_or_create_by(
+    ProjectGithub.find_by(
       name: "github",
       provided_type: "Project",
       provided_id: self.id
@@ -43,7 +55,7 @@ class Project < ActiveRecord::Base
   end
 
   def add_github(full_name)
-    pg = ProjectGithub.new(
+    pg = ProjectGithub.find_or_create_by(
       name: "github",
       provided_id: self.id,
       provided_type: "Project"
