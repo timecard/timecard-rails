@@ -20,7 +20,7 @@
     <%= f.text_area :description, class: "form-control" %>
   </div>
   
-  <% if @project.id %>
+  <% if @project.persisted? %>
   <div class="form-group">
     <%= f.label :github_full_name %><br>
     <%= f.text_field :github_full_name, class: "form-control" %>
