@@ -5,7 +5,7 @@ class ProjectGithub < Provider
   end
 
   def add_issue(params)
-    fn = self.full_name.split("/")
+    fn = self.full_name.gsub(/  /,"").split("/")
     assignee = nil #TODO 担当者の指定をgithubと動機する機能はまだ未実装
     issue = Provider.github.issues.create(
       fn[0], fn[1],
