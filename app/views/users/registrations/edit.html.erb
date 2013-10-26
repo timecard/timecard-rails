@@ -38,6 +38,15 @@
     <% else %>
       <%= link_to "Connect to Github", omniauth_authorize_path(:user, :github), class: "btn btn-default" %>
     <% end %>
+
+    <% if current_user.connected?("ruffnote") %>
+      <div>
+        <%= current_user.ruffnote_username %>
+        <%= link_to "Disconnect from Ruffnote", disconnect_provider_path(:ruffnote), method: :delete %>
+      </div>
+    <% else %>
+      <%= link_to "Connect to Ruffnote", omniauth_authorize_path(:user, :ruffnote), class: "btn btn-default" %>
+    <% end %>
   </dd>
 </dl>
 

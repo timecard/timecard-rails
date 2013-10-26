@@ -46,6 +46,7 @@ end
 
 gem 'devise'
 gem 'omniauth-github'
+gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 gem 'kaminari'
 gem 'github_api'
 
