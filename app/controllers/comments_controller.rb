@@ -11,6 +11,15 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        if @comment.issue.project.github && current_user.github
+          comment = @comment.issue.github.add_comment(current_user.github.oauth_token , comment_params)
+          if comment
+            @comment.add_github(comment.id)
+          else
+            flash[:alert] = 'Create a new comment to Github failed.' + @comment.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+          end
+        end
         format.html { redirect_to @issue, notice: 'Comment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
@@ -25,6 +34,15 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
+        if @comment.github && @comment.github.comment_id && current_user.github
+          comment = @comment.github.modify(
+            current_user.github.oauth_token, comment_params
+          )
+          unless comment
+            flash[:alert] = 'Update a new comment to Github failed.' + @comment.errors.full_messages.join("\n")
+            format.html { redirect_to @comment, notice: 'Issue was successfully updated.' }
+          end
+        end
         format.html { redirect_to @comment.issue, notice: 'Comment was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
@@ -37,13 +55,17 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
+    if @comment.github && @comment.github.comment_id && current_user.github
+      comment = @comment.github.destroy(
+        current_user.github.oauth_token
+      )
+    end
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to @comment.issue }
       format.json { head :no_content }
     end
   end
-
 
   private
 
@@ -63,5 +85,4 @@ class CommentsController < ApplicationController
     project = @issue ? @issue.project : @comment.issue.project
     redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
   end
-
 end
