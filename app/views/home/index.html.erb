@@ -1,1 +1,15 @@
 <h1>Home</h1>
+<% if user_signed_in? %>
+  <h2>My Issues</h2>
+  <div class="btn-group btn-group-sm" style="margin-bottom:10px">
+    <%= link_to "Open", root_path(status: 1), class: "btn btn-default" %>
+    <%= link_to "Closed", root_path(status: 9), class: "btn btn-default" %>
+  </div>
+  <div id="issues">
+    <% if @issues.count.zero? %>
+      You don't have assigned issue.
+    <% else %>
+      <%= render "shared/issue_list", collection: @issues %>
+    <% end %>
+  </div>
+<% end %>
