@@ -63,7 +63,7 @@
 <div class="col-lg-6">
   <h3>Comments</h3>
   <ul class="media-list">
-    <% @issue.comments.order("updated_at ASC").each do |comment| %>
+    <% @issue.comments.order("id ASC").each do |comment| %>
       <li class="media comment-area">
         <div class="comment">
           <div class="comment-author">

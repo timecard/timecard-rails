@@ -11,14 +11,14 @@ class IssueGithub < Provider
   end
 
   def reopen(token)
-    modify_issue(token, {state: "open"})
+    modify(token, {state: "open"})
   end
 
   def close(token)
-    modify_issue(token, {state: "close"})
+    modify(token, {state: "close"})
   end
 
-  def modify_issue(token, params)
+  def modify(token, params)
     options = {}
     if params[:assignee_id] && params[:assignee_id].blank?
       option["assignee"] = nil
@@ -33,5 +33,13 @@ class IssueGithub < Provider
     issue = Provider.github(token).issues.edit(
       fn[0], fn[1], self.number, options
     )
+  end
+
+  def add_comment(token, params)
+    fn = self.issue.project.github.full_name.gsub(/  /,"").split("/")
+    comment = Provider.github(token).issues.comments.create(
+      fn[0], fn[1], self.number, body: params[:body]
+    )
+    return comment.body
   end
 end

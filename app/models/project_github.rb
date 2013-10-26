@@ -6,8 +6,12 @@ class ProjectGithub < Provider
 
   def add_issue(token, params)
     fn = self.full_name.gsub(/  /,"").split("/")
-    a = User.find(params[:assignee_id])
-    assignee = a.github ? a.github.username : nil
+    if params[:assignee_id].blank?
+      assignee = nil
+    else
+      a = User.find(params[:assignee_id])
+      assignee = a.github.username
+    end
     issue = Provider.github(token).issues.create(
       fn[0], fn[1],
       title: params[:subject],

@@ -50,10 +50,12 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if @issue.update(issue_params)
         if @issue.project.github
-          issue = @issue.github.modify_issue(current_user.github.oauth_token, params[:issue])
+          issue = @issue.github.modify(
+            current_user.github.oauth_token, issue_params
+          )
           unless issue
-            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
-            format.html { render action: 'new' }
+            flash[:alert] = 'Update a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'edit' }
           end
         end
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
