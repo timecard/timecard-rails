@@ -47,6 +47,7 @@ end
 gem 'devise'
 gem 'omniauth-github'
 gem 'kaminari'
+gem 'github_api'
 
 group :development do
   gem 'guard-livereload'

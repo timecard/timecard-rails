@@ -24,9 +24,17 @@ class IssuesController < ApplicationController
   # POST /issues.json
   def create
     @issue = @project.issues.build(issue_params)
-
     respond_to do |format|
       if @issue.save
+        if @issue.project.github
+          issue = @issue.project.github.add_issue(params[:issue])
+          if issue
+            @issue.add_github(issue.number)
+          else
+            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+          end
+        end
         format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
         format.json { render action: 'show', status: :created, location: @issue }
       else
