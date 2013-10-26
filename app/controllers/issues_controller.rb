@@ -26,8 +26,8 @@ class IssuesController < ApplicationController
     @issue = @project.issues.build(issue_params)
     respond_to do |format|
       if @issue.save
-        if @issue.project.github
-          issue = @issue.project.github.add_issue(params[:issue])
+        if @issue.project.github && current_user.github
+          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
             @issue.add_github(issue.number)
           else
@@ -49,6 +49,13 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
+        if @issue.project.github
+          issue = @issue.github.modify_issue(current_user.github.oauth_token, params[:issue])
+          unless issue
+            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+          end
+        end
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -62,6 +69,9 @@ class IssuesController < ApplicationController
   # PATCH/PUT projects/1/issues/1/close.json
   def close
     if @issue.update_attributes({ status: 9, closed_on: Time.now.utc })
+      if @issue.github
+        @issue.github.close(current_user.github.oauth_token)
+      end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
@@ -74,6 +84,9 @@ class IssuesController < ApplicationController
   def reopen
     if @issue.update_attribute(:status, 1)
       respond_to do |format|
+        if @issue.github
+          @issue.github.reopen(current_user.github.oauth_token)
+        end
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       end
