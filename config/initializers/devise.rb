@@ -240,6 +240,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :github, SERVICES['github']['key'], SERVICES['github']['secret'], :scope => 'user,repo,gist'
+  config.omniauth :ruffnote, SERVICES['ruffnote']['key'], SERVICES['ruffnote']['secret']
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
