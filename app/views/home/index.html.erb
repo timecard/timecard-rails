@@ -5,25 +5,11 @@
     <%= link_to "Open", root_path(status: 1), class: "btn btn-default" %>
     <%= link_to "Closed", root_path(status: 9), class: "btn btn-default" %>
   </div>
-  <div class="media-list">
-    <% @issues.each do |issue| %>
-      <div class="media issue">
-        <div class="issue-subject">
-          <b style="margin:0">
-            <%= link_to issue.subject, issue %>
-          </b>
-        </div>
-        <div class="issue-author">
-          Opend by <%= issue.author.username %> <%= time_ago_in_words(issue.created_at) %> ago
-        </div>
-        <div class="issue-status">
-          <% if issue.status == 1 %>
-            <span class="label label-success">Open</span>
-          <% else %>
-            <span class="label label-danger">Closed</span>
-          <% end %>
-        </div>
-      </div>
+  <div id="issues">
+    <% if @issues.count.zero? %>
+      You don't have assigned issue.
+    <% else %>
+      <%= render "shared/issue_list", collection: @issues %>
     <% end %>
-  </div> 
+  </div>
 <% end %>
