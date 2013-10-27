@@ -3,7 +3,7 @@ Timecard::Application.routes.draw do
   resources :data
 
   resources :comments, only: [:edit, :update, :destroy]
-  resources :work_logs, only: [:edit, :update, :destroy, :stop] do
+  resources :workloads, only: [:edit, :update, :destroy, :stop] do
     patch :stop, on: :member
   end
 
@@ -13,7 +13,7 @@ Timecard::Application.routes.draw do
     patch :postpone, on: :member
     patch :do_today, on: :member
     resources :comments, only: [:create]
-    resource :work_logs, only: [:start] do
+    resource :workloads, only: [:start] do
       post :start, on: :member
     end
   end

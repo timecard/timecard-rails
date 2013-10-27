@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
     @title = @project.name
     @issues = @project.issues.order("updated_at DESC").limit(10).where(status: 1)
     @comments = Comment.where(issue_id: @project.issues.pluck(:id)).order("updated_at DESC").limit(10)
-    @work_logs = WorkLog.where(issue_id: @project.issues.pluck(:id)).complete.order("updated_at DESC").limit(10)
+    @workloads = Workload.where(issue_id: @project.issues.pluck(:id)).complete.order("updated_at DESC").limit(10)
   end
 
   def new

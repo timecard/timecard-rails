@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def timer
     return "" unless user_signed_in?
-    current_user.work_logs.running? ? current_user.work_logs.running.start_at.to_s(:rfc822) : ""
+    current_user.workloads.running? ? current_user.workloads.running.start_at.to_s(:rfc822) : ""
   end
 
   protected

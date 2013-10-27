@@ -1,4 +1,4 @@
-class WorkLog < ActiveRecord::Base
+class Workload < ActiveRecord::Base
   scope :complete, -> { where("end_at is not ?", nil) }
 
   belongs_to :issue
