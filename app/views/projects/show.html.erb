@@ -53,7 +53,7 @@
         <li class="media">
           <div class="comment">
             <div class="comment-author">
-              <%= comment.user.username %> @ <%= time_ago_in_words(comment.created_at) %> ago
+              <%= comment.user.name %> @ <%= time_ago_in_words(comment.created_at) %> ago
             </div>
             <div class="comment-body">
               <%= simple_format(comment.body) %>
@@ -72,7 +72,7 @@
     <ul class="media-list">
       <% @work_logs.each do |work_log| %>
         <li class="media">
-          <%= work_log.user.username %><br />
+          <%= work_log.user.name %><br />
            
           <%= time_ago_in_words(work_log.start_at) %> - <%= time_ago_in_words(work_log.end_at) %>
           (<%= formatted_time_distance(work_log.start_at, work_log.end_at) %>)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131019145014) do
+ActiveRecord::Schema.define(version: 20131027003223) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",     default: 0,  null: false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20131019145014) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",               default: "", null: false
+    t.string   "name",                   default: "", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :work_logs
 
-  validates :username, presence: true
-  validates :username, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
 
   def apply_omniauth_with_github(omniauth)
     self.email = omniauth.info.email if self.email.blank?
