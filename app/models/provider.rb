@@ -10,4 +10,23 @@ class Provider < ActiveRecord::Base
       :oauth_token => token
     )
   end
+
+=begin
+  def self.ruffnote(token)
+    Ruffnote.new(
+      :client_id => SERVICES['ruffnote']['key'],
+      :client_secret => SERVICES['ruffnote']['secret'],
+      :oauth_token => token
+    )
+  end
+=end
+
+  def self.ruffnote(token)
+    client = OAuth2::Client.new(
+      SERVICES['ruffnote']['key'], 
+      SERVICES['ruffnote']['secret'], 
+      site: "https://ruffnote.com"
+    )
+    return OAuth2::AccessToken.new(client, token)
+  end
 end

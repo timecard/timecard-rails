@@ -45,10 +45,15 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'devise'
-gem 'omniauth-github'
-gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 gem 'kaminari'
+
+gem 'omniauth-github'
 gem 'github_api'
+
+gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
+#gem 'ruffnote_api', :github => 'pandeiro245/ruffnote_api'
+#gem 'ruffnote_api', :path => '/Users/[yourpath]/git/ruffnote_api'
+
 
 group :development do
   gem 'guard-livereload'
