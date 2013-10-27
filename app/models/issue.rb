@@ -26,4 +26,24 @@ class Issue < ActiveRecord::Base
     issue_github.html_url = "https://github.com/#{full_name}/issues/#{number}"
     issue_github.save
   end
+
+  def ruffnote
+    IssueRuffnote.find_by(
+      name: "ruffnote",
+      provided_type: "Issue",
+      provided_id: self.id
+    )
+  end
+
+  def add_ruffnote(number) #index
+    issue_ruffnote = IssueRuffnote.find_or_create_by(
+      name: "ruffnote",
+      provided_type: "Issue",
+      provided_id: self.id
+    )
+    issue_ruffnote.number = number
+    full_name = self.project.ruffnote.full_name
+    issue_ruffnote.html_url = "https://ruffnote.com/#{full_name}/issues/#{number}"
+    issue_ruffnote.save
+  end
 end

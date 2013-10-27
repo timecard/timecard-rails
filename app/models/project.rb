@@ -39,6 +39,10 @@ class Project < ActiveRecord::Base
       self.add_github(params[:github_full_name])
       params.delete(:github_full_name)
     end
+    if params[:ruffnote_full_name]
+      self.add_ruffnote(params[:ruffnote_full_name])
+      params.delete(:ruffnote_full_name)
+    end
     self.update(params)
   end
 
@@ -62,5 +66,27 @@ class Project < ActiveRecord::Base
     )
     pg.full_name = full_name
     pg.save
+  end
+
+  def ruffnote_full_name
+    self.ruffnote ? self.ruffnote.full_name : nil
+  end
+
+  def ruffnote
+    ProjectRuffnote.find_by(
+      name: "ruffnote",
+      provided_type: "Project",
+      provided_id: self.id
+    )
+  end
+
+  def add_ruffnote(full_name)
+    pr = ProjectRuffnote.find_or_create_by(
+      name: "ruffnote",
+      provided_id: self.id,
+      provided_type: "Project"
+    )
+    pr.full_name = full_name
+    pr.save
   end
 end

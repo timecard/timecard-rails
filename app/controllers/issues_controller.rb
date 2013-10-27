@@ -26,6 +26,7 @@ class IssuesController < ApplicationController
     @issue = @project.issues.build(issue_params)
     respond_to do |format|
       if @issue.save
+
         if @issue.project.github && current_user.github
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
@@ -35,6 +36,18 @@ class IssuesController < ApplicationController
             format.html { render action: 'new' }
           end
         end
+
+        if @issue.project.ruffnote && current_user.ruffnote
+          issue = @issue.project.ruffnote.add_issue(current_user.ruffnote.oauth_token , params[:issue])
+          if issue
+            number = JSON.parse(issue.response.env[:body])["index"]
+            @issue.add_ruffnote(number)
+          else
+            flash[:alert] = 'Create a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+          end
+        end
+
         format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
         format.json { render action: 'show', status: :created, location: @issue }
       else
