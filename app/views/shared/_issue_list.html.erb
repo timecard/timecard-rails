@@ -7,7 +7,7 @@
         </b>
       </div>
       <div class="issue-author">
-        Opend by <%= issue.author.username %> <%= time_ago_in_words(issue.created_at) %> ago
+        Opend by <%= issue.author.name %> <%= time_ago_in_words(issue.created_at) %> ago
       </div>
       <div class="issue-status">
         <% if issue.status == 1 %>

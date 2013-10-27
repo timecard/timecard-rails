@@ -2,7 +2,7 @@
 <div class="col-lg-6">
 <div class="issue">
   <div class="issue-author text-muted">
-    <b><%= @issue.author.username %></b> opened this issue <%= time_ago_in_words(@issue.created_at) %> ago
+    <b><%= @issue.author.name %></b> opened this issue <%= time_ago_in_words(@issue.created_at) %> ago
   </div>
   <div class="issue-subject">
     <h2 style="margin:0">
@@ -13,7 +13,7 @@
   </div>
   <div class="issue-assignee">
     <% if @issue.assignee.present? %>
-      <b><%= @issue.assignee.username %></b> is assigned
+      <b><%= @issue.assignee.name %></b> is assigned
     <% else %>
         No one is assigned
     <% end %>
@@ -68,7 +68,7 @@
       <li class="media comment-area">
         <div class="comment">
           <div class="comment-author">
-            <%= comment.user.username %> commented <%= time_ago_in_words(comment.created_at) %> ago
+            <%= comment.user.name %> commented <%= time_ago_in_words(comment.created_at) %> ago
           </div>
           <div class="comment-body">
             <%= simple_format(comment.body) %>
@@ -116,7 +116,7 @@
     <% @issue.work_logs.complete.order("updated_at DESC").each do |work_log| %>
       <li class="media">
         <div class="work-log">
-          <%= work_log.user.username %><br />
+          <%= work_log.user.name %><br />
           WorkTime <%= formatted_time_distance(work_log.start_at, work_log.end_at) %><br />
           Start At: <%= work_log.start_at %> / End At: <%= work_log.end_at %>
           <% if @issue.project.status == Project::STATUS_ACTIVE %>
