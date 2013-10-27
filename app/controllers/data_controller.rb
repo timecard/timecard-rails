@@ -11,6 +11,7 @@ class DataController < ApplicationController
       iss.delete("author_id")
       iss["created_at"] = issue.created_at.to_i
       iss["updated_at"] = issue.updated_at.to_i
+
       iss["workloads"] = Workload.where(issue_id: issue["id"]).map{|wl|
         wl_hash = JSON.parse(wl.to_json)
         wl_hash["start_at"] = wl.start_at.to_i
@@ -25,6 +26,21 @@ class DataController < ApplicationController
         wl.delete("updated_at")
         wl
       }
+
+      iss["comments"] = Comment.where(issue_id: issue["id"]).map do |comment|
+        comment_hash = JSON.parse(comment.to_json)
+        comment_hash["body"] = comment.body
+        comment_hash["user_email"] = comment.user.email
+        comment_hash
+      end.map do |comment|
+        comment.delete("id")
+        comment.delete("user_id")
+        comment.delete("issue_id")
+        comment.delete("created_at")
+        comment.delete("updated_at")
+        comment
+      end
+
       iss.delete("id")
       iss.delete("project_id")
       iss
@@ -60,13 +76,13 @@ class DataController < ApplicationController
         workload.save
       end
 
-      # iss["comments"].each do |cmt|
-      #   comment = Comment.new
-      #   comment.user_id = User.find_or_create_by(email: cmt["user_email"]).id
-      #   comment.body = cmt["body"]
-      #   comment.issue_id = issue.id
-      #   comment.save
-      # end
+      iss["comments"].each do |cmt|
+        comment = Comment.new
+        comment.user_id = User.find_or_create_by(email: cmt["user_email"]).id
+        comment.body = cmt["body"]
+        comment.issue_id = issue.id
+        comment.save
+      end
     end
     redirect_to project_path(@project)
   end
