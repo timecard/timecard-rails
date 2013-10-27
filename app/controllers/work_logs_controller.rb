@@ -31,6 +31,9 @@ class WorkLogsController < ApplicationController
   end
 
   def start
+    if current_user.work_logs.running?
+      current_user.work_logs.running.update_attribute(:end_at, Time.now.utc)
+    end
     @issue = Issue.find(params[:issue_id])
     @work_log = @issue.work_logs.build(start_at: Time.now.utc, user_id: current_user.id)
 
