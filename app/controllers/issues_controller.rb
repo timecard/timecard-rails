@@ -49,7 +49,7 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
-        if @issue.project.github
+        if @issue.project.github && @issue.github
           issue = @issue.github.modify(
             current_user.github.oauth_token, issue_params
           )
