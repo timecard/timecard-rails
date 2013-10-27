@@ -58,7 +58,7 @@
             <tbody>
             <% WorkLog.where(["start_at is not ? and end_at is ?", nil, nil]).each do |work_log| %>
               <tr>
-                <td><%= work_log.user.username %></td>
+                <td><%= work_log.user.name %></td>
                 <td class="timer-<%= work_log.user.id == current_user.id %>"><%= formatted_time_distance(work_log.start_at, Time.now) %></td>
                 <td><%= link_to work_log.issue.project.name, work_log.issue.project %></td>
                 <td><%= link_to work_log.issue.subject, work_log.issue %></td>
