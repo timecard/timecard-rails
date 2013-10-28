@@ -25,6 +25,17 @@ class User < ActiveRecord::Base
     )
   end
 
+  def issues_with_status(status=1)
+    if status == 1
+      cond = "will_start_at is null or will_start_at < #{Time.now.strftime("%Y-%m-%d")}"
+    else
+      cond = nil
+    end
+    return self.issues.where(
+      "status = ?", status
+    ).where(cond).order("updated_at DESC") 
+  end
+
   def github_username
     github.username
   end
