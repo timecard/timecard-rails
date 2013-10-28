@@ -3,7 +3,7 @@
     <div class="media issue">
       <div class="issue-subject">
         <b style="margin:0">
-          <%= (link_to "##{issue.github.number}", issue.github.html_url , target:"_blank" ) if issue.github %>
+          <%= link_to_provider(issue) %>
           <%= link_to issue.subject, issue %>
         </b>
       </div>

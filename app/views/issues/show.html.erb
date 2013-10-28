@@ -6,8 +6,7 @@
   </div>
   <div class="issue-subject">
     <h2 style="margin:0">
-      <%= (link_to "##{@issue.github.number}", @issue.github.html_url , target:"_blank" ) if @issue.github %>
-      <%= (link_to "##{@issue.ruffnote.number}", @issue.ruffnote.html_url , target:"_blank" ) if @issue.ruffnote %>
+      <%= link_to_provider(@issue) %>
       <%= @issue.subject %>
     </h2>
   </div>
