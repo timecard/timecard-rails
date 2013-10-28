@@ -25,6 +25,7 @@
       <% else %>
         <%= link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch %>
       <% end %>
+      <%= link_to "Export", datum_path(@project), class: "btn btn-default" %>
     </div>
   <% end %>
 </div>
