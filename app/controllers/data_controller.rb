@@ -11,7 +11,8 @@ class DataController < ApplicationController
       iss.delete("author_id")
       iss["created_at"] = issue.created_at.to_i
       iss["updated_at"] = issue.updated_at.to_i
-      iss["work_logs"] = WorkLog.where(issue_id: issue["id"]).map{|wl|
+
+      iss["workloads"] = Workload.where(issue_id: issue["id"]).map{|wl|
         wl_hash = JSON.parse(wl.to_json)
         wl_hash["start_at"] = wl.start_at.to_i
         wl_hash["end_at"] = wl.end_at.to_i
@@ -25,6 +26,21 @@ class DataController < ApplicationController
         wl.delete("updated_at")
         wl
       }
+
+      iss["comments"] = Comment.where(issue_id: issue["id"]).map do |comment|
+        comment_hash = JSON.parse(comment.to_json)
+        comment_hash["body"] = comment.body
+        comment_hash["user_email"] = comment.user.email
+        comment_hash
+      end.map do |comment|
+        comment.delete("id")
+        comment.delete("user_id")
+        comment.delete("issue_id")
+        comment.delete("created_at")
+        comment.delete("updated_at")
+        comment
+      end
+
       iss.delete("id")
       iss.delete("project_id")
       iss
@@ -51,13 +67,13 @@ class DataController < ApplicationController
       if iss["providers"] && iss["providers"]["github"]
         issue.add_github(iss["providers"]["github"]["number"]) 
       end
-      iss["work_logs"].each do |wl|
-        work_log = WorkLog.new
-        work_log.user_id = User.find_or_create_by(email: wl["user_email"]).id
-        work_log.start_at = Time.at(wl["start_at"])
-        work_log.end_at = Time.at(wl["end_at"]) if wl["end_at"]
-        work_log.issue_id = issue.id
-        work_log.save
+      iss["workloads"].each do |wl|
+        workload = Workload.new
+        workload.user_id = User.find_or_create_by(email: wl["user_email"]).id
+        workload.start_at = Time.at(wl["start_at"])
+        workload.end_at = Time.at(wl["end_at"]) if wl["end_at"]
+        workload.issue_id = issue.id
+        workload.save
       end
 
       iss["comments"].each do |cmt|
