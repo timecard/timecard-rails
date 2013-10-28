@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :members, dependent: :destroy
   has_many :issues, class_name: "Issue", foreign_key: "assignee_id"
   has_many :comments
-  has_many :work_logs
+  has_many :workloads
 
   validates :name, presence: true
   validates :name, uniqueness: true

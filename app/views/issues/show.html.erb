@@ -31,10 +31,10 @@
   </div>
   <% if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE %>
     <div class="issue-actions">
-      <% if current_user.work_logs.running? && current_user.work_logs.running.issue_id == @issue.id %>
-        <%= link_to "Stop", stop_work_log_path(current_user.work_logs.running), class: "btn btn-warning", method: :patch %>
+      <% if current_user.workloads.running? && current_user.workloads.running.issue_id == @issue.id %>
+        <%= link_to "Stop", stop_workload_path(current_user.workloads.running), class: "btn btn-warning", method: :patch %>
       <% else %>
-        <%= link_to "Start", start_issue_work_logs_path(issue_id: @issue), class: "btn btn-primary", method: :post %>
+        <%= link_to "Start", start_issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post %>
       <% end %>
       <% if @issue.will_start_at.present? && @issue.will_start_at >= Time.now.utc %>
         <%= link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch %>
@@ -111,18 +111,18 @@
 <div class="section">
 
 <div class="section">
-  <h3>WorkLogs</h3>
+  <h3>Workloads</h3>
   <ul class="media-list">
-    <% @issue.work_logs.complete.order("updated_at DESC").each do |work_log| %>
+    <% @issue.workloads.complete.order("updated_at DESC").each do |workload| %>
       <li class="media">
         <div class="work-log">
-          <%= work_log.user.name %><br />
-          WorkTime <%= formatted_time_distance(work_log.start_at, work_log.end_at) %><br />
-          Start At: <%= work_log.start_at %> / End At: <%= work_log.end_at %>
+          <%= workload.user.name %><br />
+          WorkTime <%= formatted_time_distance(workload.start_at, workload.end_at) %><br />
+          Start At: <%= workload.start_at %> / End At: <%= workload.end_at %>
           <% if @issue.project.status == Project::STATUS_ACTIVE %>
             <div class="work-log-actions">
-              <%= link_to "Edit", edit_work_log_path(work_log), class: "btn btn-default" %>
-              <%= link_to "Destroy", work_log, class: "btn btn-danger", confirm: "Are you sure?", method: :delete %>
+              <%= link_to "Edit", edit_workload_path(workload), class: "btn btn-default" %>
+              <%= link_to "Destroy", workload, class: "btn btn-danger", confirm: "Are you sure?", method: :delete %>
             </div>
           <% end %>
         </div>

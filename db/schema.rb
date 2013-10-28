@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027003223) do
+ActiveRecord::Schema.define(version: 20131027074235) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",     default: 0,  null: false
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20131027003223) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "work_logs", force: true do |t|
+  create_table "workloads", force: true do |t|
     t.datetime "start_at"
     t.datetime "end_at"
     t.integer  "issue_id",   null: false

@@ -44,7 +44,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12 col-md-12">
-      <% if user_signed_in? && WorkLog.running? %>
+      <% if user_signed_in? && Workload.running? %>
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -56,12 +56,12 @@
               </tr>
             </thead>
             <tbody>
-            <% WorkLog.where(["start_at is not ? and end_at is ?", nil, nil]).each do |work_log| %>
+            <% Workload.where(["start_at is not ? and end_at is ?", nil, nil]).each do |workload| %>
               <tr>
-                <td><%= work_log.user.name %></td>
-                <td class="timer-<%= work_log.user.id == current_user.id %>"><%= formatted_time_distance(work_log.start_at, Time.now) %></td>
-                <td><%= link_to work_log.issue.project.name, work_log.issue.project %></td>
-                <td><%= link_to work_log.issue.subject, work_log.issue %></td>
+                <td><%= workload.user.name %></td>
+                <td class="timer-<%= workload.user.id == current_user.id %>"><%= formatted_time_distance(workload.start_at, Time.now) %></td>
+                <td><%= link_to workload.issue.project.name, workload.issue.project %></td>
+                <td><%= link_to workload.issue.subject, workload.issue %></td>
               </tr>
             <% end %>
             </tbody>

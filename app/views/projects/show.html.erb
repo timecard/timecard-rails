@@ -25,6 +25,7 @@
       <% else %>
         <%= link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch %>
       <% end %>
+      <%= link_to "Export", datum_path(@project), class: "btn btn-default" %>
     </div>
   <% end %>
 </div>
@@ -66,16 +67,16 @@
 </div>
 <div class="col-lg-4">
   <h3>
-    WorkLogs
+    WorkLoads
   </h3>
   <div id="work-logs">
     <ul class="media-list">
-      <% @work_logs.each do |work_log| %>
+      <% @workloads.each do |workload| %>
         <li class="media">
-          <%= work_log.user.name %><br />
+          <%= workload.user.name %><br />
            
-          <%= time_ago_in_words(work_log.start_at) %> - <%= time_ago_in_words(work_log.end_at) %>
-          (<%= formatted_time_distance(work_log.start_at, work_log.end_at) %>)
+          <%= time_ago_in_words(workload.start_at) %> - <%= time_ago_in_words(workload.end_at) %>
+          (<%= formatted_time_distance(workload.start_at, workload.end_at) %>)
         </li>
       <% end %>
     </ul>
