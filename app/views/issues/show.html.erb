@@ -43,7 +43,7 @@
       <% end %>
       <%= link_to "Edit", edit_issue_path(@issue), class: "btn btn-default" %>
       <% if @issue.status == 1 %>
-        <%= link_to "Close", close_issue_path(@issue), class: "btn btn-danger", confirm: "Are you sure?", method: :patch %>
+        <%= link_to "Close", close_issue_path(@issue), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :patch %>
       <% else %>
         <%= link_to "Reopen", reopen_issue_path(@issue), class: "btn btn-default", method: :patch %>
       <% end %>
@@ -76,7 +76,7 @@
           <% if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE %>
             <div class="comment-actions">
               <%= link_to "Edit", "#", class: "btn btn-default js-edit-comment-button", "data-no-turbolink" => "1" %>
-              <%= link_to "Destroy", comment, class: "btn btn-danger", confirm: "Are you sure?", method: :delete %>
+              <%= link_to "Destroy", comment, class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
             </div>
           <% end %>
         </div>
@@ -122,7 +122,7 @@
           <% if @issue.project.status == Project::STATUS_ACTIVE %>
             <div class="work-log-actions">
               <%= link_to "Edit", edit_workload_path(workload), class: "btn btn-default" %>
-              <%= link_to "Destroy", workload, class: "btn btn-danger", confirm: "Are you sure?", method: :delete %>
+              <%= link_to "Destroy", workload, class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
             </div>
           <% end %>
         </div>
