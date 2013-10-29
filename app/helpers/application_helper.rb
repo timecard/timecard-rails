@@ -18,4 +18,20 @@ module ApplicationHelper
     simple_format(text, {}, sanitize: false)
   end
 
+  def markdown(text)
+    extentions = {
+      autolink: true,
+      space_after_headers: true,
+      no_intra_emphasis: true,
+      fenced_code_blocks: true
+    }
+    renderer = Redcarpet::Render::HTML.new(
+      hard_wrap: true,
+      filter_html: true,
+      link_attributes: { target: '_blank' }
+    )
+    markdown = Redcarpet::Markdown.new(renderer, extentions)
+    # Ref http://qa.atmarkit.co.jp/q/76
+    text ? (raw markdown.render(text).encode("UTF-16BE", "UTF-8", invalid: :replace, undef: :replace, replace: '?').encode("UTF-8")) : ""
+  end
 end
