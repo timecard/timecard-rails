@@ -19,10 +19,17 @@
   <%= f.label :description %><br>
   <%= f.text_area :description, class: "form-control" %>
 </div>
-<div class="form-group">
-  <%= f.label :assignee_id %><br>
-  <%= f.select :assignee_id, Member.where(project_id: project.id).collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control" %>
-</div>
+<% if @issue.persisted? && @issue.github %>
+  <div class="form-group">
+    <%= f.label :assignee_id %><br>
+    <%= f.select :assignee_id, @members.collect { |m| [ m.user.github.username, m.user.id ] }, { include_blank: true }, class: "form-control" %>
+  </div>
+<% else %>
+  <div class="form-group">
+    <%= f.label :assignee_id %><br>
+    <%= f.select :assignee_id, Member.where(project_id: project.id).collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control" %>
+  </div>
+<% end %>
 <div class="form-group">
   <%= f.label :will_start_at %><br>
   <%= f.datetime_select :will_start_at, class: "form-control" %>
