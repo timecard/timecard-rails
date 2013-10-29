@@ -58,6 +58,7 @@ gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 group :development do
   gem 'guard-livereload'
   gem 'guard-rspec'
+  gem 'quiet_assets'
 end
 
 group :test do
