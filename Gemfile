@@ -46,6 +46,7 @@ end
 
 gem 'devise'
 gem 'kaminari'
+gem 'redcarpet'
 
 gem 'omniauth-github'
 gem 'github_api'
