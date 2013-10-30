@@ -26,7 +26,7 @@ class DataController < ApplicationController
       issue.created_at = Time.at(iss["created_at"])
       issue.updated_at = Time.at(iss["updated_at"])
       # TODO ユーザー情報の引き継ぎが必要
-      author = User.find_by(email: iss["author_email"]) || User.new(email: iss["author_email"]).save(validate: false) ? User.find_by(email: iss["author_email"]) : nil
+      author = User.find_by(email: iss["author_email"]) || User.new(email: iss["author_email"], name: iss["author_email"].split("@")[0]).save(validate: false) ? User.find_by(email: iss["author_email"]) : nil
       issue.author_id = author.id
       issue.project_id = @project.id
       issue.save
