@@ -12,6 +12,11 @@ class DataController < ApplicationController
     pjt = JSON.parse(params[:import].read)
     @project = Project.new(name: pjt["name"])
     @project.save
+    Member.create(
+      user_id: current_user.id,
+      project_id: @project.id,
+      is_admin: true
+    )
     if pjt["providers"] && pjt["providers"]["github"]
       pjtg = pjt["providers"]["github"].first
       @project.add_github("#{pjtg["owner_login"]}/#{pjtg["name"]}")
