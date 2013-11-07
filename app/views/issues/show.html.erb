@@ -70,7 +70,7 @@
             <%= comment.user.name %> commented <%= time_ago_in_words(comment.created_at) %> ago
           </div>
           <div class="comment-body">
-            <%= simple_format(comment.body) %>
+            <%= markdown(comment.body) %>
           </div>
           <% if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE %>
             <div class="comment-actions">
