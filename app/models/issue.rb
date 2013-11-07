@@ -1,4 +1,7 @@
 class Issue < ActiveRecord::Base
+  default_scope { order("updated_at DESC") }
+  scope :do_today, -> { where("will_start_at is null or will_start_at < ?", Time.now) }
+
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
   belongs_to :assignee, class_name: "User", foreign_key: :assignee_id
