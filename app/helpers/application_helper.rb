@@ -18,4 +18,13 @@ module ApplicationHelper
     simple_format(text, {}, sanitize: false)
   end
 
+  def link_to_provider(issue)
+    if issue.github
+      link_to "##{issue.github.number}", issue.github.html_url, target: "_blank"
+    elsif issue.ruffnote
+      link_to "##{issue.ruffnote.number}", issue.ruffnote.html_url, target: "_blank"
+    else
+      ""
+    end
+  end
 end
