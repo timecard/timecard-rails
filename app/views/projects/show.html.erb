@@ -8,11 +8,14 @@
   <div class="project-description">
     <p><%= hbr(@project.description) %></p>
   </div>
-  <div class="project-is-public">
+  <div class="project-labels">
     <% if @project.is_public %>
       <span class="label label-info">Public</span>
     <% else %>
       <span class="label label-default">Private</span>
+    <% end %>
+    <% if @project.github %>
+        <span class="label label-default"><%= @project.github.full_name %></span> 
     <% end %>
   </div>
   <% if @project.admin?(current_user) %>
