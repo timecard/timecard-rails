@@ -28,3 +28,15 @@ $(document).ready ->
   start_time = new Date(Date.parse(start_time))
   if not isNaN(start_time)
     workTimer.start(start_time)
+
+hideIssue = (e) ->
+  $(e.target).closest('.issue').hide()
+
+ready = ->
+  $('.js-close-issue-button').on 'click', hideIssue
+  $('.js-reopen-issue-button').on 'click', hideIssue
+
+$(document).ready(ready)
+$(document).on('page:change', ready)
+
+$ ->
