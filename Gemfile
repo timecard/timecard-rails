@@ -70,5 +70,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'spring'
+  gem 'spring-commands-rspec', require: false
   gem "letter_opener"
 end
