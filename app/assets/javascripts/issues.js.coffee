@@ -1,16 +1,21 @@
-showEditCommentForm = (e) ->
-  $(e.target).closest('.comment-area').find('form').show()
-  $(e.target).closest('.comment-area').find('.comment').hide()
-  $(e.target).closest('.comment-area').find('textarea').focus()
+class Issue
+  @hide = (e) ->
+    $(e.target).closest('.issue').hide()
 
-cancelEditComment = (e) ->
-  $(e.target).closest('form').hide()
-  $(e.target).closest('.comment-area').find('.comment').show()
+  @showEditCommentForm = (e) ->
+    $(e.target).closest('.comment-area').find('form').show()
+    $(e.target).closest('.comment-area').find('.comment').hide()
+    $(e.target).closest('.comment-area').find('textarea').focus()
 
-$ ->
-  $('.issues').on 'click', '.js-edit-comment-button', showEditCommentForm
-  $('.issues').on 'click', '.js-cancel-edit-comment-button', cancelEditComment
+  @hideEditComment = (e) ->
+    $(e.target).closest('form').hide()
+    $(e.target).closest('.comment-area').find('.comment').show()
 
-$(document).on 'page:load', ->
-  $('.issues').on 'click', '.js-edit-comment-button', showEditCommentForm
-  $('.issues').on 'click', '.js-cancel-edit-comment-button', cancelEditComment
+ready = ->
+  $('.issues').on 'click', '.js-edit-comment-button', Issue.showEditCommentForm
+  $('.issues').on 'click', '.js-cancel-edit-comment-button', Issue.hideEditComment
+  $('.js-close-issue-button').on 'click', Issue.hide
+  $('.js-reopen-issue-button').on 'click', Issue.hide
+
+$(document).ready(ready)
+$(document).on('page:change', ready)
