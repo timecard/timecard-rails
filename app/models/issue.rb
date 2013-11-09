@@ -46,4 +46,12 @@ class Issue < ActiveRecord::Base
     issue_ruffnote.html_url = "https://ruffnote.com/#{full_name}/issues/#{number}"
     issue_ruffnote.save
   end
+
+  def close
+    update(status: 9, closed_on: Time.now.utc)
+  end
+
+  def reopen
+    update(status: 1)
+  end
 end

@@ -5,18 +5,14 @@ class IssuesController < ApplicationController
   before_action :reject_archived
   before_action :require_member, except: [:show]
 
-  # GET /issues/1
-  # GET /issues/1.json
   def show
     @title = @issue.subject
   end
 
-  # GET /issues/new
   def new
     @issue = @project.issues.build
   end
 
-  # GET /issues/1/edit
   def edit
     if @issue.github
       github = Github.new(oauth_token: current_user.github.oauth_token)
@@ -30,8 +26,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  # POST /issues
-  # POST /issues.json
   def create
     @issue = @project.issues.build(issue_params)
     respond_to do |format|
@@ -67,8 +61,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /issues/1
-  # PATCH/PUT /issues/1.json
   def update
     respond_to do |format|
       if @issue.update(issue_params)
@@ -90,10 +82,8 @@ class IssuesController < ApplicationController
     end
   end
 
-  # PATCH/PUT projects/1/issues/1/close
-  # PATCH/PUT projects/1/issues/1/close.json
   def close
-    if @issue.update_attributes({ status: 9, closed_on: Time.now.utc })
+    if @issue.close
       if @issue.github
         @issue.github.close(current_user.github.oauth_token)
       end
@@ -104,22 +94,18 @@ class IssuesController < ApplicationController
     end
   end
 
-  # PATCH/PUT projects/1/issues/1/reopen
-  # PATCH/PUT projects/1/issues/1/reopen.json
   def reopen
-    if @issue.update_attribute(:status, 1)
+    if @issue.reopen
+      if @issue.github
+        @issue.github.reopen(current_user.github.oauth_token)
+      end
       respond_to do |format|
-        if @issue.github
-          @issue.github.reopen(current_user.github.oauth_token)
-        end
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       end
     end
   end
 
-  # PATCH/PUT projects/1/issues/1/postpone
-  # PATCH/PUT projects/1/issues/1/postpone.json
   def postpone
     if @issue.update(will_start_at: 1.day.since(Time.now.utc))
       respond_to do |format|
@@ -129,8 +115,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  # PATCH/PUT projects/1/issues/1/do_today
-  # PATCH/PUT projects/1/issues/1/do_today.json
   def do_today
     if @issue.update(will_start_at: Time.now.utc)
       respond_to do |format|
