@@ -1,10 +1,18 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:new, :create]
+  before_action :set_project, only: [:index, :new, :create]
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :postpone, :do_today]
   before_action :reject_archived
-  before_action :require_member, except: [:show]
+  before_action :require_member, except: [:index, :show]
 
+  def index
+    status = params[:status] || "open"
+    @issues = @project.issues.with_status(params[:status])
+
+    respond_to do |format|
+      format.js
+    end
+  end
   # GET /issues/1
   # GET /issues/1.json
   def show
