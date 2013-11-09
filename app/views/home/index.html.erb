@@ -1,9 +1,9 @@
-<h1>Home</h1>
 <% if user_signed_in? %>
   <h2>My Issues</h2>
   <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-    <%= link_to "Open", root_path(status: 1), class: "btn btn-default" %>
-    <%= link_to "Closed", root_path(status: 9), class: "btn btn-default" %>
+    <%= link_to "Open", root_path(status: "open"), class: "btn btn-default" %>
+    <%= link_to "Closed", root_path(status: "closed"), class: "btn btn-default" %>
+    <%= link_to "Don't do today", root_path(status: "not_do_today"), class: "btn btn-default" %>
   </div>
   <div id="issues">
     <% if @issues.count.zero? %>

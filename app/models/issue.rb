@@ -1,4 +1,11 @@
 class Issue < ActiveRecord::Base
+  default_scope { order("updated_at DESC") }
+
+  scope :open, -> { where("status = ?", 1) }
+  scope :closed, -> { where("status = ?", 9) }
+  scope :do_today, -> { open.where("will_start_at is null OR will_start_at < ?", Time.now) }
+  scope :not_do_today, -> { open.where("will_start_at >= ?", Time.now) }
+
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
   belongs_to :assignee, class_name: "User", foreign_key: :assignee_id
@@ -45,5 +52,16 @@ class Issue < ActiveRecord::Base
     full_name = self.project.ruffnote.full_name
     issue_ruffnote.html_url = "https://ruffnote.com/#{full_name}/issues/#{number}"
     issue_ruffnote.save
+  end
+
+  def self.with_status(status)
+    case status
+    when "open"
+      do_today
+    when "closed"
+      closed
+    when "not_do_today"
+      not_do_today
+    end
   end
 end
