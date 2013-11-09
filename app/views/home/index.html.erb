@@ -6,10 +6,6 @@
     <%= link_to "Don't do today", root_path(status: "not_do_today"), class: "btn btn-default" %>
   </div>
   <div id="issues">
-    <% if @issues.count.zero? %>
-      You don't have assigned issue.
-    <% else %>
-      <%= render "shared/issue_list", collection: @issues %>
-    <% end %>
+    <%= render "shared/issue_list", collection: @issues %>
   </div>
 <% end %>

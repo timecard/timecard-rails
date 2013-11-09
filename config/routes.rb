@@ -7,7 +7,7 @@ Timecard::Application.routes.draw do
     patch :stop, on: :member
   end
 
-  resources :issues, only: [:show, :edit, :update, :close, :reopen] do
+  resources :issues, only: [:index, :show, :edit, :update, :close, :reopen] do
     patch :close, on: :member
     patch :reopen, on: :member
     patch :postpone, on: :member
