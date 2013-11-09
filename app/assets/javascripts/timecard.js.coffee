@@ -1,13 +1,13 @@
 workTimer =
   timerId: null,
   start: (start_time) ->
-    this.render(start_time)
-    this.timerId = setInterval ->
+    @render(start_time)
+    @timerId = setInterval ->
       workTimer.render(start_time)
     , 1000
   ,
   stop: ->
-    clearInterval(this.timerId)
+    clearInterval(@timerId)
   ,
   render: (start_time) ->
     end_time = new Date()
@@ -23,8 +23,11 @@ workTimer =
     $('.timer-true').text("#{hour} hour #{min} min #{sec} sec")
     $('title').text("#{hour}:#{min}:#{sec}")
 
-$(document).ready ->
+ready = ->
   start_time = $("body").data('timer')
   start_time = new Date(Date.parse(start_time))
   if not isNaN(start_time)
     workTimer.start(start_time)
+
+$(document).ready(ready)
+$(document).on('page:change', ready)
