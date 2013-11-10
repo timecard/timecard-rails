@@ -64,4 +64,12 @@ class Issue < ActiveRecord::Base
       not_do_today
     end
   end
+
+  def close
+    update(status: 9, closed_on: Time.now.utc)
+  end
+
+  def reopen
+    update(status: 1)
+  end
 end

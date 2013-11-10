@@ -19,9 +19,6 @@
   <div class="form-group"><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation, class: "form-control" %></div>
 
-  <div class="form-group"><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password, class: "form-control" %></div>
-
   <div><%= f.submit "Update", class: "btn btn-default" %></div>
 <% end %>
 
