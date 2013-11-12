@@ -1,3 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+ready = ->
+  $('.projects').on 'click', '.js-close-issue-button', ->
+    $(@).closest('.issue').hide()
+  $('.projects').on 'click', '.js-reopen-issue-button', ->
+    $(@).closest('.issue').hide()
+
+$(document).ready(ready)
+$(document).on('page:change', ready)

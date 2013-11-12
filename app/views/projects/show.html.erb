@@ -33,21 +33,24 @@
   <% end %>
 </div>
 
-<div class="row">
-<div class="col-lg-4">
-  <h3>
-    Issue
-    <% if @project.status == Project::STATUS_ACTIVE %>
-      <% if @project.member?(current_user) %>
-        <%= link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default" %>
-      <% end %>
+<h3>
+  Issue
+  <% if @project.status == Project::STATUS_ACTIVE %>
+    <% if @project.member?(current_user) %>
+      <%= link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default" %>
     <% end %>
-  </h3>
-  <div id="issues">
-    <%= render "shared/issue_list", collection: @issues %>
-  </div>
+  <% end %>
+</h3>
+<div class="btn-group btn-group-sm" style="margin-bottom:10px">
+  <%= link_to "Open", issues_path(project_id: @project.id, status: "open"), remote: true, class: "btn btn-default" %>
+  <%= link_to "Closed", issues_path(project_id: @project.id, status: "closed"), remote: true, class: "btn btn-default" %>
+  <%= link_to "Don't do today", issues_path(project_id: @project.id, status: "not_do_today"), remote: true, class: "btn btn-default" %>
 </div>
-<div class="col-lg-4">
+<div id="issues">
+  <%= render "shared/issue_list", collection: @issues %>
+</div>
+<div class="row">
+<div class="col-lg-6">
   <h3>
     Comments
   </h3>
@@ -68,7 +71,7 @@
     </ul>
   </div>
 </div>
-<div class="col-lg-4">
+<div class="col-lg-6">
   <h3>
     WorkLoads
   </h3>
