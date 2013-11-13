@@ -32,6 +32,7 @@ class WorkloadsController < ApplicationController
     if @workload.save
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
+        format. js
         format.json { render action: 'show', status: :created, location: @workload }
       end
     end
@@ -41,6 +42,7 @@ class WorkloadsController < ApplicationController
     if @workload.update_attribute(:end_at, Time.now.utc)
       respond_to do |format|
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully stopped.' }
+        format.js
         format.json { render action: 'show', status: :created, location: @workload }
       end
     end
