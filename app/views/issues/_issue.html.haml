@@ -16,7 +16,12 @@
       = link_to "Close", close_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-danger js-close-issue-button"
     - else
       = link_to "Reopen", reopen_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-reopen-issue-button"
-    - if current_user.workloads.running? && current_user.workloads.running.issue_id == issue.id
-      = link_to "Stop", stop_workload_path(current_user.workloads.running.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
-    - else
-      = link_to "Start", start_issue_workloads_path(issue_id: issue.id), remote: true, method: :post, class: "btn btn-primary js-start-workload-button"
+    - if issue.status == 1
+      - if issue.will_start_at.present? && issue.will_start_at >= Time.now
+        = link_to "Do today", do_today_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-do-today-issue-button"
+      - else
+        = link_to "Don't do today", postpone_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-postpone-issue-button"
+      - if current_user.workloads.running? && current_user.workloads.running.issue_id == issue.id
+        = link_to "Stop", stop_workload_path(current_user.workloads.running.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
+      - else
+        = link_to "Start", start_issue_workloads_path(issue_id: issue.id), remote: true, method: :post, class: "btn btn-primary js-start-workload-button"
