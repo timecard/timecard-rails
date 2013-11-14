@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    if user_signed_in?
-      status = params[:status] || "open"
-      @issues = current_user.issues.with_status(status)
-    end
+    status = params[:status] || "open"
+    @issues = current_user.issues.with_status(status)
   end
 end

@@ -1,10 +1,8 @@
-<% if user_signed_in? %>
-  <h2>My Issues</h2>
-  <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-    <%= link_to "Open", "/#/issues/open", class: "btn btn-default" %>
-    <%= link_to "Closed", "/#/issues/closed", class: "btn btn-default" %>
-    <%= link_to "Don't do today", "/#/issues/not_do_today", class: "btn btn-default" %>
-  </div>
-  <div id="issues" class="media-list">
-  </div>
-<% end %>
+<h2>My Issues</h2>
+<div class="btn-group btn-group-sm" style="margin-bottom:10px">
+  <%= link_to "Open", "/#/issues/open", class: "btn btn-default" %>
+  <%= link_to "Closed", "/#/issues/closed", class: "btn btn-default" %>
+  <%= link_to "Don't do today", "/#/issues/not_do_today", class: "btn btn-default" %>
+</div>
+<div id="issues" class="media-list">
+</div>
