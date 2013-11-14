@@ -48,6 +48,13 @@ RSpec.configure do |config|
   config.before(:all) do
     FactoryGirl.reload
   end
+  config.before :suite do
+    DatabaseRewinder.clean_all
+  end
+  config.before :each do
+    DatabaseRewinder.clean
+  end
+
   config.include Devise::TestHelpers, :type => :controller
   config.extend ControllerMacros, :type => :controller
 end
