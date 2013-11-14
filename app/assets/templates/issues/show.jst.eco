@@ -1,0 +1,26 @@
+<div class="pull-left">
+  <div class="issue-subject">
+    <b style="margin:0">
+      <a href="<%= @issue.get('provider_url') %>" target="_blank"><%= @issue.get('provider_number') %></a>
+      <a href="/issues/<%= @issue.get('id') %>"><%= @issue.get('subject') %></a>
+    </b>
+  </div>
+  <div class="issue-author">
+    Opend by <%= @issue.get('author_name') %> <%= @issue.get('humalized_created_at') %>
+  </div>
+  <div class="issue-status">
+    <%= @issue.status %>
+    <% if @issue.get('status') is 1: %>
+      <span class="label label-success">Open</span>
+    <% else: %>
+      <span class="label label-danger">Closed</span>
+    <% end %>
+  </div>
+</div>
+<div class="actions pull-right">
+  <% if @issue.status is 1: %>
+    <a href="" class="btn btn-danger">Close</a>
+  <% else: %>
+    <a href="" class="btn btn-default">Reopen</a>
+  <% end %>
+</div>

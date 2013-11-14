@@ -10,7 +10,10 @@ window.Timecard =
   Collections: {}
   Views: {}
   Routers: {}
-  initialize: -> alert 'Hello from Backbone!'
+  initialize: ->
+    routerHome = new Timecard.Routers.Home()
+    routerIssues = new Timecard.Routers.Issues()
+    Backbone.history.start()
 
 $(document).ready(ready)
 $(document).on('page:change', ready)

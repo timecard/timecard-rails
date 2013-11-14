@@ -1,16 +1,24 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:index, :new, :create]
+  before_action :set_project, only: [:new, :create]
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :postpone, :do_today]
-  before_action :reject_archived
+  before_action :reject_archived, except: [:index]
   before_action :require_member, except: [:index, :show]
 
   def index
     status = params[:status] || "open"
-    @issues = @project.issues.with_status(params[:status])
+    if params[:project_id].present?
+      set_project
+      reject_archived
+      require_member
+      @issues = @project.issues.with_status(status)
+    else
+      @issues = Issue.with_status(status).where("assignee_id = ?", current_user.id)
+    end
 
     respond_to do |format|
       format.js
+      format.json { render action: "index", status: :ok }
     end
   end
 
