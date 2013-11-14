@@ -1,1 +1,6 @@
+- if @prev_issue.present?
+  $('#issue_#{@prev_issue.id}').html('#{j(render @prev_issue)}');
 $('#issue_#{@issue.id}').html('#{j(render @issue)}');
+$('#running-users').html('#{j(render partial: "shared/running_users")}');
+var start_time = new Date(Date.parse('#{@workload.start_at.to_s(:rfc822)}'));
+Workload.start(start_time);

@@ -26,13 +26,17 @@ class WorkloadsController < ApplicationController
   end
 
   def start
+    if current_user.workloads.running?
+      @prev_issue = current_user.workloads.running.issue
+      current_user.workloads.running.update!(end_at: Time.now.utc)
+    end
     @issue = Issue.find(params[:issue_id])
     @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
 
     if @workload.save
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
-        format. js
+        format.js
         format.json { render action: 'show', status: :created, location: @workload }
       end
     end
