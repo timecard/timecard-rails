@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
 
   def show
     @title = @project.name
-    @issues = @project.issues.order("updated_at DESC").limit(10).where(status: 1)
+    @issues = @project.issues.with_status("open")
     @comments = Comment.where(issue_id: @project.issues.pluck(:id)).order("updated_at DESC").limit(10)
     @workloads = Workload.where(issue_id: @project.issues.pluck(:id)).complete.order("updated_at DESC").limit(10)
   end
