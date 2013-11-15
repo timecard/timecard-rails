@@ -18,9 +18,9 @@
   </div>
 </div>
 <div class="actions pull-right">
-  <% if @issue.status is 1: %>
-    <a href="" class="btn btn-danger">Close</a>
+  <% if @issue.get('status') is 1: %>
+    <a href="#" class="btn btn-danger js-close-issue-button">Close</a>
   <% else: %>
-    <a href="" class="btn btn-default">Reopen</a>
+    <a href="#" class="btn btn-default js-reopen-issue-button">Reopen</a>
   <% end %>
 </div>

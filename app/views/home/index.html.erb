@@ -1,8 +1,10 @@
+<ul class="nav nav-pills">
+  <% @projects.each do |project| %>
+    <li><%= link_to project.name, "/#/users/#{current_user.id}/projects/#{project.id}" %></li>
+  <% end %>
+</ul>
 <h2>My Issues</h2>
-<div class="btn-group btn-group-sm" style="margin-bottom:10px">
-  <%= link_to "Open", "/#/issues/open", class: "btn btn-default" %>
-  <%= link_to "Closed", "/#/issues/closed", class: "btn btn-default" %>
-  <%= link_to "Don't do today", "/#/issues/not_do_today", class: "btn btn-default" %>
+<div id="issue-state" class="btn-group btn-group-sm" style="margin-bottom:10px">
 </div>
 <div id="issues" class="media-list">
 </div>

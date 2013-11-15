@@ -11,7 +11,11 @@ class IssuesController < ApplicationController
       set_project
       reject_archived
       require_member
-      @issues = @project.issues.with_status(status)
+      if params[:user_id].present?
+        @issues = @project.issues.with_status(status).where("assignee_id = ?", current_user.id)
+      else
+        @issues = @project.issues.with_status(status)
+      end
     else
       @issues = Issue.with_status(status).where("assignee_id = ?", current_user.id)
     end

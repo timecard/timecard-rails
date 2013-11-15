@@ -19,6 +19,11 @@ class ProjectsController < ApplicationController
       my_projects = Project.archive.where(id: Member.where(user_id: current_user.id).pluck(:project_id)).where_values.reduce(:and)
     end
     @projects = Project.where(public_projects.or(my_projects))
+
+    respond_to do |format|
+      format.html
+      format.json { render action: "index", status: :ok }
+    end
   end
 
   def show
