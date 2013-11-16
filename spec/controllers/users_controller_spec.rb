@@ -41,4 +41,29 @@ describe UsersController do
       end
     end
   end
+
+  describe "Logged in via Github" do
+    before do
+      auth = create(:authentication, user: @user)
+      sign_in @user
+    end
+
+    describe "DELETE 'disconnect'" do
+      it "returns http status redirect" do
+        delete 'disconnect', provider: 'Github'
+        expect(response).to be_redirect
+      end
+
+      it "redirects to edit user registration url" do
+        delete 'disconnect', provider: 'Github'
+        expect(response).to redirect_to edit_user_registration_url
+      end
+
+      it "changes Authentication count by -1" do
+        expect {
+          delete 'disconnect', provider: 'Github'
+        }.to change(Authentication, :count).by(-1)
+      end
+    end
+  end
 end
