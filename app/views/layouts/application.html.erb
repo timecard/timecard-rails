@@ -24,6 +24,9 @@
             <%= link_to "Projects", projects_path %>
           </li>
           <li>
+            <%= link_to "Me", user_path(current_user.id) %>
+          </li>
+          <li>
             <%= link_to "Account settings", edit_user_registration_path %>
           </li>
           <li>
