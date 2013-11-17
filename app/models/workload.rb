@@ -4,6 +4,8 @@ class Workload < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
 
+  validates :start_at, presence: true
+
   def self.running?
     exists?(["start_at is not ? and end_at is ?", nil, nil])
   end
