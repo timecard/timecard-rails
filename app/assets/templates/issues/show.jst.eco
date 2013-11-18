@@ -23,4 +23,9 @@
   <% else: %>
     <a href="#" class="btn btn-default js-reopen-issue-button">Reopen</a>
   <% end %>
+  <% if @issue.get('is_do_today') is true: %>
+    <a href="#" class="btn btn-default js-postpone-issue-button">Don't do today</a>
+  <% else: %>
+    <a href="#" class="btn btn-default js-do-today-issue-button">Do today</a>
+  <% end %>
 </div>

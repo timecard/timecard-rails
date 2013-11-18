@@ -5,6 +5,8 @@ class Timecard.Views.IssuesShow extends Backbone.View
   events:
     'click .js-close-issue-button': 'closeIssue'
     'click .js-reopen-issue-button': 'reopenIssue'
+    'click .js-postpone-issue-button': 'postponeIssue'
+    'click .js-do-today-issue-button': 'doTodayIssue'
 
   className: 'media issue'
 
@@ -29,6 +31,24 @@ class Timecard.Views.IssuesShow extends Backbone.View
     e.stopPropagation()
     @issue.save {},
       url: @issue.urlRoot+'/'+@issue.id+'/reopen'
+      patch: true
+      success: (model) ->
+        $(e.target).closest('.issue').hide()
+
+  postponeIssue: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    @issue.save {},
+      url: @issue.urlRoot+'/'+@issue.id+'/postpone'
+      patch: true
+      success: (model) ->
+        $(e.target).closest('.issue').hide()
+
+  doTodayIssue: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    @issue.save {},
+      url: @issue.urlRoot+'/'+@issue.id+'/do_today'
       patch: true
       success: (model) ->
         $(e.target).closest('.issue').hide()
