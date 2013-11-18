@@ -23,5 +23,5 @@ class Timecard.Routers.Home extends Backbone.Router
     @projects.fetch
       success: (collection) ->
         @project = collection.get(project_id)
-        @viewHomeIssueState = new Timecard.Views.HomeIssueState(user_id: user_id, project: @project)
-        @viewHomeIssueState.render()
+        @viewIssuesState = new Timecard.Views.IssuesState(user_id: user_id, project: @project)
+        @viewIssuesState.render()

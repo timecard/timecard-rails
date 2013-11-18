@@ -1,6 +1,6 @@
-class Timecard.Views.HomeIssueState extends Backbone.View
+class Timecard.Views.IssuesState extends Backbone.View
 
-  template: JST['home/state']
+  template: JST['issues/state']
 
   el: "#issue-state"
 
