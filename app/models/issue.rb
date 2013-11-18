@@ -72,4 +72,9 @@ class Issue < ActiveRecord::Base
   def reopen
     update(status: 1)
   end
+
+  def do_today?
+    return true if self.will_start_at.nil? || self.will_start_at < Time.now
+    false
+  end
 end

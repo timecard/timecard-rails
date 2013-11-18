@@ -4,5 +4,5 @@ json.array!(@issues) do |issue|
   json.humalized_created_at "#{time_ago_in_words(issue.created_at)} ago"
   json.provider_number provider_number(issue)
   json.provider_url provider_url(issue)
-  json.is_do_today (issue.will_start_at.nil? || issue.will_start_at < Time.now)
+  json.is_do_today issue.do_today?
 end
