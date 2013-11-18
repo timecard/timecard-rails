@@ -1,28 +1,19 @@
 class Timecard.Routers.Home extends Backbone.Router
   routes:
-    "users/:user_id/projects/:id": "showUserProjects"
-    "users/:user_id/projects/:id/issues/:state": "showUserProjectIssues"
+    "users/:user_id/projects/:project_id/issues/:state": "showUserProjectIssues"
 
   initialize: ->
     @projects = new Timecard.Collections.Projects()
     @issues = new Timecard.Collections.Issues()
 
-  showUserProjects: (user_id, id) ->
-    @issueStateNav(user_id, id)
+  showUserProjectIssues: (user_id, project_id, state) ->
+    $('.nav-pills li').removeClass('active')
+    $('#project-'+project_id).addClass('active')
+    @issueStateNav(user_id, project_id)
     @issues.fetch
       data:
         user_id: user_id
-        project_id: id
-      success: (collection) ->
-        @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: collection)
-        @viewIssuesIndex.render()
-
-  showUserProjectIssues: (user_id, id, state) ->
-    @issueStateNav(user_id, id)
-    @issues.fetch
-      data:
-        user_id: user_id
-        project_id: id
+        project_id: project_id
         status: state
       success: (collection) ->
         @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: collection)

@@ -1,9 +1,9 @@
+<h2>My Issues</h2>
 <ul class="nav nav-pills">
   <% @projects.each do |project| %>
-    <li><%= link_to project.name, "/#/users/#{current_user.id}/projects/#{project.id}" %></li>
+    <li id="project-<%= project.id %>"><%= link_to project.name, "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" %></li>
   <% end %>
 </ul>
-<h2>My Issues</h2>
 <div id="issue-state" class="btn-group btn-group-sm" style="margin-bottom:10px">
 </div>
 <div id="issues" class="media-list">
