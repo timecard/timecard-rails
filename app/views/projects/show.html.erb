@@ -46,7 +46,7 @@
   <%= link_to "Closed", issues_path(project_id: @project.id, status: "closed"), remote: true, class: "btn btn-default" %>
   <%= link_to "Don't do today", issues_path(project_id: @project.id, status: "not_do_today"), remote: true, class: "btn btn-default" %>
 </div>
-<div id="issues media-list">
+<div id="issues" class="media-list">
   <%= render "shared/issue_list", collection: @issues %>
 </div>
 <div class="row">
