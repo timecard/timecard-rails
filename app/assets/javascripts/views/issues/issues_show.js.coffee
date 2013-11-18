@@ -7,8 +7,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
     'click .js-reopen-issue-button': 'reopenIssue'
     'click .js-postpone-issue-button': 'postponeIssue'
     'click .js-do-today-issue-button': 'doTodayIssue'
+    'click .js-start-workload-button': 'startWorkload'
+    'click .js-stop-workload-button': 'stopWorkload'
 
-  className: 'media issue'
+  className: 'media'
 
   initialize: (@options) ->
     @issue = @options.issue
@@ -52,3 +54,36 @@ class Timecard.Views.IssuesShow extends Backbone.View
       patch: true
       success: (model) ->
         $(e.target).closest('.issue').hide()
+
+  startWorkload: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    $.ajax
+      url: '/issues/' + @issue.id + '/workloads/start'
+      type: 'POST'
+      dataType: 'json'
+      contentType: 'application/json'
+      success: (data, textStatus, jqXHR) ->
+        issue = new Timecard.Models.Issue(data.issue)
+        @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
+        $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)
+        unless prev_issue?
+          prev_issue = new Timecard.Models.Issue(data.prev_issue)
+          @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
+          $("#issue-#{prev_issue.id}").replaceWith(@viewIssuesShow.render().el)
+
+  stopWorkload: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    workload_id = $(e.target).data('workload-id')
+    $.ajax
+      url: '/workloads/' + workload_id + '/stop'
+      data:
+        JSON.stringify({ workload: { end_at: new Date() } })
+      type: 'PATCH'
+      dataType: 'json'
+      contentType: 'application/json'
+      success: (data, textStatus, jqXHR) ->
+        issue = new Timecard.Models.Issue(data.issue)
+        @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
+        $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)

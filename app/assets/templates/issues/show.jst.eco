@@ -1,31 +1,38 @@
-<div class="pull-left">
-  <div class="issue-subject">
-    <b style="margin:0">
-      <a href="<%= @issue.get('provider_url') %>" target="_blank"><%= @issue.get('provider_number') %></a>
-      <a href="/issues/<%= @issue.get('id') %>"><%= @issue.get('subject') %></a>
-    </b>
+<div id="issue-<%= @issue.get('id') %>">
+  <div class="pull-left">
+    <div class="issue-subject">
+      <b style="margin:0">
+        <a href="<%= @issue.get('provider_url') %>" target="_blank"><%= @issue.get('provider_number') %></a>
+        <a href="/issues/<%= @issue.get('id') %>"><%= @issue.get('subject') %></a>
+      </b>
+    </div>
+    <div class="issue-author">
+      Opend by <%= @issue.get('author_name') %> <%= @issue.get('humalized_created_at') %>
+    </div>
+    <div class="issue-status">
+      <%= @issue.status %>
+      <% if @issue.get('status') is 1: %>
+        <span class="label label-success">Open</span>
+      <% else: %>
+        <span class="label label-danger">Closed</span>
+      <% end %>
+    </div>
   </div>
-  <div class="issue-author">
-    Opend by <%= @issue.get('author_name') %> <%= @issue.get('humalized_created_at') %>
-  </div>
-  <div class="issue-status">
-    <%= @issue.status %>
+  <div class="actions pull-right">
     <% if @issue.get('status') is 1: %>
-      <span class="label label-success">Open</span>
+      <a href="#" class="btn btn-danger js-close-issue-button">Close</a>
     <% else: %>
-      <span class="label label-danger">Closed</span>
+      <a href="#" class="btn btn-default js-reopen-issue-button">Reopen</a>
+    <% end %>
+    <% if @issue.get('is_do_today') is true: %>
+      <a href="#" class="btn btn-default js-postpone-issue-button">Don't do today</a>
+    <% else: %>
+      <a href="#" class="btn btn-default js-do-today-issue-button">Do today</a>
+    <% end %>
+    <% if @issue.get('is_running') is true: %>
+      <a href="#" class="btn btn-warning js-stop-workload-button" data-workload-id="<%= @issue.get('running_workload_id') %>">Stop</a>
+    <% else: %>
+      <a href="#" class="btn btn-primary js-start-workload-button">Start</a>
     <% end %>
   </div>
-</div>
-<div class="actions pull-right">
-  <% if @issue.get('status') is 1: %>
-    <a href="#" class="btn btn-danger js-close-issue-button">Close</a>
-  <% else: %>
-    <a href="#" class="btn btn-default js-reopen-issue-button">Reopen</a>
-  <% end %>
-  <% if @issue.get('is_do_today') is true: %>
-    <a href="#" class="btn btn-default js-postpone-issue-button">Don't do today</a>
-  <% else: %>
-    <a href="#" class="btn btn-default js-do-today-issue-button">Do today</a>
-  <% end %>
 </div>
