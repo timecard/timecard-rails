@@ -28,8 +28,6 @@ class Project < ActiveRecord::Base
     ).map do |p|
       if p.name == "github"
         ProjectGithub.find(p.id) #FIXME
-      else
-        raise "please add the provider."
       end
     end
   end
