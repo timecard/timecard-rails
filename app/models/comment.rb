@@ -6,7 +6,7 @@ class Comment < ActiveRecord::Base
     CommentGithub.find_by(
       name: "github",
       provided_type: "Comment",
-      provided_id: self.id
+      foreign_id: self.id
     )
   end
 
@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
     comment_github = CommentGithub.find_or_create_by(
       name: "github",
       provided_type: "Comment",
-      provided_id: self.id
+      foreign_id: self.id
     )
     comment_github.comment_id = comment_id
     comment_github.save

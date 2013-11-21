@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027074235) do
+ActiveRecord::Schema.define(version: 20131121091507) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",     default: 0,  null: false
@@ -65,9 +65,10 @@ ActiveRecord::Schema.define(version: 20131027074235) do
 
   create_table "providers", force: true do |t|
     t.string  "name"
-    t.integer "provided_id"
+    t.integer "foreign_id"
     t.string  "provided_type"
     t.text    "info",          limit: 16777215
+    t.integer "provided_id"
   end
 
   create_table "users", force: true do |t|

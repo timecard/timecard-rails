@@ -7,7 +7,7 @@ class IssueGithub < Provider
   end
 
   def issue
-    Issue.find(self.provided_id)
+    Issue.find(self.foreign_id)
   end
 
   def reopen(token)
