@@ -48,6 +48,7 @@ gem 'devise', '3.2.0'
 gem 'kaminari', '0.14.1'
 gem 'redcarpet', '3.0.0'
 gem 'haml-rails'
+gem 'backbone-on-rails'
 
 gem 'omniauth-github', '1.1.1'
 gem 'github_api', '0.10.2'

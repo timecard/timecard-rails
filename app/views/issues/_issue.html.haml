@@ -17,10 +17,10 @@
     - else
       = link_to "Reopen", reopen_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
     - if issue.status == 1
-      - if issue.will_start_at.present? && issue.will_start_at >= Time.now
-        = link_to "Do today", do_today_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
-      - else
+      - if issue.do_today?
         = link_to "Don't do today", postpone_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
+      - else
+        = link_to "Do today", do_today_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
       - if current_user.workloads.running? && current_user.workloads.running.issue_id == issue.id
         = link_to "Stop", stop_workload_path(current_user.workloads.running.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
       - else

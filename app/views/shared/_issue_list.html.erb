@@ -1,7 +1,5 @@
 <% if @issues.count.zero? %>
   You don't have assigned issue.
 <% else %>
-  <div class="media-list">
-    <%= render @issues %>
-  </div> 
+  <%= render @issues %>
 <% end %>

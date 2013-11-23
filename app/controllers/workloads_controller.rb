@@ -37,7 +37,7 @@ class WorkloadsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
         format.js
-        format.json { render action: 'show', status: :created, location: @workload }
+        format.json { render action: 'start', status: :created, location: @workload }
       end
     end
   end
@@ -47,7 +47,7 @@ class WorkloadsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully stopped.' }
         format.js
-        format.json { render action: 'show', status: :created, location: @workload }
+        format.json { render action: 'stop', status: :created, location: @workload }
       end
     end
   end

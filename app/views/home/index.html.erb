@@ -1,11 +1,10 @@
-<% if user_signed_in? %>
-  <h2>My Issues</h2>
-  <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-    <%= link_to "Open", root_path(status: "open"), class: "btn btn-default" %>
-    <%= link_to "Closed", root_path(status: "closed"), class: "btn btn-default" %>
-    <%= link_to "Don't do today", root_path(status: "not_do_today"), class: "btn btn-default" %>
-  </div>
-  <div id="issues">
-    <%= render "shared/issue_list", collection: @issues %>
-  </div>
-<% end %>
+<h2>My Issues</h2>
+<ul class="nav nav-pills">
+  <% @projects.each do |project| %>
+    <li id="project-<%= project.id %>"><%= link_to project.name, "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" %></li>
+  <% end %>
+</ul>
+<div id="issue-state" class="btn-group btn-group-sm" style="margin-bottom:10px">
+</div>
+<div id="issues" class="media-list">
+</div>
