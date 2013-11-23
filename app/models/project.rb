@@ -24,7 +24,7 @@ class Project < ActiveRecord::Base
   def providers
     Provider.where(
       provided_type: "Project",
-      provided_id: self.id
+      foreign_id: self.id
     ).map do |p|
       if p.name == "github"
         ProjectGithub.find(p.id) #FIXME
@@ -52,14 +52,14 @@ class Project < ActiveRecord::Base
     ProjectGithub.find_by(
       name: "github",
       provided_type: "Project",
-      provided_id: self.id
+      foreign_id: self.id
     )
   end
 
   def add_github(full_name)
     pg = ProjectGithub.find_or_create_by(
       name: "github",
-      provided_id: self.id,
+      foreign_id: self.id,
       provided_type: "Project"
     )
     pg.full_name = full_name
@@ -74,14 +74,14 @@ class Project < ActiveRecord::Base
     ProjectRuffnote.find_by(
       name: "ruffnote",
       provided_type: "Project",
-      provided_id: self.id
+      foreign_id: self.id
     )
   end
 
   def add_ruffnote(full_name)
     pr = ProjectRuffnote.find_or_create_by(
       name: "ruffnote",
-      provided_id: self.id,
+      foreign_id: self.id,
       provided_type: "Project"
     )
     pr.full_name = full_name

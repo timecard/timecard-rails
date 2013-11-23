@@ -4,7 +4,7 @@ class CommentGithub < Provider
   end
 
   def comment
-    Comment.find(self.provided_id)
+    Comment.find(self.foreign_id)
   end
   
   def destroy(token)

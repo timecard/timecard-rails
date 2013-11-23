@@ -18,7 +18,7 @@ class Issue < ActiveRecord::Base
     IssueGithub.find_by(
       name: "github",
       provided_type: "Issue",
-      provided_id: self.id
+      foreign_id: self.id
     )
   end
 
@@ -26,7 +26,7 @@ class Issue < ActiveRecord::Base
     issue_github = IssueGithub.find_or_create_by(
       name: "github",
       provided_type: "Issue",
-      provided_id: self.id
+      foreign_id: self.id
     )
     issue_github.number = number
     full_name = self.project.github.full_name
@@ -38,7 +38,7 @@ class Issue < ActiveRecord::Base
     IssueRuffnote.find_by(
       name: "ruffnote",
       provided_type: "Issue",
-      provided_id: self.id
+      foreign_id: self.id
     )
   end
 
@@ -46,7 +46,7 @@ class Issue < ActiveRecord::Base
     issue_ruffnote = IssueRuffnote.find_or_create_by(
       name: "ruffnote",
       provided_type: "Issue",
-      provided_id: self.id
+      foreign_id: self.id
     )
     issue_ruffnote.number = number
     full_name = self.project.ruffnote.full_name
