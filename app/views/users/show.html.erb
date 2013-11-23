@@ -1,0 +1,29 @@
+<h2><%= @user.name %></h2>
+<h3>Workload Report</h3>
+<ul class="nav nav-tabs">
+  <li class="active"><%= link_to Date.today %></li>
+</ul>
+<table class="table">
+  <thead>
+    <th>Project</th>
+    <th>Issue</th>
+    <th>Work Hours</th>
+    <th>Time</th>
+  </thead>
+  <tbody>
+    <% @workloads.each do |workload| %>
+      <tr>
+        <td><%= link_to workload.issue.project.name, workload.issue.project %></td>
+        <td><%= link_to workload.issue.subject, workload.issue %></td>
+        <td><%= workload.start_at.to_s(:time) %> - <%= workload.end_at.to_s(:time) %></td>
+        <td><%= formatted_time_distance(workload.start_at, workload.end_at) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td></td>
+      <td><%= formatted_time(@workloads.sum { |w| w.end_at - w.start_at }) %></td>
+    </tr>
+  </tbody>
+</table>

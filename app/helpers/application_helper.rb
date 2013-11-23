@@ -8,6 +8,14 @@ module ApplicationHelper
     "#{sprintf('%02d', hour)} hour #{sprintf('%02d', min)} min #{sprintf('%02d', sec)} sec"
   end
 
+  def formatted_time(sec)
+    hour = (sec / (60 * 60)).floor
+    sec = sec - (hour * 60 * 60)
+    min = (sec / 60).floor
+    sec = sec - (min * 60)
+    "#{sprintf('%02d', hour)} hour #{sprintf('%02d', min)} min #{sprintf('%02d', sec)} sec"
+  end
+
   def hbr(text)
     text = h(text)
     text = text.gsub(/https?:\/\/.*$/){|text|
