@@ -4,8 +4,7 @@ class ProjectGithub < Provider
   end
 
   def add_issue(token, params)
-    # FIXME full_nameを保存するときにスペースは取り除くべき
-    fn = self.full_name.gsub(/  /,"").split("/")
+    fn = self.full_name
     if params[:assignee_id].blank?
       assignee = nil
     else

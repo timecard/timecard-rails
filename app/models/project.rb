@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
       foreign_id: self.id,
       provided_type: "Project"
     )
-    pg.full_name = full_name
+    pg.full_name = full_name.gsub(/[[:space:]*]/, "")
     pg.save
   end
 

@@ -88,6 +88,38 @@ describe Project do
         expect(project.add_github(full_name)).to be_true
       end
     end
+
+    describe "full_name has one half-width space" do
+      it "should be trim space" do
+        project = create(:project)
+        project.add_github("github / repo")
+        expect(project.github.full_name).to eq("github/repo")
+      end
+    end
+
+    describe "full_name has two half-width space" do
+      it "should be trim space" do
+        project = create(:project)
+        project.add_github("github  /  repo")
+        expect(project.github.full_name).to eq("github/repo")
+      end
+    end
+
+    describe "full_name has one full-width space" do
+      it "should be trim space" do
+        project = create(:project)
+        project.add_github("github　/　repo")
+        expect(project.github.full_name).to eq("github/repo")
+      end
+    end
+
+    describe "full_name has two full-width space" do
+      it "should be trim space" do
+        project = create(:project)
+        project.add_github("github　　/　　repo")
+        expect(project.github.full_name).to eq("github/repo")
+      end
+    end
   end
 
   describe "#ruffnote_full_name" do

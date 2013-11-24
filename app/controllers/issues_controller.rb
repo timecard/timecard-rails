@@ -39,8 +39,7 @@ class IssuesController < ApplicationController
   def edit
     if @issue.github
       github = Github.new(oauth_token: current_user.github.oauth_token)
-      # FIXME full_nameを保存するときにスペースは取り除くべき
-      owner, repo = @issue.project.github.full_name.gsub(/\s*/, "").split("/")
+      owner, repo = @issue.project.github.full_name
       @collaborators = github.repos.collaborators.list(owner, repo).map { |cbr| cbr.login }
       @members = Member.where(
         project_id: @issue.project.id,

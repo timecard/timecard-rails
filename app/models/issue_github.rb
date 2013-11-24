@@ -29,16 +29,14 @@ class IssueGithub < Provider
     else
       options["assignee"] = nil
     end
-    # FIXME full_nameを保存するときにスペースは取り除くべき
-    fn = self.issue.project.github.full_name.gsub(/  /,"").split("/")
+    fn = self.issue.project.github.full_name
     issue = Provider.github(token).issues.edit(
       fn[0], fn[1], self.number, options
     )
   end
 
   def add_comment(token, params)
-    # FIXME full_nameを保存するときにスペースは取り除くべき
-    fn = self.issue.project.github.full_name.gsub(/  /,"").split("/")
+    fn = self.issue.project.github.full_name
     comment = Provider.github(token).issues.comments.create(
       fn[0], fn[1], self.number, body: params[:body]
     )
