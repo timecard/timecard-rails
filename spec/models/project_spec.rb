@@ -52,7 +52,7 @@ describe Project do
       it "creates ProjectGithub" do
         project = create(:project)
         project.modify(github_full_name: full_name)
-        expect(ProjectGithub.where(provided_id: project.id).count).to eq(1)
+        expect(ProjectGithub.where(foreign_id: project.id).count).to eq(1)
       end
     end
 
@@ -60,7 +60,7 @@ describe Project do
       it "creates ProjectRuffnote" do
         project = create(:project)
         project.modify(ruffnote_full_name: full_name)
-        expect(ProjectRuffnote.where(provided_id: project.id).count).to eq(1)
+        expect(ProjectRuffnote.where(foreign_id: project.id).count).to eq(1)
       end
     end
   end
