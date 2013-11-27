@@ -73,6 +73,16 @@ describe IssuesController do
           @issue.reload
           expect(@issue.status).to eq(9)
         end
+
+        context "work in progress the issue" do
+          it "stops the workload" do
+            @issue = create(:issue, project: @project)
+            @workload = create(:workload, end_at: nil, user: @user, issue: @issue)
+            patch :close, id: @issue.to_param
+            @workload.reload
+            expect(@workload.end_at).not_to be_nil
+          end
+        end
       end
 
       describe "if user is not project member" do
