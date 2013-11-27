@@ -4,7 +4,7 @@ json.humalized_created_at "#{time_ago_in_words(issue.created_at)} ago"
 json.provider_number provider_number(issue)
 json.provider_url provider_url(issue)
 json.is_do_today issue.do_today?
-json.is_running (current_user.workloads.running && current_user.workloads.running.issue == issue)
-if (current_user.workloads.running && current_user.workloads.running.issue == issue)
-  json.running_workload_id current_user.workloads.running.id
+json.is_running (current_user.work_in_progress?(issue))
+if current_user.work_in_progress?(issue)
+  json.running_workload_id current_user.running_workload.id
 end

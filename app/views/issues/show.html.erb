@@ -30,8 +30,8 @@
   </div>
   <% if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE %>
     <div class="issue-actions">
-      <% if current_user.workloads.running? && current_user.workloads.running.issue_id == @issue.id %>
-        <%= link_to "Stop", stop_workload_path(current_user.workloads.running), class: "btn btn-warning", method: :patch %>
+      <% if current_user.work_in_progress?(@issue) %>
+        <%= link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch %>
       <% else %>
         <%= link_to "Start", start_issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post %>
       <% end %>

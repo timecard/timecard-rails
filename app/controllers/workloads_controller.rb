@@ -27,8 +27,8 @@ class WorkloadsController < ApplicationController
 
   def start
     if current_user.workloads.running?
-      @prev_issue = current_user.workloads.running.issue
-      current_user.workloads.running.update!(end_at: Time.now.utc)
+      @prev_issue = current_user.working_issue
+      current_user.running_workload.update!(end_at: Time.now.utc)
     end
     @issue = Issue.find(params[:issue_id])
     @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
