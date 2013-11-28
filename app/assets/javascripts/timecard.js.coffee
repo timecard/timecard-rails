@@ -3,7 +3,6 @@ ready = ->
   start_time = new Date(Date.parse(start_time))
   if not isNaN(start_time)
     Workload.start(start_time)
-  Timecard.initialize()
 
 window.Timecard =
   Models: {}
@@ -16,3 +15,6 @@ window.Timecard =
 
 $(document).ready(ready)
 $(document).on('page:change', ready)
+
+$ ->
+  Timecard.initialize()
