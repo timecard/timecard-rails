@@ -26,8 +26,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  # GET /issues/1
-  # GET /issues/1.json
   def show
     @title = @issue.subject
   end
@@ -105,6 +103,10 @@ class IssuesController < ApplicationController
   end
 
   def close
+    if current_user.work_in_progress?(@issue)
+      current_user.running_workload.update(end_at: Time.now.utc)
+    end
+
     if @issue.close
       if @issue.github
         @issue.github.close(current_user.github.oauth_token)
@@ -147,27 +149,26 @@ class IssuesController < ApplicationController
   end
 
   private
-    def set_project
-      @project = Project.find(params[:project_id])
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_issue
-      @issue = Issue.find(params[:id])
-    end
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def issue_params
-      params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at)
-    end
+  def set_issue
+    @issue = Issue.find(params[:id])
+  end
 
-    def require_member
-      project = @project ? @project : @issue.project
-      redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
-    end
+  def issue_params
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at)
+  end
 
-    def reject_archived
-      project = @project ? @project : @issue.project
-      redirect_to root_path, alert: "You need to sign in or sign up before continuing." if project.status == Project::STATUS_ARCHIVED
-    end
+  def require_member
+    project = @project ? @project : @issue.project
+    redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
+  end
+
+  def reject_archived
+    project = @project ? @project : @issue.project
+    redirect_to root_path, alert: "You need to sign in or sign up before continuing." if project.status == Project::STATUS_ARCHIVED
+  end
 end

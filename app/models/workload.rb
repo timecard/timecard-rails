@@ -9,8 +9,4 @@ class Workload < ActiveRecord::Base
   def self.running?
     exists?(["start_at is not ? and end_at is ?", nil, nil])
   end
-
-  def self.running
-    find_by(["start_at is not ? and end_at is ?", nil, nil])
-  end
 end
