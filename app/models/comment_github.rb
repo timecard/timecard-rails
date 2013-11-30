@@ -8,7 +8,7 @@ class CommentGithub < Provider
   end
   
   def destroy(token)
-    fn = self.comment.issue.project.github.full_name.gsub(/  /,"").split("/")
+    fn = self.comment.issue.project.github.full_name.split("/")
     Provider.github(token).issues.comments.delete(
       fn[0], fn[1], self.comment_id
     )
@@ -17,7 +17,7 @@ class CommentGithub < Provider
   def modify(token, params)
     options = {}
     options["body"] = params[:body] if params[:body]
-    fn = self.comment.issue.project.github.full_name.gsub(/  /,"").split("/")
+    fn = self.comment.issue.project.github.full_name.split("/")
     comment = Provider.github(token).issues.comments.edit(
       fn[0], fn[1], self.comment_id, options
     )

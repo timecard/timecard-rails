@@ -4,7 +4,7 @@ class ProjectGithub < Provider
   end
 
   def add_issue(token, params)
-    fn = self.full_name
+    fn = self.full_name.split("/")
     if params[:assignee_id].blank?
       assignee = nil
     else
