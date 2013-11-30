@@ -29,14 +29,14 @@ class IssueGithub < Provider
     else
       options["assignee"] = nil
     end
-    fn = self.issue.project.github.full_name
+    fn = self.issue.project.github.full_name.split("/")
     issue = Provider.github(token).issues.edit(
       fn[0], fn[1], self.number, options
     )
   end
 
   def add_comment(token, params)
-    fn = self.issue.project.github.full_name
+    fn = self.issue.project.github.full_name.split("/")
     comment = Provider.github(token).issues.comments.create(
       fn[0], fn[1], self.number, body: params[:body]
     )
