@@ -83,6 +83,6 @@ class CommentsController < ApplicationController
 
   def require_member
     project = @issue ? @issue.project : @comment.issue.project
-    redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
+    return redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
   end
 end
