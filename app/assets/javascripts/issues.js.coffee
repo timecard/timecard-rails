@@ -3,14 +3,14 @@ class Issue
     e.preventDefault()
     target = $(e.target).closest('.comment-area')
     target.find('form').show()
-    target.find('.comment').hide()
+    target.find('.comment-body').hide()
     target.find('textarea').focus()
 
   @hideEditComment = (e) ->
     e.preventDefault()
     target = $(e.target)
     target.closest('form').hide()
-    target.closest('.comment-area').find('.comment').show()
+    target.closest('.comment-area').find('.comment-body').show()
 
   @hide = (e) ->
     e.preventDefault()

@@ -1,16 +1,21 @@
 %li.media.comment-area
   .comment
-    .comment-author
-      #{comment.user.name} commented #{time_ago_in_words(comment.created_at)} ago
-    .comment-body
-      = markdown(comment.body)
-    - if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE 
-      .comment-actions
-        = link_to "Edit", "#", class: "btn btn-default js-edit-comment-button", "data-no-turbolink" => "1"
-        = link_to "Destroy", comment, class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
-  = form_for comment, html: { style: "display:none;" } do |f|
-    .form-group
-      = f.text_area :body, class: "form-control"
-    .actions
-      = f.submit class: "btn btn-default"
-      = link_to "Cancel", "#", class: "js-cancel-edit-comment-button", "data-no-turbolink" => "1"
+    .comment-header.clearfix
+      %span.pull-left
+        %span.comment-author= comment.user.name
+        commented
+      %span.pull-right
+        %ul.actions
+          %li #{time_ago_in_words(comment.created_at)} ago
+          - if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE 
+            %li= link_to "Edit", "#", class: "btn btn-default btn-xs js-edit-comment-button", "data-no-turbolink" => "1"
+            %li= link_to "&times;".html_safe, comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete
+    .comment-content
+      .comment-body
+        = markdown(comment.body)
+      = form_for comment, html: { style: "display:none;" } do |f|
+        .form-group
+          = f.text_area :body, class: "form-control", rows: "5"
+        .actions.clearfix
+          = f.submit class: "btn btn-primary btn-sm pull-right"
+          = link_to "Cancel", "#", class: "btn btn-danger btn-sm pull-left js-cancel-edit-comment-button", "data-no-turbolink" => "1"

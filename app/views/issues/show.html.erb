@@ -61,7 +61,6 @@
 
 <div class="row">
 <div class="col-lg-6">
-  <h3>Comments</h3>
   <ul class="media-list">
     <%= render partial: 'comments/comment', collection: @issue.comments.order("id ASC") %>
   </ul>
@@ -71,8 +70,8 @@
     <div class="form-group">
       <%= f.text_area :body, class: "form-control", placeholder: "Leave a comment" %>
     </div>
-    <div class="actions">
-      <%= f.submit "Comment", class: "btn btn-default" %>
+    <div class="actions pull-right">
+      <%= f.submit "Comment", class: "btn btn-success" %>
     </div>
   <% end %>
 <% end %>
