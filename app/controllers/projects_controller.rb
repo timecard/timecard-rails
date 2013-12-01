@@ -118,15 +118,15 @@ class ProjectsController < ApplicationController
     end
 
     def require_admin
-      redirect_to root_path, alert: "You are not project admin." unless @project.admin?(current_user)
+      return redirect_to root_path, alert: "You are not project admin." unless @project.admin?(current_user)
     end
 
     def require_member
       return if @project.is_public
-      redirect_to root_path, alert: "You are not project member." unless @project.member?(current_user)
+      return redirect_to root_path, alert: "You are not project member." unless @project.member?(current_user)
     end
 
     def reject_archived
-      redirect_to root_path, alert: "You need to sign in or sign up before continuing." if @project.status == Project::STATUS_ARCHIVED
+      return redirect_to root_path, alert: "You need to sign in or sign up before continuing." if @project.status == Project::STATUS_ARCHIVED
     end
 end

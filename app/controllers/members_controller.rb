@@ -39,6 +39,6 @@ class MembersController < ApplicationController
 
   def require_admin
     project = @project ? @project : @member.project
-    redirect_to root_path, alert: "You are not project admin." unless project.admin?(current_user)
+    return redirect_to root_path, alert: "You are not project admin." unless project.admin?(current_user)
   end
 end
