@@ -1,0 +1,21 @@
+%li.media.comment-area
+  .comment
+    .comment-header.clearfix
+      %span.pull-left
+        %span.comment-author= comment.user.name
+        commented
+      %span.pull-right
+        %ul.actions
+          %li #{time_ago_in_words(comment.created_at)} ago
+          - if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE 
+            %li= link_to "Edit", "#", class: "btn btn-default btn-xs js-edit-comment-button", "data-no-turbolink" => "1"
+            %li= link_to "&times;".html_safe, comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete
+    .comment-content
+      .comment-body
+        = markdown(comment.body)
+      = form_for comment, html: { style: "display:none;" } do |f|
+        .form-group
+          = f.text_area :body, class: "form-control", rows: "5"
+        .actions.clearfix
+          = f.submit class: "btn btn-primary btn-sm pull-right"
+          = link_to "Cancel", "#", class: "btn btn-danger btn-sm pull-left js-cancel-edit-comment-button", "data-no-turbolink" => "1"

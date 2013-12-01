@@ -13,7 +13,6 @@ config/database.yml
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-Gemfile.lock
 config/omniauth.yml
 *.swp
 /coverage
