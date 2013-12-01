@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to @issue, notice: 'Comment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
-        format.html { redirect_to @issue, alert: 'Comment was failed created.' }
+        format.html { redirect_to @issue, alert: "Comment was failed created. " + @comment.errors.full_messages.join }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
