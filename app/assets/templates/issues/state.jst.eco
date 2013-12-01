@@ -1,3 +1,3 @@
-<a href="/#/users/<%= @user_id %>/projects/<%= @project.id %>/issues/open" class="btn btn-default">Open</a>
-<a href="/#/users/<%= @user_id %>/projects/<%= @project.id %>/issues/closed" class="btn btn-default">Closed</a>
-<a href="/#/users/<%= @user_id %>/projects/<%= @project.id %>/issues/not_do_today" class="btn btn-default">Don't do today</a>
+<a href="/#/users/<%= @user_id %>/projects/<%= @project_id %>/issues/open" class="btn btn-default">Open</a>
+<a href="/#/users/<%= @user_id %>/projects/<%= @project_id %>/issues/closed" class="btn btn-default">Closed</a>
+<a href="/#/users/<%= @user_id %>/projects/<%= @project_id %>/issues/not_do_today" class="btn btn-default">Don't do today</a>
