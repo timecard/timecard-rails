@@ -169,6 +169,6 @@ class IssuesController < ApplicationController
 
   def reject_archived
     project = @project ? @project : @issue.project
-    return redirect_to root_path, alert: "You need to sign in or sign up before continuing." if project.status == Project::STATUS_ARCHIVED
+    return redirect_to root_path, alert: "You need to sign in or sign up before continuing." if project.archived?
   end
 end

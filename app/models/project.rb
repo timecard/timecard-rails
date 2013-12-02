@@ -87,4 +87,8 @@ class Project < ActiveRecord::Base
     pr.full_name = full_name
     pr.save
   end
+
+  def archived?
+    status == Project::STATUS_ARCHIVED
+  end
 end
