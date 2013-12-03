@@ -3,13 +3,61 @@ require 'spec_helper'
 describe IssuesController do
 
   describe "logged in" do
-    describe "GET show" do
-      before do
-        @user = create(:user)
-        @project = create(:project)
-        sign_in @user
-      end
+    before do
+      @user = create(:user)
+      @project = create(:project)
+      sign_in @user
+    end
 
+    describe "GET 'index'" do
+      context "as json" do
+        it "returns http status ok" do
+          project = create(:public_active_project)
+          get 'index', project_id: project.to_param, format: :json
+          expect(response).to be_ok
+        end
+
+        it "assigns to project issues as @issues" do
+          project = create(:public_active_project)
+          issue = create(:issue, project: project)
+          get 'index', project_id: project.to_param, format: :json
+          expect(assigns(:issues)).to eq([issue])
+        end
+
+        context "with user_id" do
+          it "returns http status ok" do
+            project = create(:public_active_project)
+            get 'index', project_id: project.to_param, user_id: @user.to_param, format: :json
+            expect(response).to be_ok
+          end
+
+          it "assigns to user issues as @issues" do
+            project = create(:public_active_project)
+            issue = create(:issue, project: project, assignee: @user)
+            get 'index', project_id: project.to_param, user_id: @user.to_param, format: :json
+            expect(assigns(:issues)).to eq([issue])
+          end
+        end
+
+        context "when the project is archived" do
+          it "returns http status no content" do
+            project = create(:archived_project)
+            get 'index', project_id: project.to_param, format: :json
+            expect(response.status).to eq(204)
+          end
+        end
+
+        context "when the project is private and user is not member" do
+          it "returns http status no content" do
+            project = create(:private_active_project)
+            get 'index', project_id: project.to_param, format: :json
+            expect(response.status).to eq(204)
+          end
+        end
+      end
+    end
+
+    describe "GET show" do
       it "assigns the requested issue as @issue" do
         issue = create(:issue, project: @project)
         get :show, id: issue.to_param
@@ -18,13 +66,7 @@ describe IssuesController do
     end
 
     describe "GET new" do
-      before do
-        @user = create(:user)
-        @project = create(:project)
-        sign_in @user
-      end
-
-      describe "if user is project member" do
+      describe "when the user is project member" do
         before do
           create(:member, user: @user, project: @project)
         end
@@ -35,7 +77,7 @@ describe IssuesController do
         end
       end
 
-      describe "if user is not project member" do
+      context "when the project is private and user is not project member" do
         it "redirects to root_url" do
           get :new, project_id: @project
           expect(response).to redirect_to root_url
@@ -56,13 +98,7 @@ describe IssuesController do
     end
 
     describe "PATCH close" do
-      before do
-        @user = create(:user)
-        @project = create(:project)
-        sign_in @user
-      end
-
-      describe "if user is project member" do
+      context "when the user is project member" do
         before do
           create(:member, user: @user, project: @project)
         end
@@ -85,7 +121,7 @@ describe IssuesController do
         end
       end
 
-      describe "if user is not project member" do
+      context "when the user is not project member" do
         it "redirects to root_url" do
           @issue = create(:issue, project: @project)
           patch :close, id: @issue.to_param
@@ -95,13 +131,7 @@ describe IssuesController do
     end
 
     describe "PATCH reopen" do
-      before do
-        @user = create(:user)
-        @project = create(:project)
-        sign_in @user
-      end
-
-      describe "if user is project member" do
+      context "when the user is project member" do
         before do
           create(:member, user: @user, project: @project)
         end
@@ -114,7 +144,7 @@ describe IssuesController do
         end
       end
 
-      describe "if user is not project member" do
+      describe "when the user is not project member" do
         it "redirects to root_url" do
           @issue = create(:issue, project: @project)
           patch :reopen, id: @issue.to_param

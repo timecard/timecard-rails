@@ -1,23 +1,18 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:new, :create]
+  before_action :set_project, only: [:index, :new, :create]
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :postpone, :do_today]
-  before_action :reject_archived, except: [:index]
-  before_action :require_member, except: [:index, :show]
+  before_action :reject_archived
+  before_action :require_member
 
   def index
     status = params[:status] || "open"
-    if params[:project_id].present?
-      set_project
-      reject_archived
-      require_member
+    if @project.present?
       if params[:user_id].present?
         @issues = @project.issues.with_status(status).where("assignee_id = ?", current_user.id)
       else
         @issues = @project.issues.with_status(status)
       end
-    else
-      @issues = Issue.with_status(status).where("assignee_id = ?", current_user.id)
     end
 
     respond_to do |format|
@@ -162,13 +157,29 @@ class IssuesController < ApplicationController
     params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at)
   end
 
-  def require_member
-    project = @project ? @project : @issue.project
-    return redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
-  end
-
   def reject_archived
     project = @project ? @project : @issue.project
-    return redirect_to root_path, alert: "You need to sign in or sign up before continuing." if project.archived?
+    if project.archived?
+      if request.format.json?
+        head :no_content
+      else
+        redirect_to root_url, alert: "You need to sign in or sign up before continuing."
+      end
+      return false
+    end
+  end
+
+  def require_member
+    project = @project ? @project : @issue.project
+    unless project.is_public
+      unless project.member?(current_user)
+        if request.format.json?
+          head :no_content
+        else
+          redirect_to root_url, alert: "You are not project member."
+        end
+        return false
+      end
+    end
   end
 end

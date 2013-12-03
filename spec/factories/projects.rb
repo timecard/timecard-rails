@@ -1,5 +1,3 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :project do
     name "MyString"
@@ -7,5 +5,29 @@ FactoryGirl.define do
     is_public false
     parent_id 1
     status 1
+  end
+
+  factory :private_active_project, class: :project do
+    name "Private Active Project"
+    description "MyText"
+    is_public false
+    parent_id 1
+    status Project::STATUS_ACTIVE
+  end
+
+  factory :public_active_project, class: :project do
+    name "Private Active Project"
+    description "MyText"
+    is_public true
+    parent_id 1
+    status Project::STATUS_ACTIVE
+  end
+
+  factory :archived_project, class: :project do
+    name "Private Active Project"
+    description "MyText"
+    is_public true
+    parent_id 1
+    status Project::STATUS_ARCHIVED
   end
 end
