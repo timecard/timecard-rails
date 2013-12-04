@@ -23,7 +23,7 @@ module ApplicationHelper
       tr = truncate(text, length:50)
       link_to tr, text, {target: "_blank"}
     }
-    simple_format(text, {}, sanitize: false)
+    markdown(text)
   end
 
   def link_to_provider(issue)

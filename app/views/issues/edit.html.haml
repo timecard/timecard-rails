@@ -1,0 +1,8 @@
+%b.back-to-issue
+  = link_to @issue.subject, @issue
+  \/
+  Edit Issue
+.row
+  .col-md-6
+    = form_for(@issue) do |f|
+      = render partial: "form", locals: { f: f, project: @issue.project }

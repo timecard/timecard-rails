@@ -1,17 +1,53 @@
 .issues {
   .issue {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    position:relative;
+    .wrap {
+      border: 1px solid #dddddd;
+      box-shadow: 0 0 5px #dddddd;
+      margin-top: 20px;
+    }
+    .header {
+      padding: 10px;
+      .issue-author b {
+        color: #999999;
+      }
+    }
+    .author {
+      margin-bottom: 5px;
+    }
+    .assignee {
+      background-color: #ecf0f1;
+      border-top: 1px solid #dddddd;
+      border-bottom: 1px solid #dddddd;
+      padding: 10px;
+    }
+    .status {
+      margin-bottom: 5px;
+    }
+    .description {
+      padding: 10px;
+      h1, h2 {
+        margin-top: 0;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .actions {
+      margin-bottom: 20px;
+      padding: 10px;
+    }
   }
-  .issue-actions {
+  b.back-to-project, b.back-to-issue {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 20px;
   }
-  .comment {
-  }
-  .comment-actions {
-  }
-  .work-log {
-  }
-  .work-log-actions {
+  #new_issue, .edit_issue {
+    .input-area {
+      border: 1px solid #eeeeee;
+      box-shadow: 0 0 5px #cccccc;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
   }
 }
