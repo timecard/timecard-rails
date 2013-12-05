@@ -1,0 +1,26 @@
+%h2= @user.name
+%h3 Workload Report
+%ul.nav.nav-tabs
+  %li.active= link_to Date.today
+%table.table
+  %thead
+    %th Project
+    %th Issue
+    %th Work Hours
+    %th Time
+  
+  %tbody
+    - @workloads.each do |workload|
+      %tr
+        %td= link_to workload.issue.project.name, workload.issue.project
+        %td= link_to workload.issue.subject, workload.issue
+        %td #{workload.start_at.to_s(:time)} - #{workload.end_at.to_s(:time)}
+        %td= formatted_time_distance(workload.start_at, workload.end_at)
+    %tr
+      %td Total
+      %td 
+      %td 
+      %td= formatted_time(@workloads.sum { |w| w.end_at - w.start_at })
+    
+  
+
