@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        if @comment.issue.project.github && current_user.github
+        if @comment.issue.github && current_user.github
           comment = @comment.issue.github.add_comment(current_user.github.oauth_token , comment_params)
           if comment
             @comment.add_github(comment.id)
