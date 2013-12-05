@@ -3,8 +3,6 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
   before_action :require_member
 
-  # POST /comments
-  # POST /comments.json
   def create
     @comment = @issue.comments.build(comment_params)
     @comment.user_id = current_user.id
@@ -29,8 +27,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH /comments
-  # PATCH /comments.json
   def update
     respond_to do |format|
       if @comment.update(comment_params)
@@ -52,8 +48,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1
-  # DELETE /comments/1.json
   def destroy
     if @comment.github && @comment.github.comment_id && current_user.github
       comment = @comment.github.destroy(
