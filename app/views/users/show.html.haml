@@ -1,7 +1,10 @@
-%h2= @user.name
+%h2#user-name{ data: { user_id: @user.id } }
+  = @user.name
 %h3 Workload Report
 %ul.nav.nav-tabs
-  %li.active= link_to Date.today
+  - (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
+    %li{ class: "#{date == Date.today ? 'active' : '' }" }
+      = link_to date, "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
 %table.table
   %thead
     %th Project
@@ -9,7 +12,7 @@
     %th Work Hours
     %th Time
   
-  %tbody
+  %tbody#workloads-table
     - @workloads.each do |workload|
       %tr
         %td= link_to workload.issue.project.name, workload.issue.project

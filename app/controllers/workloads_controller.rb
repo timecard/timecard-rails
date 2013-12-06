@@ -1,6 +1,20 @@
 class WorkloadsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_workload, only: [:edit, :update, :destroy, :stop]
+  def index
+    if params[:user_id].present?
+      if params[:day].present?
+        date = Date.parse("#{params[:year]}-#{params[:month]}-#{params[:day]}")
+        @workloads = current_user.workloads.daily(date).complete
+      else
+        @workloads = current_user.workloads.complete
+      end
+    end
+
+    respond_to do |format|
+      format.json
+    end
+  end
 
   def edit
   end

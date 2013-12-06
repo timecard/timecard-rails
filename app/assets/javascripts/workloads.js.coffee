@@ -21,4 +21,24 @@ class Workload
     $('.timer-true').text("#{hour} hour #{min} min #{sec} sec")
     $('title').text("#{hour}:#{min}:#{sec}")
 
+
+ready = ->
+  $('.users').on 'click', '.js-workloads-on-day-link', (e) ->
+    e.preventDefault()
+    user_id = $('#user-name').data('user-id')
+    year = $(@).data('year')
+    month = $(@).data('month')
+    day = $(@).data('day')
+    @collection = new Timecard.Collections.Workloads()
+    @collection.fetch
+      url: "/users/#{user_id}/workloads/#{year}/#{month}/#{day}"
+      success: (workloads) =>
+        $(@).closest('ul').find('li.active').removeClass('active')
+        $(@).closest('li').addClass('active')
+        @viewsWorkloadsTable = new Timecard.Views.WorkloadsTable(workloads: workloads)
+        @viewsWorkloadsTable.render()
+
 window.Workload = window.Workload || Workload
+
+$(document).ready(ready)
+$(document).on 'page:change', ready
