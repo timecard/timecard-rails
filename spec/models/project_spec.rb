@@ -146,4 +146,20 @@ describe Project do
       end
     end
   end
+
+  describe "#archived?" do
+    context "when project is archived" do
+      it "returns true" do
+        project = create(:project, status: Project::STATUS_ARCHIVED)
+        expect(project).to be_archived
+      end
+    end
+
+    context "when project is not archived" do
+      it "returns false" do
+        project = create(:project, status: Project::STATUS_ACTIVE)
+        expect(project).not_to be_archived
+      end
+    end
+  end
 end
