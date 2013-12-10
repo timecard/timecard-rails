@@ -46,7 +46,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if @issue.save
 
-        if params[:github].present? && @issue.project.github && current_user.github
+        if params[:github].present?
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
             @issue.add_github(issue.number)
