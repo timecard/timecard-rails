@@ -49,7 +49,7 @@ class IssuesController < ApplicationController
         if params[:github].present?
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
-            @issue.add_github(issue.number)
+            @issue.add_github(issue)
           else
             flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'new' }
@@ -82,7 +82,7 @@ class IssuesController < ApplicationController
         if params[:github].present?
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
-            @issue.add_github(issue.number)
+            @issue.add_github(issue)
           else
             flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'new' }

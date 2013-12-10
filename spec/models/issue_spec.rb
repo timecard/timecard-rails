@@ -1,5 +1,16 @@
 require 'spec_helper'
 
+def github_repo
+  "github/repo"
+end
+
+def github_issue
+  Hashie::Mash.new({
+    number: 10,
+    html_url: "https://github.com/#{github_repo}/issues/10"
+  })
+end
+
 describe Issue do
   describe "#do_today?" do
     describe "if will_start_at is nil" do
@@ -24,23 +35,25 @@ describe Issue do
     end
   end
 
-  describe "#github" do
-    it "should be return IssueGithub" do
-      project = create(:project)
-      project.add_github("github/repo")
-      issue = create(:issue, project: project)
-      issue.add_github(1)
-      expect(issue.github.class).to be(IssueGithub)
+  describe "associate IssueGithub" do
+    before do
+      @project = create(:project)
+      @project.add_github(github_repo)
+      @issue = create(:issue, project: @project)
     end
-  end
 
-  describe "#add_github" do
-    describe "with valid params" do
-      it "should be return true" do
-        project = create(:project)
-        project.add_github("github/repo")
-        issue = create(:issue, project: project)
-        expect(issue.add_github(1)).to be_true
+    describe "#github" do
+      it "should be return IssueGithub" do
+        @issue.add_github(github_issue)
+        expect(@issue.github.number).to be(github_issue.number)
+      end
+    end
+
+    describe "#add_github" do
+      it "creates a IssueGithub" do
+        expect(@issue.add_github(github_issue)).to be_true
+        expect(@issue.github.number).to eq(github_issue.number)
+        expect(@issue.github.html_url).to eq(github_issue.html_url)
       end
     end
   end
