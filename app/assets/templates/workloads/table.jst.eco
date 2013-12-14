@@ -1,0 +1,14 @@
+<% for workload in @workloads.models: %>
+  <tr>
+    <td><a href="/projects/<%= workload.get('project').id %>"><%= workload.get('project').name %></a></td>
+    <td><a href="/issues/<%= workload.get('issue').id %>"><%= workload.get('issue').subject %></a></td>
+    <td><%= workload.get('start_time') %> - <%= workload.get('end_time') %></td>
+    <td><%= workload.get('formatted_duration') %></td>
+  </tr>
+<% end %>
+<tr>
+  <td>Total</td>
+  <td></td>
+  <td></td>
+  <td><%= @workloads.formatted_total_hours %></td>
+</tr>

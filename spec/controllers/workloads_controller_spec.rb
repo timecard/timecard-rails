@@ -7,6 +7,41 @@ describe WorkloadsController do
     sign_in @user
   end
 
+  describe "GET 'index'" do
+    context "includes user" do
+      context "not include date" do
+        it "returns http status ok" do
+          get 'index', user_id: @user.id, format: :json
+          expect(response).to be_ok
+        end
+
+        it "renders template 'index'" do
+          get 'index', user_id: @user.id, format: :json
+          expect(response).to render_template 'index'
+        end
+
+        it "assigns to all own workloads as @workloads" do
+          workload = create(:workload, user: @user)
+          get 'index', user_id: @user.id, format: :json
+          expect(assigns[:workloads]).to eq([workload])
+        end
+      end
+
+      context "includes year, month and day" do
+        let(:today) { Date.today }
+        it "returns http status ok" do
+          get 'index', user_id: @user.id, year: today.year, month: today.month, day: today.day, format: :json
+          expect(response).to be_ok
+        end
+
+        it "renders template 'index'" do
+          get 'index', user_id: @user.id, year: today.year, month: today.month, day: today.day, format: :json
+          expect(response).to render_template 'index'
+        end
+      end
+    end
+  end
+
   describe "PATCH 'update'" do
     describe "with valid params" do
       it "redirects to issue url" do

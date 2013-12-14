@@ -1,5 +1,11 @@
 Timecard::Application.routes.draw do
   devise_for :users, controllers:  { omniauth_callbacks: "users/omniauth_callbacks", registrations: 'users/registrations' }
+  resources :users, only: [:show] do
+    resources :workloads, only: [:index] do
+      get '/:year/:month/:day', on: :collection, to: 'workloads#index', as: :daily
+    end
+  end
+
   resources :members, only: [:destroy]
   resources :data
 
@@ -28,6 +34,5 @@ Timecard::Application.routes.draw do
   end
 
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
-  resources :users, only: [:show]
   root :to => "home#index"
 end
