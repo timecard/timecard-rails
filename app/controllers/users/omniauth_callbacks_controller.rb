@@ -1,4 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include Devise::Controllers::Rememberable
+
   def github
     callback
   end
@@ -12,6 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     authentication = Authentication.where(provider: omniauth.provider, uid: omniauth.uid).first
     if authentication.present?
       flash[:notice] = "Signed in successfully."
+      remember_me(authentication.user)
       sign_in_and_redirect(:user, authentication.user)
     else
       prov = omniauth.provider
@@ -28,6 +31,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         user.send("apply_omniauth_with_#{prov}", omniauth)
         if user.save
           flash[:notice] = "Signed in successfully."
+          remember_me(authentication.user)
           sign_in(:user, user)
         else
           session[:omniauth] = omniauth.except('extra')
