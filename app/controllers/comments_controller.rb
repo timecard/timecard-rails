@@ -3,15 +3,13 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
   before_action :require_member
 
-  # POST /comments
-  # POST /comments.json
   def create
     @comment = @issue.comments.build(comment_params)
     @comment.user_id = current_user.id
 
     respond_to do |format|
       if @comment.save
-        if @comment.issue.project.github && current_user.github
+        if @comment.issue.github && current_user.github
           comment = @comment.issue.github.add_comment(current_user.github.oauth_token , comment_params)
           if comment
             @comment.add_github(comment.id)
@@ -29,8 +27,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH /comments
-  # PATCH /comments.json
   def update
     respond_to do |format|
       if @comment.update(comment_params)
@@ -52,8 +48,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1
-  # DELETE /comments/1.json
   def destroy
     if @comment.github && @comment.github.comment_id && current_user.github
       comment = @comment.github.destroy(

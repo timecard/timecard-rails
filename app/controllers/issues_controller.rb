@@ -46,10 +46,10 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if @issue.save
 
-        if @issue.project.github && current_user.github
+        if params[:github].present?
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
           if issue
-            @issue.add_github(issue.number)
+            @issue.add_github(issue)
           else
             flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'new' }
@@ -79,6 +79,16 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
+        if params[:github].present?
+          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
+          if issue
+            @issue.add_github(issue)
+          else
+            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+            return false
+          end
+        end
         if @issue.project.github && @issue.github
           issue = @issue.github.modify(
             current_user.github.oauth_token, issue_params

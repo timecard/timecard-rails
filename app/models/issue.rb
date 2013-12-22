@@ -22,15 +22,14 @@ class Issue < ActiveRecord::Base
     )
   end
 
-  def add_github(number)
+  def add_github(issue)
     issue_github = IssueGithub.find_or_create_by(
       name: "github",
       provided_type: "Issue",
       foreign_id: self.id
     )
-    issue_github.number = number
-    full_name = self.project.github.full_name
-    issue_github.html_url = "https://github.com/#{full_name}/issues/#{number}"
+    issue_github.number = issue.number
+    issue_github.html_url = issue.html_url
     issue_github.save
   end
 
