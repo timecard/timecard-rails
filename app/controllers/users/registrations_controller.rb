@@ -1,4 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  def create
+    super
+    if current_user
+      NotifyMailer.sign_up_user(current_user).deliver
+    end
+  end
+
   def update
     account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
 

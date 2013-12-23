@@ -31,8 +31,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         user.send("apply_omniauth_with_#{prov}", omniauth)
         if user.save
           flash[:notice] = "Signed in successfully."
-          remember_me(authentication.user)
+          remember_me(user)
           sign_in(:user, user)
+          if current_user
+            NotifyMailer.sign_up_user(user).deliver
+          end
         else
           session[:omniauth] = omniauth.except('extra')
           flash[:alert] = "Signed in faild."
