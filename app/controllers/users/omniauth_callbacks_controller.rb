@@ -27,7 +27,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         end
       else # sign up
         user = User.where(email: omniauth.info.email).first_or_initialize
-        user.name =  omniauth.info.nickname if user.name.blank?
         user.send("apply_omniauth_with_#{prov}", omniauth)
         if user.save
           flash[:notice] = "Signed in successfully."
