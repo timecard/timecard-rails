@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def modify(params)
+  def update(params)
     if params[:github_full_name]
       self.add_github(params[:github_full_name])
       params.delete(:github_full_name)
@@ -41,7 +41,7 @@ class Project < ActiveRecord::Base
       self.add_ruffnote(params[:ruffnote_full_name])
       params.delete(:ruffnote_full_name)
     end
-    self.update(params)
+    super(params)
   end
 
   def github_full_name
