@@ -28,10 +28,14 @@
             <%= link_to "Me", user_path(current_user.id) %>
           </li>
           <li>
-            <%= link_to "Account settings", edit_user_registration_path %>
-          </li>
-          <li>
             <%= link_to "Import", data_path %>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li>
+            <%= link_to "Account settings", edit_user_registration_path %>
           </li>
           <li>
             <%= link_to "Logout", destroy_user_session_path, :method => :delete %>
