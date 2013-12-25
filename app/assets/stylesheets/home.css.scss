@@ -2,4 +2,18 @@
   .nav-pills {
     margin-bottom: 15px;
   }
+
+  .welcome {
+    text-align: center;
+    .jumbotron {
+      background-color: #ffffff;
+      .btn-block {
+        margin: 20px 0;
+      }
+    }
+    h2 {
+      color: #555555;
+      font-weight: normal;
+    }
+  }
 }
