@@ -4,9 +4,9 @@
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
       <ul>
-      <% @project.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -19,8 +19,8 @@
     <%= f.label :description %> (optional)<br>
     <%= f.text_area :description, class: "form-control" %>
   </div>
-  
   <% if @project.persisted? %>
+  <hr>
   <div class="form-group">
     <%= f.label :github_full_name %> (optional)<br>
     <%= f.text_field :github_full_name, class: "form-control", placeholder: "rails/rails" %>
@@ -30,12 +30,24 @@
     <%= f.text_field :ruffnote_full_name, class: "form-control" %>
   </div>
   <% end %>
-
-  <div class="checkbox">
-    <%= f.check_box :is_public %>
-    <%= f.label :is_public %>
+  <hr>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :is_public, "true" %>
+      <b>Public</b><br>
+      <span class="text-muted">Anyone can see this project.</span>
+    </label>
   </div>
+
+  <div class="radio">
+    <label>
+      <%= f.radio_button :is_public, "false" %>
+      <b>Private</b><br>
+      <span class="text-muted">You choose who can see to this project.</span>
+    </label>
+  </div>
+  <hr>
   <div class="actions">
-    <%= f.submit class: "btn btn-default" %>
+    <%= f.submit class: "btn btn-success" %>
   </div>
 <% end %>
