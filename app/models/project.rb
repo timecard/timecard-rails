@@ -7,6 +7,7 @@ class Project < ActiveRecord::Base
   scope :closed, -> { where(status: STATUS_CLOSED) }
   scope :archive, -> { where(status: STATUS_ARCHIVED) }
   scope :public, -> { where(is_public: true) }
+  scope :visible, -> (user) { where(id: Member.where(user_id: user.id).pluck(:project_id)) }
 
   has_many :members, dependent: :destroy
   has_many :issues, dependent: :destroy

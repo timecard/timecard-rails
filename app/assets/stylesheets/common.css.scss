@@ -1,3 +1,14 @@
 body {
   -webkit-text-size-adjust: 100%;
 }
+
+a.btn-black {
+  background-color: #777777;
+  color: #ffffff;
+}
+
+a.btn-black:hover {
+  background-color: #555555;
+  color: #ffffff;
+  text-decoration: none;
+}
