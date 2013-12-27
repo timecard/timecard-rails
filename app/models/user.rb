@@ -15,14 +15,7 @@ class User < ActiveRecord::Base
   validates :name, uniqueness: true
 
   def apply_omniauth_with_github(omniauth)
-    self.email = omniauth.info.email if self.email.blank?
-    self.password = Devise.friendly_token[0,20] if self.encrypted_password.blank?
-    authentications.build(
-      provider: omniauth.provider,
-      uid: omniauth.uid,
-      username: omniauth.info.nickname,
-      oauth_token: omniauth.credentials.token
-    )
+    apply_omniauth(omniauth)
   end
 
   def github_username
@@ -34,8 +27,13 @@ class User < ActiveRecord::Base
   end
 
   def apply_omniauth_with_ruffnote(omniauth)
+    apply_omniauth(omniauth)
+  end
+
+  def apply_omniauth(omniauth)
     self.email = omniauth.info.email if self.email.blank?
     self.password = Devise.friendly_token[0,20] if self.encrypted_password.blank?
+    self.name =  omniauth.info.nickname if self.name.blank?
     authentications.build(
       provider: omniauth.provider,
       uid: omniauth.uid,
