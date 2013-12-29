@@ -37,8 +37,8 @@ class Timecard.Views.IssuesShow extends Backbone.View
     @issue.save {},
       url: @issue.urlRoot+'/'+@issue.id+'/reopen'
       patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+      success: (model) =>
+        $("#issue-#{@issue.id}").hide(500)
 
   postponeIssue: (e) ->
     e.preventDefault()
