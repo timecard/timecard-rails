@@ -22,11 +22,14 @@ class Timecard.Views.IssuesShow extends Backbone.View
   closeIssue: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    @issue.save {},
-      url: @issue.urlRoot+'/'+@issue.id+'/close'
-      patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+    if (window.confirm("Are you sure you wish to close?"))
+      @issue.save {},
+        url: @issue.urlRoot+'/'+@issue.id+'/close'
+        patch: true
+        success: (model) =>
+          $("#issue-#{@issue.id}").hide(500)
+    else
+      false
 
   reopenIssue: (e) ->
     e.preventDefault()
