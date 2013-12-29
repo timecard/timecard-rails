@@ -10,10 +10,11 @@ Feature
 
 Setup
 -----
-    $ git clone git@github.com:mindia/timecard.git
-    $ cd timecard/
+    $ git clone git@github.com:mindia/timecard-rails.git
+    $ cd timecard-rails/
     $ bundle install
     $ rake db:migrate RAILS_ENV=production
     $ rake assets:precompile RAILS_ENV=production
-    $ cp config/omniauth.yml.sample config/omniauth.yml # setup Github Client ID and Client Secret
-      (callback URL is project root ex: http:/yoursite.example.com/)
+    $ cp config/omniauth.yml.sample config/omniauth.yml # setup Client ID and Client Secret of GitHub and Ruffnote
+      (callback URL is project root ex: http:/yoursite.example.com/)  
+      https://github.com/settings/applications, https://ruffnote.com/oauth/applications
