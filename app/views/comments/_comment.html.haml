@@ -2,7 +2,7 @@
   .comment
     .comment-header.clearfix
       %span.pull-left
-        %span.comment-author= comment.user.name
+        %span.comment-author= link_to comment.user.name, comment.user
         commented
       %span.pull-right
         %ul.actions
