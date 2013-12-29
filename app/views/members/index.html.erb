@@ -10,7 +10,7 @@
     <ul>
       <% @members.each do |member| %>
         <li>
-        <%= member.user.name %>
+        <%= link_to member.user.name, member.user %>
         <% unless member.is_admin %>
           <%= link_to "Delete", member_path(member), class: "btn btn-xs btn-danger", confirm: "Are you sure?", method: :delete %>
         <% end %>
@@ -25,7 +25,7 @@
     <ul>
       <% User.where.not(id: @members.pluck(:user_id)).each do |user| %>
         <li>
-        <%= user.name %>
+        <%= link_to user.name, user %>
         <%= link_to "Add", project_members_path(@project, user_id: user.id), class: "btn btn-xs btn-success", method: :post %>
         </li>
       <% end %>
