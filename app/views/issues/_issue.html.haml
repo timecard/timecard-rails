@@ -5,7 +5,10 @@
         = link_to_provider(issue)
         = link_to issue.subject, issue
     .issue-author
-      Opend by #{issue.author.name} #{time_ago_in_words(issue.created_at)} ago
+      Opend by #{link_to issue.author.name, issue.author} #{time_ago_in_words(issue.created_at)} ago
+    .issue-asignee
+      - if issue.assignee
+        Assigned to #{link_to issue.assignee.name, issue.assignee}
     .issue-status
       - if issue.status == 1
         %span.label.label-success Open

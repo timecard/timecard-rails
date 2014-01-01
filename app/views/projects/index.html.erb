@@ -24,7 +24,7 @@
         </div>
         <div id="members">
           <% project.members.each do |member| %>
-            <%= member.user.name %>
+            <%= link_to member.user.name, member.user %>
           <% end %>
         </div>
       <% end %>

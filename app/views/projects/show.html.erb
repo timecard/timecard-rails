@@ -15,7 +15,7 @@
       <span class="label label-default">Private</span>
     <% end %>
     <% if @project.github %>
-        <span class="label label-default"><%= @project.github.full_name %></span> 
+      <span class="label label-default"><%= @project.github.full_name %></span>
     <% end %>
   </div>
   <% if @project.admin?(current_user) %>
@@ -49,6 +49,7 @@
 <div id="issues" class="media-list">
   <%= render "shared/issue_list", collection: @issues %>
 </div>
+
 <div class="row">
 <div class="col-lg-6">
   <h3>
@@ -60,7 +61,7 @@
         <li class="media">
           <div class="comment">
             <div class="comment-author">
-              <%= comment.user.name %> @ <%= time_ago_in_words(comment.created_at) %> ago
+              <%= link_to comment.user.name, comment.user %> @ <%= time_ago_in_words(comment.created_at) %> ago
             </div>
             <div class="comment-body">
               <%= markdown(comment.body) %>
@@ -79,12 +80,13 @@
     <ul class="media-list">
       <% @workloads.each do |workload| %>
         <li class="media">
-          <%= workload.user.name %><br />
-           
+          <%= link_to workload.user.name, workload.user %><br />
+
           <%= time_ago_in_words(workload.start_at) %> - <%= time_ago_in_words(workload.end_at) %>
           (<%= formatted_time_distance(workload.start_at, workload.end_at) %>)
         </li>
       <% end %>
     </ul>
   </div>
+</div>
 </div>
