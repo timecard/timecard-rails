@@ -34,10 +34,12 @@ class Project < ActiveRecord::Base
   end
 
   def update(params)
-    if params[:github_full_name] && self.add_github(params[:github_full_name])
-      params.delete(:github_full_name)
-    else
-      return false
+    if params[:github_full_name]
+      if self.add_github(params[:github_full_name])
+        params.delete(:github_full_name)
+      else
+        return false
+      end
     end
     if params[:ruffnote_full_name]
       self.add_ruffnote(params[:ruffnote_full_name])
