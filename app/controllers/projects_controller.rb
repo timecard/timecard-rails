@@ -8,27 +8,11 @@ class ProjectsController < ApplicationController
   def index
     status = params[:status] || 1
     if user_signed_in?
-      case status.to_i
-      when Project::STATUS_ACTIVE
-        public_projects = Project.public.active.where_values.reduce(:and)
-        my_projects = Project.active.visible(current_user).where_values.reduce(:and)
-      when Project::STATUS_CLOSED
-        public_projects = Project.public.closed.where_values.reduce(:and)
-        my_projects = Project.closed.visible(current_user).where_values.reduce(:and)
-      when Project::STATUS_ARCHIVED
-        public_projects = Project.public.archive.where_values.reduce(:and)
-        my_projects = Project.archive.visible(current_user).where_values.reduce(:and)
-      end
+      public_projects = Project.public.status(status).where_values.reduce(:and)
+      my_projects = Project.status(status).visible(current_user).where_values.reduce(:and)
       @projects = Project.where(public_projects.or(my_projects))
     else
-      @projects =  case status.to_i
-                   when Project::STATUS_ACTIVE
-                     Project.public.active
-                   when Project::STATUS_CLOSED
-                     Project.public.closed
-                   when Project::STATUS_ARCHIVED
-                     Project.public.archive
-                   end
+      @projects = Project.public.status(status)
     end
 
     respond_to do |format|
