@@ -18,7 +18,7 @@
       <span class="label label-default"><%= @project.github.full_name %></span>
     <% end %>
   </div>
-  <% if @project.admin?(current_user) %>
+  <% if can? :update, @project %>
     <div class="project-actions">
       <% if @project.status == Project::STATUS_ACTIVE %>
         <%= link_to "Add a member", project_members_path(@project), class: "btn btn-default" %>
@@ -36,7 +36,7 @@
 <h3>
   Issue
   <% if @project.status == Project::STATUS_ACTIVE %>
-    <% if @project.member?(current_user) %>
+    <% if can? :create, @project.issues.build %>
       <%= link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default" %>
     <% end %>
   <% end %>

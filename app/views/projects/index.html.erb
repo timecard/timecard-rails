@@ -1,4 +1,4 @@
-<% if user_signed_in? %>
+<% if can? :create, Project.new %>
   <div class="new-project" style="margin-bottom:20px">
     <%= link_to "New Project", new_project_path, class: "btn btn-default" %>
     <%= link_to "Import", data_path, class: "btn btn-default" %>

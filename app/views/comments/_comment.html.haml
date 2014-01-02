@@ -7,7 +7,7 @@
       %span.pull-right
         %ul.actions
           %li #{time_ago_in_words(comment.created_at)} ago
-          - if @issue.project.member?(current_user) && @issue.project.status == Project::STATUS_ACTIVE 
+          - if can? :update, comment && @issue.project.status == Project::STATUS_ACTIVE 
             %li= link_to "Edit", "#", class: "btn btn-default btn-xs js-edit-comment-button", "data-no-turbolink" => "1"
             %li= link_to "&times;".html_safe, comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete
     .comment-content
