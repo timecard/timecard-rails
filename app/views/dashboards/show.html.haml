@@ -1,0 +1,29 @@
+%h2#user-name{ data: { user_id: current_user.id } }
+  = current_user.name
+%h3 Workload Report
+%ul.nav.nav-tabs
+  - (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
+    %li{ class: "#{date == Date.today ? 'active' : '' }" }
+      = link_to date, "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
+%table.table
+  %thead
+    %th Project
+    %th Issue
+    %th Work Hours
+    %th Time
+  
+  %tbody#workloads-table
+    - @workloads.each do |workload|
+      %tr
+        %td= link_to workload.issue.project.name, workload.issue.project
+        %td= link_to workload.issue.subject, workload.issue
+        %td #{workload.start_at.to_s(:time)} - #{workload.end_at.to_s(:time)}
+        %td= formatted_time_distance(workload.start_at, workload.end_at)
+    %tr
+      %td Total
+      %td 
+      %td 
+      %td= formatted_time(@workloads.sum { |w| w.end_at - w.start_at })
+    
+  
+
