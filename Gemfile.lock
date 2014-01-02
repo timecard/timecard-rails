@@ -43,6 +43,7 @@ GEM
       rails (>= 3.1)
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
+    cancan (1.6.10)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coderay (1.1.0)
@@ -255,6 +256,7 @@ PLATFORMS
 
 DEPENDENCIES
   backbone-on-rails
+  cancan
   coffee-rails (~> 4.0.0)
   database_rewinder
   devise (= 3.2.0)

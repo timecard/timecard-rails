@@ -34,10 +34,12 @@ class Project < ActiveRecord::Base
   end
 
   def update(params)
-    if params[:github_full_name] && self.add_github(params[:github_full_name])
-      params.delete(:github_full_name)
-    else
-      return false
+    if params[:github_full_name]
+      if self.add_github(params[:github_full_name])
+        params.delete(:github_full_name)
+      else
+        return false
+      end
     end
     if params[:ruffnote_full_name]
       self.add_ruffnote(params[:ruffnote_full_name])
@@ -108,5 +110,23 @@ class Project < ActiveRecord::Base
 
   def archived?
     status == Project::STATUS_ARCHIVED
+  end
+
+  def self.status(status)
+    case status.to_i
+    when Project::STATUS_ACTIVE
+      self.active
+    when Project::STATUS_CLOSED
+      self.closed
+    when Project::STATUS_ARCHIVED
+      self.archive
+    end
+  end
+
+  def visible?(user)
+    return true if user.id == 1
+    return true if self.is_public
+    return true if self.members.exists?(["user_id = ?", user.id])
+    false
   end
 end
