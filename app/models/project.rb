@@ -122,4 +122,11 @@ class Project < ActiveRecord::Base
       self.archive
     end
   end
+
+  def visible?(user)
+    return true if user.id == 1
+    return true if self.is_public
+    return true if self.members.exists?(["user_id = ?", user.id])
+    false
+  end
 end

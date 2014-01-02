@@ -1,9 +1,6 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_project, only: [:index, :new, :create]
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :close, :reopen, :postpone, :do_today]
-  before_action :reject_archived
-  before_action :require_member
+  load_and_authorize_resource :project, only: [:index, :new, :create]
+  load_and_authorize_resource :issue, except: [:index, :new, :create]
 
   def index
     status = params[:status] || "open"
@@ -27,6 +24,7 @@ class IssuesController < ApplicationController
 
   def new
     @issue = @project.issues.build
+    authorize! :create, @issue
   end
 
   def edit
@@ -43,6 +41,7 @@ class IssuesController < ApplicationController
 
   def create
     @issue = @project.issues.build(issue_params)
+    authorize! :create, @issue
     respond_to do |format|
       if @issue.save
 
@@ -155,41 +154,7 @@ class IssuesController < ApplicationController
 
   private
 
-  def set_project
-    @project = Project.find(params[:project_id])
-  end
-
-  def set_issue
-    @issue = Issue.find(params[:id])
-  end
-
   def issue_params
     params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at)
-  end
-
-  def reject_archived
-    project = @project ? @project : @issue.project
-    if project.archived?
-      if request.format.json?
-        head :no_content
-      else
-        redirect_to root_url, alert: "You need to sign in or sign up before continuing."
-      end
-      return false
-    end
-  end
-
-  def require_member
-    project = @project ? @project : @issue.project
-    unless project.is_public
-      unless project.member?(current_user)
-        if request.format.json?
-          head :no_content
-        else
-          redirect_to root_url, alert: "You are not project member."
-        end
-        return false
-      end
-    end
   end
 end
