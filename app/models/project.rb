@@ -109,4 +109,20 @@ class Project < ActiveRecord::Base
   def archived?
     status == Project::STATUS_ARCHIVED
   end
+
+  def be_archived!
+    self.update!(status: Project::STATUS_ARCHIVED)
+  end
+
+  def be_active!
+    self.update!(status: Project::STATUS_ACTIVE)
+  end
+
+  def be_active!
+    self.update!(status: Project::STATUS_ACTIVE)
+  end
+
+  def be_closed!
+    self.update!(status: Project::STATUS_CLOSED)
+  end
 end
