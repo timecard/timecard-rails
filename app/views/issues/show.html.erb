@@ -53,7 +53,7 @@
     <%= render partial: 'comments/comment', collection: @issue.comments.order("id ASC") %>
   </ul>
 
-<% if can? :update, @issue && @issue.project.status == Project::STATUS_ACTIVE %>
+<% if can?(:update, @issue) && @issue.project.status == Project::STATUS_ACTIVE %>
   <%= form_for [@issue, Comment.new] do |f| %>
     <div class="form-group">
       <%= f.text_area :body, class: "form-control", placeholder: "Leave a comment" %>
