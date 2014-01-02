@@ -1,0 +1,16 @@
+.row
+  .col-md-3
+    .avatar
+      = image_tag "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email)}?s=220", size: "220x220"
+    %h1= @user.name
+    %hr
+    %ul.info
+      %li
+        Email -
+        = @user.email
+      - if @user.github.present?
+        %li
+          Github -
+          = link_to @user.github_username, "https://github.com/#{@user.github_username}"
+    %hr
+  .col.md-9
