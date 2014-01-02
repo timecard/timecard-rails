@@ -1,6 +1,4 @@
-%h2#user-name{ data: { user_id: current_user.id } }
-  = current_user.name
-%h3 Workload Report
+%h3 Work Hours Report
 %ul.nav.nav-tabs
   - (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
     %li{ class: "#{date == Date.today ? 'active' : '' }" }
