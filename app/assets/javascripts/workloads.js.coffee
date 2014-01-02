@@ -23,7 +23,7 @@ class Workload
 
 
 ready = ->
-  $('.users').on 'click', '.js-workloads-on-day-link', (e) ->
+  $('.dashboards').on 'click', '.js-workloads-on-day-link', (e) ->
     e.preventDefault()
     user_id = $('#user-name').data('user-id')
     year = $(@).data('year')
