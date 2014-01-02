@@ -10,7 +10,7 @@
       %tbody
         - Workload.where(["start_at is not ? and end_at is ?", nil, nil]).each do |workload|
           %tr
-            %td= workload.user.name
+            %td= link_to workload.user.name, workload.user
             %td{ class: "timer-#{workload.user.id == current_user.id}" } #{formatted_time_distance(workload.start_at, Time.now)}
             %td= link_to workload.issue.project.name, workload.issue.project
             %td= link_to workload.issue.subject, workload.issue

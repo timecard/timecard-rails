@@ -1,4 +1,5 @@
 Timecard::Application.routes.draw do
+  resource :dashboard, only: :show
   devise_for :users, controllers:  { omniauth_callbacks: "users/omniauth_callbacks", registrations: 'users/registrations' }
   resources :users, only: [:show] do
     resources :workloads, only: [:index] do

@@ -1,34 +1,14 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :archive, :active, :close]
-  before_action :reject_archived, except: [:index, :new, :create, :active]
-  before_action :require_admin, only: [:edit, :update, :destroy, :archive, :active, :close]
-  before_action :require_member, only: [:show]
+  load_and_authorize_resource except: [:index, :new, :create]
 
   def index
     status = params[:status] || 1
     if user_signed_in?
-      case status.to_i
-      when Project::STATUS_ACTIVE
-        public_projects = Project.public.active.where_values.reduce(:and)
-        my_projects = Project.active.visible(current_user).where_values.reduce(:and)
-      when Project::STATUS_CLOSED
-        public_projects = Project.public.closed.where_values.reduce(:and)
-        my_projects = Project.closed.visible(current_user).where_values.reduce(:and)
-      when Project::STATUS_ARCHIVED
-        public_projects = Project.public.archive.where_values.reduce(:and)
-        my_projects = Project.archive.visible(current_user).where_values.reduce(:and)
-      end
+      public_projects = Project.public.status(status).where_values.reduce(:and)
+      my_projects = Project.status(status).visible(current_user).where_values.reduce(:and)
       @projects = Project.where(public_projects.or(my_projects))
     else
-      @projects =  case status.to_i
-                   when Project::STATUS_ACTIVE
-                     Project.public.active
-                   when Project::STATUS_CLOSED
-                     Project.public.closed
-                   when Project::STATUS_ARCHIVED
-                     Project.public.archive
-                   end
+      @projects = Project.public.status(status)
     end
 
     respond_to do |format|
@@ -46,6 +26,7 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    authorize! :create, @project
   end
 
   def edit
@@ -53,6 +34,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
+    authorize! :create, @project
     respond_to do |format|
       if @project.save
         m = Member.new(user: current_user, is_admin: true)
@@ -80,7 +62,7 @@ class ProjectsController < ApplicationController
 
   def archive
     respond_to do |format|
-      if @project.be_archived!
+      if @project.archived!
         format.html { redirect_to projects_path, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -92,7 +74,7 @@ class ProjectsController < ApplicationController
 
   def active
     respond_to do |format|
-      if @project.be_active!
+      if @project.active!
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -104,7 +86,7 @@ class ProjectsController < ApplicationController
 
   def close
     respond_to do |format|
-      if @project.be_closed!
+      if @project.closed!
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -126,10 +108,6 @@ class ProjectsController < ApplicationController
       res["github_full_name"] = params["project"]["github_full_name"].gsub(/ 　/,"") unless params["project"]["github_full_name"].blank?
       res["ruffnote_full_name"] = params["project"]["ruffnote_full_name"].gsub(/ 　/,"") unless params["project"]["ruffnote_full_name"].blank?
       return res
-    end
-
-    def require_admin
-      return redirect_to root_path, alert: "You are not project admin." unless @project.admin?(current_user)
     end
 
     def require_member
