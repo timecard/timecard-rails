@@ -25,7 +25,7 @@
         </li>
         <% if user_signed_in? %>
           <li>
-            <%= link_to "Me", user_path(current_user.id) %>
+            <%= link_to "Me", dashboard_path %>
           </li>
         <% end %>
       </ul>
