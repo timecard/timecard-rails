@@ -22,11 +22,16 @@ class Timecard.Views.IssuesShow extends Backbone.View
   closeIssue: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    @issue.save {},
-      url: @issue.urlRoot+'/'+@issue.id+'/close'
-      patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+    if (window.confirm("Are you sure you wish to close?"))
+      @issue.save {},
+        url: @issue.urlRoot+'/'+@issue.id+'/close'
+        patch: true
+        success: (model) =>
+          $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+            @.remove()
+          )
+    else
+      false
 
   reopenIssue: (e) ->
     e.preventDefault()
@@ -34,8 +39,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
     @issue.save {},
       url: @issue.urlRoot+'/'+@issue.id+'/reopen'
       patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+      success: (model) =>
+        $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+          @.remove()
+        )
 
   postponeIssue: (e) ->
     e.preventDefault()
@@ -43,8 +50,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
     @issue.save {},
       url: @issue.urlRoot+'/'+@issue.id+'/postpone'
       patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+      success: (model) =>
+        $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+          @.remove()
+        )
 
   doTodayIssue: (e) ->
     e.preventDefault()
@@ -52,8 +61,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
     @issue.save {},
       url: @issue.urlRoot+'/'+@issue.id+'/do_today'
       patch: true
-      success: (model) ->
-        $(e.target).closest('.issue').hide()
+      success: (model) =>
+       $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+          @.remove()
+        )
 
   startWorkload: (e) ->
     e.preventDefault()
