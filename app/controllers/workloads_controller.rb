@@ -1,6 +1,8 @@
 class WorkloadsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_workload, only: [:edit, :update, :destroy, :stop]
+  authorize_resource
+
   def index
     if params[:user_id].present?
       if params[:day].present?
