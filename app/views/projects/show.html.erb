@@ -78,14 +78,7 @@
   </h3>
   <div id="work-logs">
     <ul class="media-list">
-      <% @workloads.each do |workload| %>
-        <li class="media">
-          <%= link_to workload.user.name, workload.user %><br />
-
-          <%= time_ago_in_words(workload.start_at) %> - <%= time_ago_in_words(workload.end_at) %>
-          (<%= formatted_time_distance(workload.start_at, workload.end_at) %>)
-        </li>
-      <% end %>
+      <%= render @workloads %>
     </ul>
   </div>
 </div>
