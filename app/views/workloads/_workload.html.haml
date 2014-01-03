@@ -1,0 +1,11 @@
+%li.media
+  .workload
+    = link_to workload.user.name, workload.user
+    %br
+    WorkTime #{formatted_time_distance(workload.start_at, workload.end_at)}
+    %br
+    Start At: #{workload.start_at} / End At: #{workload.end_at}
+    - if workload.issue.project.status == Project::STATUS_ACTIVE
+      .actions
+        = link_to "Edit", edit_workload_path(workload), class: "btn btn-default"
+        = link_to "Destroy", workload, class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
