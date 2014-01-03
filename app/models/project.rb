@@ -18,6 +18,10 @@ class Project < ActiveRecord::Base
     member?(user) ? members.find_by("user_id = ?", user.id).is_admin : false
   end
 
+  def admin
+    members.find_by(is_admin: true).user
+  end
+
   def member?(user)
     members.exists?(["user_id = ?", user.id]) ? true : false
   end
