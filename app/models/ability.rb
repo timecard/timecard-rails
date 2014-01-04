@@ -10,6 +10,7 @@ class Ability
       authorize_project(user)
       authorize_issue(user)
       authorize_comment(user)
+      authorize_workload(user)
     end
   end
 
@@ -38,6 +39,18 @@ class Ability
   def authorize_comment(user)
     can :update, Comment do |comment|
       comment.issue.project.member?(user)
+    end
+  end
+
+  def authorize_workload(user)
+    can [:read, :update, :destroy], Workload do |workload|
+      workload.issue.project.admin?(user) ||
+        (workload.issue.project.member?(user) && workload.user_id == user.id)
+    end
+
+    can [:start, :stop], Workload do |workload|
+      workload.issue.project.admin?(user) ||
+        workload.issue.project.member?(user)
     end
   end
 end
