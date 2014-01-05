@@ -47,11 +47,11 @@ describe Project do
     end
   end
 
-  describe "#modify" do
+  describe "#update" do
     describe "with params[:github_full_name]" do
       it "creates ProjectGithub" do
         project = create(:project)
-        project.modify(github_full_name: full_name)
+        project.update(github_full_name: full_name)
         expect(ProjectGithub.where(foreign_id: project.id).count).to eq(1)
       end
     end
@@ -59,7 +59,7 @@ describe Project do
     describe "with params[:ruffnote_full_name]" do
       it "creates ProjectRuffnote" do
         project = create(:project)
-        project.modify(ruffnote_full_name: full_name)
+        project.update(ruffnote_full_name: full_name)
         expect(ProjectRuffnote.where(foreign_id: project.id).count).to eq(1)
       end
     end
