@@ -50,6 +50,15 @@ class WorkloadsController < ApplicationController
     @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
 
     if @workload.save
+      base_url = 'https://api.chatwork.com/v1'
+      url = '/my/status'
+      room_id = 24680
+      url = "/rooms/#{room_id}/messages"
+      token = Authentication.get_chatwork_token
+      rails_host = env["HTTP_HOST"]
+      body = "#{current_user.name}さんが「#{@issue.project.name}」における「#{@issue.subject}」を開始しました\nhttp://#{rails_host}/issues/#{@issue.id}"
+      `curl -X POST -H "X-ChatWorkToken: #{token}" -d "body=#{body}" "#{base_url}#{url}"`
+
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
         format.js
