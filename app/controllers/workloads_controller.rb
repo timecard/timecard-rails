@@ -51,7 +51,7 @@ class WorkloadsController < ApplicationController
 
     if @workload.save
       base_url = 'https://api.chatwork.com/v1'
-      room_id = 24680
+      room_id = 16920606
       url = "/rooms/#{room_id}/messages"
       token = Authentication.get_chatwork_token
       rails_host = env["HTTP_HOST"]
