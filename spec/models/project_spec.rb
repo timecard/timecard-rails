@@ -68,7 +68,7 @@ describe Project do
   describe "#github_full_name" do
     it "returns github full name" do
       project = create(:project)
-      project.add_github(full_name)
+      project.add_github(full_name, validate = false)
       expect(project.github_full_name).to eq(full_name)
     end
   end
@@ -76,7 +76,7 @@ describe Project do
   describe "#github" do
     it "should be return ProjectGithub" do
       project = create(:project)
-      project.add_github(full_name)
+      project.add_github(full_name, validate = false)
       expect(project.github.class).to be(ProjectGithub)
     end
   end
@@ -85,14 +85,14 @@ describe Project do
     describe "with valid params" do
       it "should be return true" do
         project = create(:project)
-        expect(project.add_github(full_name)).to be_true
+        expect(project.add_github(full_name, validate = false)).to be_true
       end
     end
 
     describe "full_name has one half-width space" do
       it "should be trim space" do
         project = create(:project)
-        project.add_github("github / repo")
+        project.add_github("github / repo", validate = false)
         expect(project.github.full_name).to eq("github/repo")
       end
     end
@@ -100,7 +100,7 @@ describe Project do
     describe "full_name has two half-width space" do
       it "should be trim space" do
         project = create(:project)
-        project.add_github("github  /  repo")
+        project.add_github("github  /  repo", validate = false)
         expect(project.github.full_name).to eq("github/repo")
       end
     end
@@ -108,7 +108,7 @@ describe Project do
     describe "full_name has one full-width space" do
       it "should be trim space" do
         project = create(:project)
-        project.add_github("github　/　repo")
+        project.add_github("github　/　repo", validate = false)
         expect(project.github.full_name).to eq("github/repo")
       end
     end
@@ -116,7 +116,7 @@ describe Project do
     describe "full_name has two full-width space" do
       it "should be trim space" do
         project = create(:project)
-        project.add_github("github　　/　　repo")
+        project.add_github("github　　/　　repo", validate = false)
         expect(project.github.full_name).to eq("github/repo")
       end
     end

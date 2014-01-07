@@ -60,20 +60,24 @@ class Project < ActiveRecord::Base
     )
   end
 
-  def add_github(full_name)
-    admin = User.find(self.members.find_by("is_admin = true").user_id)
-    github = Github.new(oauth_token: admin.github.oauth_token)
-    owner, repo_name = full_name.gsub(/[[:space:]*]/, "").split("/")
-    repo = github.repos.get(owner, repo_name)
-    if repo.present?
-      pg = ProjectGithub.find_or_create_by(
+  def add_github(full_name, validate = true)
+    pg = ProjectGithub.find_or_create_by(
         name: "github",
         foreign_id: self.id,
         provided_type: "Project"
-      )
+    )
+
+    if validate
+      admin = User.find(self.members.find_by("is_admin = true").user_id)
+      github = Github.new(oauth_token: admin.github.oauth_token)
+      owner, repo_name = full_name.gsub(/[[:space:]*]/, "").split("/")
+      repo = github.repos.get(owner, repo_name)
+      return false unless repo
       pg.full_name = repo.full_name
-      pg.save
     end
+
+    pg.full_name = full_name.gsub(/[[:space:]*]/, "")
+    pg.save
   rescue Github::Error::NotFound => e
     self.errors.add(:base, "#{full_name} is not found.")
     false
