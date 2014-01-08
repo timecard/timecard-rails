@@ -1,7 +1,12 @@
 <h2>My Issues</h2>
 <ul class="nav nav-pills">
   <% @projects.each do |project| %>
-    <li id="project-<%= project.id %>"><%= link_to project.name, "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" %></li>
+    <li id="project-<%= project.id %>">
+      <%= link_to "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
+        <%= project.name %>
+        <span class="badge"><%= project.issues_count %></span>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 <div id="issue-state" class="btn-group btn-group-sm" style="margin-bottom:10px">
