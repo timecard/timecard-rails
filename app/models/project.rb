@@ -73,7 +73,6 @@ class Project < ActiveRecord::Base
       owner, repo_name = full_name.gsub(/[[:space:]*]/, "").split("/")
       repo = github.repos.get(owner, repo_name)
       return false unless repo
-      pg.full_name = repo.full_name
     end
 
     pg.full_name = full_name.gsub(/[[:space:]*]/, "")
