@@ -3,7 +3,10 @@ require 'spec_helper'
 describe WorkloadsController do
   before do
     @user = create(:user)
-    @issue = create(:issue)
+    create(:authentication, provider: 'chatwork', user: @user)
+    @project = create(:project)
+    create(:member, project: @project, user: @user)
+    @issue = create(:issue, project: @project)
     sign_in @user
   end
 
@@ -45,7 +48,7 @@ describe WorkloadsController do
   describe "PATCH 'update'" do
     describe "with valid params" do
       it "redirects to issue url" do
-        workload = create(:workload)
+        workload = create(:workload, issue: @issue, user: @user)
         patch 'update', id: workload.to_param, workload: attributes_for(:workload)
         expect(response).to redirect_to workload.issue
       end
@@ -53,7 +56,7 @@ describe WorkloadsController do
 
     describe "with invalid params" do
       it "renders template edit" do
-        workload = create(:workload)
+        workload = create(:workload, issue: @issue, user: @user)
         patch 'update', id: workload.to_param, workload: attributes_for(:workload, start_at: nil)
         expect(response).to render_template :edit
       end
@@ -62,14 +65,14 @@ describe WorkloadsController do
 
   describe "DELETE 'destroy'" do
     it "changes Issue count by -1" do
-      workload = create(:workload)
+      workload = create(:workload, issue: @issue, user: @user)
       expect {
         delete 'destroy', id: workload.to_param
       }.to change(Workload, :count).by(-1)
     end
 
     it "redirects to issue url" do
-      workload = create(:workload)
+      workload = create(:workload, issue: @issue, user: @user)
       delete 'destroy', id: workload.to_param
       expect(response).to redirect_to workload.issue
     end
