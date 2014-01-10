@@ -50,9 +50,11 @@ class WorkloadsController < ApplicationController
     @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
 
     if @workload.save
-      rails_host = env["HTTP_HOST"]
-      body = "#{current_user.name}さんが「#{@issue.project.name}」における「#{@issue.subject}」を開始しました\nhttp://#{rails_host}/issues/#{@issue.id}"
-      Chatwork.post(body)
+      if Authentication.exists?(["provider = 'chatwork'"])
+        rails_host = env["HTTP_HOST"]
+        body = "#{current_user.name}さんが「#{@issue.project.name}」における「#{@issue.subject}」を開始しました\nhttp://#{rails_host}/issues/#{@issue.id}"
+        Chatwork.post(body)
+      end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
         format.js
