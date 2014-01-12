@@ -1,5 +1,4 @@
-<h2>My Issues</h2>
-<ul class="nav nav-pills">
+<ul id="projects" class="nav nav-pills">
   <% @projects.each do |project| %>
     <li id="project-<%= project.id %>">
       <%= link_to "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
