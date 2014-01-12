@@ -31,7 +31,7 @@ class Ability
     can :read, Issue do |issue|
       issue.project.visible?(user)
     end
-    can [:create, :update], Issue do |issue|
+    can [:create, :update, :reopen, :close], Issue do |issue|
       issue.project.member?(user)
     end
   end
