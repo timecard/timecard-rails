@@ -8,6 +8,8 @@ describe WorkloadsController do
     create(:member, project: @project, user: @user)
     @issue = create(:issue, project: @project)
     sign_in @user
+
+    Chatwork.stub(:post)
   end
 
   describe "GET 'index'" do
