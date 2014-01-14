@@ -39,19 +39,11 @@ describe IssuesController do
           end
         end
 
-        context "when the project is archived" do
-          it "returns http status no content" do
-            project = create(:archived_project)
-            get 'index', project_id: project.to_param, format: :json
-            expect(response.status).to eq(204)
-          end
-        end
-
         context "when the project is private and user is not member" do
-          it "returns http status no content" do
+          it "returns http status unauthorized" do
             project = create(:private_active_project)
             get 'index', project_id: project.to_param, format: :json
-            expect(response.status).to eq(204)
+            expect(response.status).to eq(401)
           end
         end
       end
