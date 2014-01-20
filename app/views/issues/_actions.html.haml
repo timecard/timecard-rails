@@ -1,7 +1,10 @@
 - if can?(:update, @issue) && @issue.project.status == Project::STATUS_ACTIVE
   .actions
     - if current_user.work_in_progress?(@issue)
-      = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch
+      - if @project.crowdworks_url.empty? or current_user.authentications.where(provider: "crowdworks").blank?
+        = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch
+      - else
+        = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch, remote: true, :'data-type' => :html, data: { prompt: { message: "password?\n***It does not save the password.***", default: '', param: 'password'} }
     - else
       = link_to "Start", start_issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post
     - if @issue.will_start_at.present? && @issue.will_start_at >= Time.now.utc

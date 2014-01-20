@@ -5,6 +5,10 @@ class AuthenticationsController < ApplicationController
   end
   
   def new
+    @select_list = Hash.new
+    if current_user.authentications.where(provider: "crowdworks").empty?
+      @select_list["crowdworks"] = "crowdworks"
+    end
     @authentication = Authentication.new
   end
   
