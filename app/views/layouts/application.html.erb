@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= @title ? @title : "Timecard" %></title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body class="<%= controller.controller_name %>" data-timer="<%= timer %>">
-  <%= render 'layouts/nav' %>
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12 col-md-12">
-      <% if user_signed_in? %>
-        <div id="running-users">
-          <%= render partial: "shared/running_users" %>
+  <head>
+    <title><%= @title ? @title : "Timecard" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="<%= controller.controller_name %>" data-timer="<%= timer %>">
+    <%= render 'layouts/nav' %>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <% if user_signed_in? %>
+            <div id="running-users">
+              <%= render partial: "shared/running_users" %>
+            </div>
+          <% end %>
+          <% if notice %>
+            <div class="alert alert-success"><%= notice %></div>
+          <% end %>
+          <% if alert %>
+            <div class="alert alert-danger"><%= alert %></div>
+          <% end %>
+          <%= yield %>
         </div>
-      <% end %>
-      <% if notice %>
-        <div class="alert alert-success"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-danger"><%= alert %></div>
-      <% end %>
-      <%= yield %>
+      </div>
     </div>
-  </div>
-</div>
-</body>
+  </body>
 </html>
