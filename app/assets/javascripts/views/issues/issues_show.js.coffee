@@ -73,20 +73,23 @@ class Timecard.Views.IssuesShow extends Backbone.View
       url: @issue.urlRoot + '/' + @issue.id + '/workloads/start'
       success: (model) ->
         workload = new Timecard.Models.Workload(model)
-        issue = new Timecard.Models.Issue(model.attributes.issue)
-        prev_issue = new Timecard.Models.Issue(model.attributes.prev_issue)
+        issue = new Timecard.Models.Issue(model.get('issue'))
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
         $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
-        if prev_issue?
-          prev_issue = new Timecard.Models.Issue(data.prev_issue)
+        if model.get('prev_issue')?
+          Workload.stop()
+          prev_issue = new Timecard.Models.Issue(model.get('prev_issue'))
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
           $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
-
+        @workers = new Timecard.Collections.Workers()
+        @workers.fetch
+          success: (collection) ->
+            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
+            @viewWorkersIndex.render().el
+        Workload.start(new Date(model.get('start_at')))
     false
 
   stopWorkload: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
     workload_id = $(e.target).data('workload-id')
     $.ajax
       url: '/workloads/' + workload_id + '/stop'
@@ -99,6 +102,13 @@ class Timecard.Views.IssuesShow extends Backbone.View
         issue = new Timecard.Models.Issue(data.issue)
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
         $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+        @workers = new Timecard.Collections.Workers()
+        @workers.fetch
+          success: (collection) ->
+            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
+            @viewWorkersIndex.render().el
+      Workload.stop()
+    false
 
   stopWorkloadAndPassword: (e) ->
     e.preventDefault()
@@ -117,4 +127,3 @@ class Timecard.Views.IssuesShow extends Backbone.View
           issue = new Timecard.Models.Issue(data.issue)
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
           $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
-

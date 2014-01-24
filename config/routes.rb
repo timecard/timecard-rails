@@ -35,6 +35,8 @@ Timecard::Application.routes.draw do
     resources :members, only: [:index, :create]
   end
 
+  resources :workers, only: :index
+
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
   root :to => "home#index"
 end
