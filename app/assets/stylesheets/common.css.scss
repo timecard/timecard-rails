@@ -12,3 +12,16 @@ a.btn-black:hover {
   color: #ffffff;
   text-decoration: none;
 }
+
+div.table-responsive {
+  border: none;
+}
+
+#workers {
+  margin: 0 0 20px 0;
+  tr td {
+    font-size: 16px;
+    border-top: none;
+    border-bottom: 1px solid #dddddd;
+  }
+}

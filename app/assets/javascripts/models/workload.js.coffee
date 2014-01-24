@@ -1,8 +1,11 @@
 class Timecard.Models.Workload extends Backbone.Model
+  urlRoot: '/workloads'
+
   defaults:
-    id: ""
+    id: null
     start_at: new Date()
-    end_at: ""
+    end_at: null
+    issue_id: null
 
   parse: (response, options) ->
     response.start_time = Util.formatTime(response.start_at)

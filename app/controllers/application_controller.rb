@@ -11,13 +11,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :timer
-
-  def timer
-    return "" unless user_signed_in?
-    current_user.workloads.running? ? current_user.running_workload.start_at.to_s(:rfc822) : ""
-  end
-
   protected
 
   def configure_permitted_parameters
