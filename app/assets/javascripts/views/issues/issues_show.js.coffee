@@ -71,15 +71,21 @@ class Timecard.Views.IssuesShow extends Backbone.View
     @workload.save { start_at: new Date() },
       url: @issue.urlRoot + '/' + @issue.id + '/workloads/start'
       success: (model) ->
-        workload = new Timecard.Models.Workload(model)
-        issue = new Timecard.Models.Issue(model.attributes.issue)
+        issue = new Timecard.Models.Issue(model.get('issue'))
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
         $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+
         if model.attributes.prev_issue?
-          prev_issue = new Timecard.Models.Issue(model.attributes.prev_issue)
+          prev_issue = new Timecard.Models.Issue(model.get('prev_issue'))
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
           $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
 
+        @workers = new Timecard.Collections.Workers()
+        @workers.fetch
+          success: (collection) ->
+            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
+            @viewWorkersIndex.render().el
+            Workload.start(new Date(model.get('start_at')))
     false
 
   stopWorkload: (e) ->
