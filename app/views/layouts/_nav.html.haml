@@ -1,0 +1,19 @@
+%nav.navbar.navbar-default{ role: "navigation" }
+  .container
+    .navbar-header
+      %button.navbar-toggle{ type: "button", data: { toggle: "collapse" }, data: { target: ".navbar-ex1-collapse" } }
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "Timecard", root_path, class: "navbar-brand", "data-no-turbolink" => 1
+    .collapse.navbar-collapse.navbar-ex1-collapse
+      %ul.nav.navbar-nav
+        %li= link_to "Projects", projects_path
+        - if user_signed_in?
+          %li= link_to "Me", dashboard_path
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li= link_to "Account settings", edit_user_registration_path
+          %li= link_to "Logout", destroy_user_session_path, method: :delete
+        - else
+          %li= link_to "Login", new_user_session_path
