@@ -10,6 +10,7 @@ describe Workload do
       today_workload = create(:workload, start_at: @time, end_at: 1.hour.since(@time))
       last_week_workload = create(:workload, start_at: 1.week.ago(@time), end_at: 1.week.ago(1.hour.since(@time)))
       expect(Workload.daily(@time.to_date)).to eq([today_workload])
+      expect(Workload.daily(1.week.ago(@time.to_date))).to eq([last_week_workload])
     end
   end
 end
