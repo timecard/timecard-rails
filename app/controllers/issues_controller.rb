@@ -44,6 +44,11 @@ class IssuesController < ApplicationController
     authorize! :create, @issue
     respond_to do |format|
       if @issue.save
+        if Authentication.exists?(["provider = 'chatwork'"])
+          rails_host = env["HTTP_HOST"]
+          body = "#{current_user.name}さんが「#{@issue.project.name}」に「#{@issue.subject}」を追加しました\nhttp://#{rails_host}/issues/#{@issue.id}"
+          Chatwork.post(body)
+        end
 
         if params[:github].present?
           issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])

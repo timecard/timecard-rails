@@ -76,10 +76,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
       contentType: 'application/json'
       success: (data, textStatus, jqXHR) ->
         issue = new Timecard.Models.Issue(data.issue)
+        prev_issue = new Timecard.Models.Issue(data.prev_issue)
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
         $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)
-        unless prev_issue?
-          prev_issue = new Timecard.Models.Issue(data.prev_issue)
+        if prev_issue?
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
           $("#issue-#{prev_issue.id}").replaceWith(@viewIssuesShow.render().el)
 
