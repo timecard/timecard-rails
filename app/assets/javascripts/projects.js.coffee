@@ -5,6 +5,8 @@ ready = ->
     Workload.stop() unless @timerId?
   $('.projects').on 'click', '.js-stop-workload-button', ->
     Workload.stop()
+  $('.projects').on 'click', '.js-stop-workload-password-button', ->
+    Workload.stop()
   false
 
 $(document).ready(ready)
