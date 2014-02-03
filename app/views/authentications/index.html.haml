@@ -1,0 +1,11 @@
+﻿%h3 Other Authentications
+%p= link_to "new", new_user_authentication_path(current_user), class: "btn btn-success"
+
+- @authentications.each do |authentication|
+  %p
+    = authentication.provider
+    \:
+    = authentication.username
+    = link_to "Delete", [current_user, authentication],  class: "btn btn-danger", data: {confirm: "are you sure?"}, method: :delete
+
+%p= link_to "back", edit_user_registration_path

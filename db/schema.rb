@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121091507) do
+ActiveRecord::Schema.define(version: 20140118110409) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",     default: 0,  null: false
@@ -32,17 +32,16 @@ ActiveRecord::Schema.define(version: 20131121091507) do
   end
 
   create_table "issues", force: true do |t|
-    t.string   "subject",                        default: "", null: false
+    t.string   "subject",       default: "", null: false
     t.text     "description"
     t.datetime "will_start_at"
-    t.integer  "status",                         default: 1,  null: false
+    t.integer  "status",        default: 1,  null: false
     t.datetime "closed_on"
-    t.integer  "project_id",                                  null: false
-    t.integer  "author_id",                                   null: false
+    t.integer  "project_id",                 null: false
+    t.integer  "author_id",                  null: false
     t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "info",          limit: 16777215
   end
 
   create_table "members", force: true do |t|
@@ -54,13 +53,14 @@ ActiveRecord::Schema.define(version: 20131121091507) do
   end
 
   create_table "projects", force: true do |t|
-    t.string   "name",        default: "",   null: false
+    t.string   "name",           default: "",   null: false
     t.text     "description"
-    t.boolean  "is_public",   default: true, null: false
+    t.boolean  "is_public",      default: true, null: false
     t.integer  "parent_id"
-    t.integer  "status",      default: 1,    null: false
+    t.integer  "status",         default: 1,    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "crowdworks_url"
   end
 
   create_table "providers", force: true do |t|
