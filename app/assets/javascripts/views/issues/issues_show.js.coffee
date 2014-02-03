@@ -81,6 +81,7 @@ class Timecard.Views.IssuesShow extends Backbone.View
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
         $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
         if prev_issue?
+          prev_issue = new Timecard.Models.Issue(data.prev_issue)
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
           $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
 
