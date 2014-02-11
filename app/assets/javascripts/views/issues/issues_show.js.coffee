@@ -79,10 +79,10 @@ class Timecard.Views.IssuesShow extends Backbone.View
         issue = new Timecard.Models.Issue(data.issue)
         prev_issue = new Timecard.Models.Issue(data.prev_issue)
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-        $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)
+        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
         if prev_issue?
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
-          $("#issue-#{prev_issue.id}").replaceWith(@viewIssuesShow.render().el)
+          $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
 
   stopWorkload: (e) ->
     e.preventDefault()
