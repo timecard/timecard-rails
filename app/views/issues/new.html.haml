@@ -3,7 +3,7 @@
 
 .row
   .col-md-6
-    = form_for([@project, @issue]) do |f|
+    = form_for [@project, @issue], data: { "project-id" => @project.id } do |f|
       - if @issue.errors.any?
         #error_explanation.panel.panel-danger
           .panel-heading
@@ -20,7 +20,8 @@
           = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
         .form-group
           = f.label :assignee_id
-          = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+          #js-assignee-select-box
+            = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
         .form-group#add-will-start-at
           = link_to "Add will start at", "#", class: "js-add-will-start-at"
         .form-group.hidden#will-start-at
@@ -32,7 +33,7 @@
           %hr
           .form-group.checkbox
             = label_tag "github" do
-              = check_box_tag 'github', 1, @issue.github, checked: true
+              = check_box_tag 'github', 1, @issue.github, checked: true, id: "js-add-github-checkbox"
               Github
               %br
               %span.text-muted If checked add this issue to github.

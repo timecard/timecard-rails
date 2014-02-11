@@ -5,7 +5,17 @@ class MembersController < ApplicationController
   before_action :require_admin
 
   def index
-    @members = @project.members
+    if params[:github].blank?
+      @members = @project.members
+    else
+      github = Github.new(oauth_token: current_user.github.oauth_token)
+      owner, repo = @project.github.full_name.split("/")
+      @collaborators = github.repos.collaborators.list(owner, repo).map { |cbr| cbr.login }
+      @members = Member.where(
+        project_id: @project.id,
+        user_id: Authentication.where(provider: "github", username: @collaborators).pluck(:user_id)
+      )
+    end
   end
 
   def create
