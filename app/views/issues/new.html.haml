@@ -1,8 +1,41 @@
-%b.back-to-project
-  = link_to @project.name, @project
-  \/
-  New Issue
+.back-to-project
+  = link_to "Back to project", @project
+
 .row
   .col-md-6
     = form_for([@project, @issue]) do |f|
-      = render partial: "form", locals: { f: f, project: @project }
+      - if @issue.errors.any?
+        #error_explanation.panel.panel-danger
+          .panel-heading
+            %h3.panel-title= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
+          .panel-body
+            %ul
+              - @issue.errors.full_messages.each do |msg|
+                %li= msg
+      = f.hidden_field :author_id, value: current_user.id
+      .input-area
+        .form-group
+          = f.text_field :subject, class: "form-control", placeholder: "Subject"
+        .form-group
+          = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+        .form-group
+          = f.label :assignee_id
+          = f.select :assignee_id, Member.where(project_id: @project.id).collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+        .form-group#add-will-start-at
+          = link_to "Add will start at", "#", class: "js-add-will-start-at"
+        .form-group.hidden#will-start-at
+          = f.label :will_start_at
+          .form-datetime-select
+            = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
+            %button.close.js-close-will-start-at{ type: "button", aria: { hidden: "true" } } &times;
+        - if @issue.project.github && current_user.github && !@issue.github
+          %hr
+          .form-group.checkbox
+            = label_tag "github" do
+              = check_box_tag 'github', 1, @issue.github, checked: true
+              Github
+              %br
+              %span.text-muted If checked add this issue to github.
+          %hr
+      .actions.pull-right
+        = f.submit "Create a new issue", class: "btn btn-success"
