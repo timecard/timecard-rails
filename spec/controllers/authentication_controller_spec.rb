@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe AuthenticationController do
+describe AuthenticationsController do
 
 end
