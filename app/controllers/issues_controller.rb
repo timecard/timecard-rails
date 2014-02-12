@@ -26,13 +26,7 @@ class IssuesController < ApplicationController
   def new
     @issue = @project.issues.build
     if @issue.project.github
-      github = Github.new(oauth_token: current_user.github.oauth_token)
-      owner, repo = @issue.project.github.full_name.split("/")
-      @collaborators = github.repos.collaborators.list(owner, repo).map { |cbr| cbr.login }
-      @members = Member.where(
-        project_id: @issue.project.id,
-        user_id: Authentication.where(provider: "github", username: @collaborators).pluck(:user_id)
-      )
+      @members = @project.github_members(current_user.github.oauth_token)
     else
       @members = @project.members
     end
@@ -41,13 +35,7 @@ class IssuesController < ApplicationController
 
   def edit
     if @issue.github
-      github = Github.new(oauth_token: current_user.github.oauth_token)
-      owner, repo = @issue.project.github.full_name.split("/")
-      @collaborators = github.repos.collaborators.list(owner, repo).map { |cbr| cbr.login }
-      @members = Member.where(
-        project_id: @issue.project.id,
-        user_id: Authentication.where(provider: "github", username: @collaborators).pluck(:user_id)
-      )
+      @members = @project.github_members(current_user.github.oauth_token)
     else
       @members = @issue.project.members
     end
