@@ -48,6 +48,8 @@ class IssuesController < ApplicationController
         project_id: @issue.project.id,
         user_id: Authentication.where(provider: "github", username: @collaborators).pluck(:user_id)
       )
+    else
+      @members = @issue.project.members
     end
   end
 

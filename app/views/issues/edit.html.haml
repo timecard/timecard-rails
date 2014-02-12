@@ -1,8 +1,47 @@
-%b.back-to-issue
-  = link_to @issue.subject, @issue
-  \/
-  Edit Issue
+.back-to-issue
+  = link_to "Back to issue", @issue
+%hr
 .row
   .col-md-6
-    = form_for(@issue) do |f|
-      = render partial: "form", locals: { f: f, project: @issue.project }
+    = form_for @issue, data: { "project-id" => @issue.project.id } do |f|
+      - if @issue.errors.any?
+        #error_explanationpnnel
+          #h2= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
+
+          %ul
+          - @issue.errors.full_messages.each do |msg|
+            %li= msg
+      = f.hidden_field :author_id, value: @issue.author.id
+      .input-area
+        .form-group
+          = f.text_field :subject, class: "form-control", placeholder: "Subject"
+        .form-group
+          = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+        .form-group
+          = f.label :assignee_id
+          #js-assignee-select-box
+            = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+        - if @issue.will_start_at.blank?
+          .form-group#add-will-start-at
+            = link_to "Add will start at", "#", class: "js-add-will-start-at"
+          .form-group.hidden#will-start-at
+            = f.label :will_start_at
+            %br
+            = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
+            %button.close.js-close-will-start-at{ type: "button", aria: { hidden: "true" } } &times;
+        - else
+          .form-group#will-start-at
+            = f.label :will_start_at
+            %br
+            = f.datetime_select :will_start_at, {}, class: "form-control"
+        - if current_user.github && @issue.project.github && @issue.github.blank?
+          %hr
+          .form-group.checkbox
+            = label_tag "github" do
+              = check_box_tag 'github', 1, @issue.github, checked: !@issue.github.blank?, id: "js-add-github-checkbox"
+            Github
+            %br
+            %span.text-muted If checked add this issue to github.
+        %hr
+      .actions.pull-right
+        = f.submit "Update", class: "btn btn-success"

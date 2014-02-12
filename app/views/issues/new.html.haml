@@ -1,6 +1,6 @@
 .back-to-project
   = link_to "Back to project", @project
-
+%hr
 .row
   .col-md-6
     = form_for [@project, @issue], data: { "project-id" => @project.id } do |f|
@@ -29,7 +29,7 @@
           .form-datetime-select
             = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
             %button.close.js-close-will-start-at{ type: "button", aria: { hidden: "true" } } &times;
-        - if @issue.project.github && current_user.github && !@issue.github
+        - if current_user.github && @issue.project.github
           %hr
           .form-group.checkbox
             = label_tag "github" do
