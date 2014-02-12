@@ -66,11 +66,11 @@ Timecard::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "",
+    address: "smtp.gmail.com",
     port: 587,
     domain: "timecard-rails.herokuapp.com",
-    user_name: "",
-    password: "",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_PASSWORD"],
     authentication: :plain,
     enable_starttls_auto: true
   }
@@ -87,4 +87,10 @@ Timecard::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: "[timecard-rails] ",
+      sender_address: %{"notifier" <notifier@timecard-rails.herokuapp.com>},
+      exception_recipients: %w{nishiko@mindia.jp miyake.kota@gmail.com}
+    }
 end

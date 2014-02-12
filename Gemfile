@@ -20,6 +20,7 @@ gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 #gem 'ruffnote_api', :github => 'pandeiro245/ruffnote_api'
 #gem 'ruffnote_api', :path => '/Users/[yourpath]/git/ruffnote_api'
 gem 'mechanize'
+gem "exception_notification"
 
 group :development do
   gem 'guard-livereload', '2.0.0'
