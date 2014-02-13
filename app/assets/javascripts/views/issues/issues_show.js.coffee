@@ -99,7 +99,7 @@ class Timecard.Views.IssuesShow extends Backbone.View
       success: (data, textStatus, jqXHR) ->
         issue = new Timecard.Models.Issue(data.issue)
         @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-        $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)
+        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
 
   stopWorkloadAndPassword: (e) ->
     e.preventDefault()
@@ -117,5 +117,5 @@ class Timecard.Views.IssuesShow extends Backbone.View
         success: (data, textStatus, jqXHR) ->
           issue = new Timecard.Models.Issue(data.issue)
           @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-          $("#issue-#{issue.id}").replaceWith(@viewIssuesShow.render().el)
+          $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
 
