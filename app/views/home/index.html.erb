@@ -12,3 +12,25 @@
 </div>
 <div id="issues" class="media-list">
 </div>
+<%= javascript_tag do %>
+  $(function() {
+    var user_id = <%= current_user.id %>;
+    var project_id = <%= @projects.first.id %>;
+    $('#projects li').removeClass('active');
+    $('#project-'+project_id).addClass('active');
+    var issues = new Timecard.Collections.Issues();
+    issues.fetch({
+      data: {
+        user_id: user_id,
+        project_id: project_id,
+        status: 'open'
+      },
+      success: function(collection) {
+        var viewIssuesState = new Timecard.Views.IssuesState({user_id: user_id, project_id: project_id});
+        viewIssuesState.render();
+        var viewIssuesIndex = new Timecard.Views.IssuesIndex({issues: collection});
+        viewIssuesIndex.render();
+      }
+    });
+  });
+<% end %>

@@ -1,15 +1,10 @@
 class Timecard.Routers.Home extends Backbone.Router
   routes:
-    "": "index"
     "users/:user_id/projects/:project_id/issues/:state": "showUserProjectIssues"
 
   initialize: ->
     @projects = new Timecard.Collections.Projects()
     @issues = new Timecard.Collections.Issues()
-
-  index: ->
-    first_page = $('ul#projects li:first a')[0].hash
-    @.navigate(first_page)
 
   showUserProjectIssues: (user_id, project_id, state) ->
     $('.nav-pills li').removeClass('active')
