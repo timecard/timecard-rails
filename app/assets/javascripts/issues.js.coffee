@@ -35,6 +35,19 @@ ready = ->
   $('.issues').on 'click', '.js-cancel-edit-comment-button', Issue.hideEditComment
   $('.issues').on 'click', '.js-add-will-start-at', Issue.showWillStartAt
   $('.issues').on 'click', '.js-close-will-start-at', Issue.hideWillStartAt
+  $('.issues').on 'change', '#js-add-github-checkbox', ->
+    $('#js-assignee-select-box').html('<img src="/assets/loading_mini.gif" alt="loading..." />')
+    project_id = $('#new_issue, .edit_issue').data('project-id')
+    checked = if $(@).prop('checked') then '1' else ''
+    @members = new Timecard.Collections.Members()
+    @members.fetch
+      url: "/projects/#{project_id}"+@members.url
+      data:
+        github: checked
+      success: (collection) ->
+        @viewAssigneeSelectBox =
+          new Timecard.Views.IssuesAssigneeSelectBox(collection: collection)
+        @viewAssigneeSelectBox.render()
   false
 
 $(document).ready(ready)

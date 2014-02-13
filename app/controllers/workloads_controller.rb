@@ -65,7 +65,7 @@ class WorkloadsController < ApplicationController
 
   def stop
     if @workload.update_attribute(:end_at, Time.now.utc)
-      logging_crowdworks unless get_project(@workload.issue_id).crowdworks_url.empty? or current_user.authentications.where(provider: "crowdworks").blank?
+      logging_crowdworks unless get_project(@workload.issue_id).crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
       respond_to do |format|
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully stopped.' }
         format.js

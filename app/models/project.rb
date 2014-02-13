@@ -132,4 +132,18 @@ class Project < ActiveRecord::Base
     return true if self.members.exists?(["user_id = ?", user.id])
     false
   end
+
+  def github_members(token)
+    github = Github.new(oauth_token: token)
+    owner, repo = self.github.full_name.split("/")
+    cbrs = github.repos.collaborators.list(owner, repo)
+
+    members.where(
+      user_id: Authentication.where(
+        provider: "github", uid: cbrs.map {|c| c.id }
+      ).pluck(:user_id)
+    )
+  rescue => e
+    logger.debug e.message
+  end
 end

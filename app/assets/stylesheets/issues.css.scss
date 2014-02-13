@@ -37,17 +37,35 @@
       padding: 10px;
     }
   }
-  b.back-to-project, b.back-to-issue {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  #new_issue, .edit_issue {
-    .input-area {
-      border: 1px solid #eeeeee;
-      box-shadow: 0 0 5px #cccccc;
-      margin-bottom: 20px;
-      padding: 20px;
+  form {
+    #issue_will_start_at_1i {
+      display: inline-block;
+      width: 20%;
+    }
+    #issue_will_start_at_2i {
+      display: inline-block;
+      width: 20%;
+    }
+    #issue_will_start_at_3i {
+      display: inline-block;
+      width: 15%;
+    }
+    #issue_will_start_at_4i {
+      display: inline-block;
+      width: 15%;
+    }
+    #issue_will_start_at_5i {
+      display: inline-block;
+      width: 15%;
+    }
+    .close {
+      line-height: 34px;
+    }
+    .panel-body {
+      ul {
+        margin: 0;
+        padding: 0 0 0 18px;
+      }
     }
   }
 }

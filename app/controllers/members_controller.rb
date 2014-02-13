@@ -5,7 +5,11 @@ class MembersController < ApplicationController
   before_action :require_admin
 
   def index
-    @members = @project.members
+    if params[:github].blank?
+      @members = @project.members
+    else
+      @members = @project.github_members(current_user.github.oauth_token)
+    end
   end
 
   def create
