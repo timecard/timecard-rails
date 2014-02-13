@@ -3,6 +3,17 @@
     margin-bottom: 15px;
   }
 
+  #issues {
+    .media {
+      border-bottom: 1px solid #dddddd;
+      margin: 20px 0 0 0;
+      padding: 0 0 20px 0;
+    }
+    .actions {
+      line-height: 40px;
+    }
+  }
+
   .welcome {
     text-align: center;
     .jumbotron {
