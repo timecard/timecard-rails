@@ -21,10 +21,12 @@
   </div>
   <% if @project.persisted? %>
   <hr>
-  <div class="form-group">
-    <%= f.label :github_full_name %> (optional)<br>
-    <%= f.text_field :github_full_name, class: "form-control", placeholder: "rails/rails" %>
-  </div>
+  <% if @project.admin.github %>
+    <div class="form-group">
+      <%= f.label :github_full_name %> (optional)<br>
+      <%= f.text_field :github_full_name, class: "form-control", placeholder: "rails/rails" %>
+    </div>
+  <% end %>
   <div class="form-group">
     <%= f.label :ruffnote_full_name %> (optional)<br>
     <%= f.text_field :ruffnote_full_name, class: "form-control" %>
