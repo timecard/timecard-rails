@@ -26,7 +26,7 @@
         - else
           = link_to "Do today", do_today_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
         - if current_user.work_in_progress?(issue)
-          - if issue.project.crowdworks_url.empty? or current_user.authentications.where(provider: "crowdworks").blank?
+          - if issue.project.crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
             = link_to "Stop", stop_workload_path(current_user.running_workload.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
           - else
             = link_to "Stop", stop_workload_path(current_user.running_workload.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-password-button"
