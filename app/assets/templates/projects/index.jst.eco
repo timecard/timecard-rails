@@ -1,0 +1,12 @@
+<div class="action-group">
+  <a href="/projects/new" class="btn btn-default">New Project</a>
+  <a href="/data" class="btn btn-default">Import</a>
+</div>
+<hr>
+<div class="btn-group btn-group-sm action-group">
+  <a href="#" class="btn btn-default status open" data-status="open">Active</a>
+  <a href="#" class="btn btn-default status closed" data-status="closed">Closed</a>
+  <a href="#" class="btn btn-default status archive" data-status="archive">Archive</a>
+</div>
+<div id="projects-list" class="row">
+</div>

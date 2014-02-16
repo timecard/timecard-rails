@@ -8,7 +8,7 @@
       = link_to "Timecard", root_path, class: "navbar-brand", "data-no-turbolink" => 1
     .collapse.navbar-collapse.navbar-ex1-collapse
       %ul.nav.navbar-nav
-        %li= link_to "Projects", projects_path
+        %li= link_to "Projects", "#projects"
         - if user_signed_in?
           %li= link_to "Me", dashboard_path
       %ul.nav.navbar-nav.navbar-right
