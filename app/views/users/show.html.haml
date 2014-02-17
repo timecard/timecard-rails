@@ -1,7 +1,7 @@
 .row
   .col-md-3
     .avatar
-      = image_tag "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email)}?s=220", size: "220x220"
+      = image_tag gravatar_url(@user.email, 220)
     %h1= @user.name
     %hr
     %ul.info
