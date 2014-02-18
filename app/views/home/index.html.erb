@@ -1,38 +1,17 @@
 <div id="page">
-  <ul class="nav nav-pills">
+  <ul class="nav nav-pills project-nav">
     <% @projects.each do |project| %>
       <li id="project-<%= project.id %>">
-        <%= link_to "/#/users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
+        <%= link_to "#users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
           <%= project.name %>
           <span class="badge"><%= project.issues_count %></span>
         <% end %>
       </li>
     <% end %>
   </ul>
-  <div id="issue-state" class="btn-group btn-group-sm" style="margin-bottom:10px">
+  <hr>
+  <div class="btn-group btn-group-sm states">
   </div>
   <div id="issues" class="media-list">
   </div>
 </div>
-<%= javascript_tag do %>
-  $(function() {
-    var user_id = <%= current_user.id %>;
-    var project_id = <%= @projects.first.id %>;
-    $('#projects li').removeClass('active');
-    $('#project-'+project_id).addClass('active');
-    var issues = new Timecard.Collections.Issues();
-    issues.fetch({
-      data: {
-        user_id: user_id,
-        project_id: project_id,
-        status: 'open'
-      },
-      success: function(collection) {
-        var viewIssuesState = new Timecard.Views.IssuesState({user_id: user_id, project_id: project_id});
-        viewIssuesState.render();
-        var viewIssuesIndex = new Timecard.Views.IssuesIndex({issues: collection});
-        viewIssuesIndex.render();
-      }
-    });
-  });
-<% end %>
