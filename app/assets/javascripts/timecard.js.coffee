@@ -11,6 +11,7 @@ window.Timecard =
   Routers: {}
   initialize: ->
     routerHome = new Timecard.Routers.Home()
+    routerProjects = new Timecard.Routers.Projects()
     Backbone.history.start()
 
 $(document).ready(ready)

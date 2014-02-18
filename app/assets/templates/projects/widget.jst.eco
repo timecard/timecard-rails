@@ -1,0 +1,21 @@
+<div class="col-md-4">
+  <div class="project" data-id="<%= @project.get('id') %>">
+    <div class="project-name">
+      <a href="/projects/<%= @project.get('id') %>"><%= @project.get('name') %></a>
+    </div>
+    <div class="project-description text-muted">
+      <%= @project.get('description') %>
+    </div>
+    <ul class="issues-count">
+      <li>Open <%= @project.get('open_issues_count') %></li>
+      <li>Closed <%= @project.get('closed_issues_count') %></li>
+    </ul>
+    <div id="members">
+      <% for member in @project.get('members').models: %>
+        <a href="/users/<%= member.get('id') %>">
+          <image src="<%= member.get('avatar_url') %>" alt="<%= member.get('name') %>" class="img-circle" />
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

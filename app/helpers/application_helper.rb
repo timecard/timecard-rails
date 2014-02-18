@@ -53,4 +53,8 @@ module ApplicationHelper
     # Ref http://qa.atmarkit.co.jp/q/76
     text ? (raw markdown.render(text).encode("UTF-16BE", "UTF-8", invalid: :replace, undef: :replace, replace: '?').encode("UTF-8")) : ""
   end
+
+  def gravatar_url(email, size=50)
+    "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{size}"
+  end
 end
