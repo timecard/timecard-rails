@@ -16,16 +16,6 @@ module ApplicationHelper
     "#{sprintf('%02d', hour)} hour #{sprintf('%02d', min)} min #{sprintf('%02d', sec)} sec"
   end
 
-  def hbr(text)
-    text = h(text)
-    text = text.gsub(/https?:\/\/.*$/){|text|
-      text = text.gsub("\r", "")
-      tr = truncate(text, length:50)
-      link_to tr, text, {target: "_blank"}
-    }
-    markdown(text)
-  end
-
   def link_to_provider(issue)
     if issue.github
       link_to "##{issue.github.number}", issue.github.html_url, target: "_blank"
