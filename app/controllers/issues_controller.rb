@@ -35,7 +35,7 @@ class IssuesController < ApplicationController
 
   def edit
     if @issue.github
-      @members = @project.github_members(current_user.github.oauth_token)
+      @members = @issue.project.github_members(current_user.github.oauth_token)
     else
       @members = @issue.project.members
     end
