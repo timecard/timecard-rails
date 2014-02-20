@@ -32,7 +32,7 @@
           will start at <%= @issue.will_start_at || "today" %>
       </div>
         <div class="description">
-          <%= @issue.description.present? ? hbr(@issue.description) : "No description given." %>
+          <%= @issue.description.present? ? markdown(@issue.description) : "No description given." %>
         </div>
       </div>
       <%= render 'actions' %>
@@ -43,7 +43,7 @@
   <h2>
     <%= link_to @issue.project.name, @issue.project %>
   </h2>
-  <%= hbr(@issue.project.description) %>
+  <%= markdown(@issue.project.description) %>
 </div>
 </div>
 

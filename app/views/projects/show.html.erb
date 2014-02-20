@@ -6,7 +6,7 @@
     </h2>
   </div>
   <div class="project-description">
-    <p><%= hbr(@project.description) %></p>
+    <p><%= markdown(@project.description) %></p>
   </div>
   <div class="project-labels">
     <% if @project.is_public %>
