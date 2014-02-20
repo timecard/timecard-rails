@@ -115,6 +115,14 @@ class Project < ActiveRecord::Base
     pr.save
   end
 
+  def active?
+    self.status == Project::STATUS_ACTIVE
+  end
+
+  def closed?
+    self.status == Project::STATUS_CLOSED
+  end
+
   def archived?
     status == Project::STATUS_ARCHIVED
   end
