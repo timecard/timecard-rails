@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
     status = params[:status] || "open"
     if @project.present?
       if params[:user_id].present?
-        @issues = @project.issues.with_status(status).where("assignee_id = ?", current_user.id)
+        @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id])
       else
         @issues = @project.issues.with_status(status)
       end

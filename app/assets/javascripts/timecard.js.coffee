@@ -1,9 +1,3 @@
-ready = ->
-  start_time = $("body").data('timer')
-  start_time = new Date(Date.parse(start_time))
-  if not isNaN(start_time)
-    Workload.start(start_time)
-
 window.Timecard =
   Models: {}
   Collections: {}
@@ -13,6 +7,8 @@ window.Timecard =
     routerHome = new Timecard.Routers.Home()
     routerProjects = new Timecard.Routers.Projects()
     Backbone.history.start()
+
+ready = ->
 
 $(document).ready(ready)
 $(document).on('page:change', ready)

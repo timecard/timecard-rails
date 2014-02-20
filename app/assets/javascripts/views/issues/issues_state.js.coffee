@@ -2,7 +2,7 @@ class Timecard.Views.IssuesState extends Backbone.View
 
   template: JST['issues/state']
 
-  el: "#issue-state"
+  el: ".states"
 
   initialize: (options) ->
     @project_id = options.project_id
