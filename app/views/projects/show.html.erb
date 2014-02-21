@@ -20,7 +20,7 @@
   </div>
   <% if can? :update, @project %>
     <div class="project-actions">
-      <% if @project.status == Project::STATUS_ACTIVE %>
+      <% if @project.active? %>
         <%= link_to "Add a member", project_members_path(@project), class: "btn btn-default" %>
         <%= link_to "Edit", edit_project_path(@project), class: "btn btn-default" %>
         <%= link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch %>
@@ -35,7 +35,7 @@
 
 <h3>
   Issue
-  <% if @project.status == Project::STATUS_ACTIVE %>
+  <% if @project.active? %>
     <% if can? :create, @project.issues.build %>
       <%= link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default" %>
     <% end %>

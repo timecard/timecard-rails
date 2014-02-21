@@ -1,4 +1,4 @@
-- if can?(:update, @issue) && @issue.project.status == Project::STATUS_ACTIVE
+- if can?(:update, @issue) && @issue.project.active?
   .actions
     - if current_user.work_in_progress?(@issue)
       - if @project.crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
