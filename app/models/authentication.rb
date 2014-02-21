@@ -3,6 +3,19 @@ class Authentication < ActiveRecord::Base
   
   validates :username, :presence => true
 
+  def self.selectable_providers(user)
+    res = {}
+    providers = ["crowdworks"]
+    active_providers = user.authentications.map{|a|a.provider}
+    providers.each do |povider|
+      unless active_providers.include?(provider)
+        res[provider] = provider 
+      end
+    end
+    return res
+  end
+
+
   def self.add_chatwork token
     a = Authentication.find_or_create_by(
       user_id: 1,
