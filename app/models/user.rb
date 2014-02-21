@@ -69,4 +69,7 @@ class User < ActiveRecord::Base
   def running_workload
     workloads.find_by("start_at IS NOT NULL AND end_at IS NULL")
   end
+  def selectable_providers
+    Authentication.selectable_providers(self)
+  end
 end
