@@ -1,1 +1,26 @@
-Hello
+<a href="#projects">Back to all projects</a>
+<h2>
+  <%= @project.get('name') %>
+</h2>
+<%- @project.get('description') %>
+<div>
+  <% if @project.get('is_public') is true: %>
+    <span class="label label-info">Public</span>
+  <% else: %>
+    <span class="label label-default">Private</span>
+  <% end %>
+  <% if @project.get('repo')?: %>
+    <span class="label label-default"><%= @project.get('repo') %></span>
+  <% end %>
+</div>
+
+<h2>
+  Issues
+  <% if @project.get('status') is 1 and @project.get('is_member') is true: %>
+    <a href="/projects/<%= @project.get('id') %>/issues/new" class="btn btn-xs btn-default">Add a issue</a>
+  <% end %>
+</h2>
+<div id="status" class="btn-group btn-group-sm">
+</div>
+<div id="issues" class="media-list">
+</div>
