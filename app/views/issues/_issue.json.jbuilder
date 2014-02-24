@@ -1,4 +1,5 @@
 json.extract! issue, :id, :subject, :description, :will_start_at, :status, :closed_on, :project_id, :author_id, :assignee_id, :created_at, :updated_at
+json.truncate_subject issue.subject.truncate(30)
 json.author_name issue.author.name
 json.humalized_created_at "#{time_ago_in_words(issue.created_at)} ago"
 json.provider_number provider_number(issue)

@@ -1,9 +1,8 @@
 class Workload
-  @timerId: null,
+  @timerId: null
   @start: (start_time) ->
-    @render(start_time)
     @timerId = setInterval ->
-      Workload.render(start_time)
+      Workload.replace(Workload.render(start_time))
     , 1000
   @stop: ->
     clearInterval(@timerId)
@@ -18,9 +17,12 @@ class Workload
     hour = "0" + hour if hour < 10
     min = "0" + min if min < 10
     sec = "0" + sec if sec < 10
-    $('.timer-true').text("#{hour} hour #{min} min #{sec} sec")
-    $('title').text("#{hour}:#{min}:#{sec}")
+    "#{hour}:#{min}:#{sec}"
 
+  @replace: (time_str) ->
+    user_id = $('#workers').data('user-id')
+    $("#worker-#{user_id} span.timer").html(time_str)
+    $('title').text(time_str)
 
 ready = ->
   $('.dashboards').on 'click', '.js-workloads-on-day-link', (e) ->

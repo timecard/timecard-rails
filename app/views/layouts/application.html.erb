@@ -7,14 +7,15 @@
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="<%= controller.controller_name %>" data-timer="<%= timer %>">
+  <body class="<%= controller.controller_name %>">
     <%= render 'layouts/nav' %>
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <% if user_signed_in? %>
-            <div id="running-users">
-              <%= render partial: "shared/running_users" %>
+            <div class="table-responsive">
+              <table id="workers" class="table hidden" data-user-id="<%= current_user.id %>">
+              </table>
             </div>
           <% end %>
           <% if notice %>

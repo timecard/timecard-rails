@@ -1,0 +1,30 @@
+<td>
+  <a href="/users/<%= @worker.get('id') %>">
+    <%= @worker.get('name') %>
+  </a>
+</td>
+<td>
+  <a href="/projects/<%= @project.get('id') %>">
+    <%= @project.get('name') %>
+  </a>
+</td>
+<td>
+  <% if @issue.get('provider_number')?: %>
+    <a href="<%= @issue.get('provider_url') %>">
+      <%= @issue.get('provider_number') %>
+    </a>
+  <% end %>
+  <a href="/issues/<%= @issue.get('id') %>">
+    <%= @issue.get('truncate_subject') %>
+  </a>
+</td>
+<td>
+  <span class="timer">
+    <%= Workload.render(new Date(@workload.get('start_at'))) %>
+  </span>
+</td>
+<td>
+  <% if $('#workers').data('user-id') is @worker.get('id'): %>
+  <a href="#" class="btn btn-xs btn-warning js-stop-workload-button">Stop</a>
+  <% end %>
+</td>
