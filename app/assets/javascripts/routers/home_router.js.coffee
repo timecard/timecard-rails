@@ -5,17 +5,18 @@ class Timecard.Routers.Home extends Backbone.Router
 
   initialize: ->
     @issues = new Timecard.Collections.Issues()
-    @workers = new Timecard.Collections.Workers()
-    @workers.fetch
-      success: (collection) ->
-        if collection.length > 0
-          @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
-          @viewWorkersIndex.render().el
-          user_id = $('#workers').data('user-id')
-          current_user = collection.get(user_id)
-          if current_user?
-            workload = new Timecard.Models.Workload(current_user.get('workload'))
-            Workload.start(new Date(workload.get('start_at')))
+    if $('.login').hasClass('true')
+      @workers = new Timecard.Collections.Workers()
+      @workers.fetch
+        success: (collection) ->
+          if collection.length > 0
+            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
+            @viewWorkersIndex.render().el
+            user_id = $('#workers').data('user-id')
+            current_user = collection.get(user_id)
+            if current_user?
+              workload = new Timecard.Models.Workload(current_user.get('workload'))
+              Workload.start(new Date(workload.get('start_at')))
 
   index: ->
     default_page = $('.project-nav li a').first().attr('href')
