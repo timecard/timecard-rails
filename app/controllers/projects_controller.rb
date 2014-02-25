@@ -11,10 +11,7 @@ class ProjectsController < ApplicationController
       @projects = Project.public.status(status)
     end
 
-    respond_to do |format|
-      format.html
-      format.json { render action: "index", status: :ok }
-    end
+    render action: "index", status: :ok
   end
 
   def show
