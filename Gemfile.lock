@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/bokmann/font-awesome-rails.git
+  revision: eaab616119e20bbeb23da350e78135064bf96713
+  specs:
+    font-awesome-rails (4.0.3.1)
+      railties (>= 3.2, < 5.0)
+
+GIT
   remote: git://github.com/pandeiro245/omniauth-ruffnote.git
   revision: 3fb08089f7a126824e6d8e34757fb5be20695f98
   specs:
@@ -285,6 +292,7 @@ DEPENDENCIES
   devise (= 3.2.0)
   exception_notification
   factory_girl_rails (= 4.3.0)
+  font-awesome-rails!
   github_api (= 0.10.2)
   guard-livereload (= 2.0.0)
   guard-rspec (= 4.0.3)
