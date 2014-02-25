@@ -1,20 +1,21 @@
-.welcome
-  .jumbotron
-    %h1 Timecard
-    %p.lead
-      Time tracking for your project.
-    .row
-      .col-md-3.col-md-offset-2
-        = link_to "Sign in with Github", user_omniauth_authorize_path(provider: "github"), class: "btn btn-black btn-block"
-      .col-md-3
-        = link_to "Sign in with Ruffnote", user_omniauth_authorize_path(provider: "ruffnote"), class: "btn btn-primary btn-block"
-      .col-md-3
-        = link_to "Sign up", new_user_registration_path, class: "btn btn-default btn-block"
+#page
+  .welcome
+    .jumbotron
+      %h1 Timecard
+      %p.lead
+        Time tracking for your project.
+      .row
+        .col-md-3.col-md-offset-2
+          = link_to "Sign in with Github", user_omniauth_authorize_path(provider: "github"), class: "btn btn-black btn-block"
+        .col-md-3
+          = link_to "Sign in with Ruffnote", user_omniauth_authorize_path(provider: "ruffnote"), class: "btn btn-primary btn-block"
+        .col-md-3
+          = link_to "Sign up", new_user_registration_path, class: "btn btn-default btn-block"
 
-  %section
-    %h2
-      It is possible to time tracking in connection with the Github Issue.
+    %section
+      %h2
+        It is possible to time tracking in connection with the Github Issue.
 
-  %section
-    %h2
-      Project owner can see at a glance the working hours of project members.
+    %section
+      %h2
+        Project owner can see at a glance the working hours of project members.

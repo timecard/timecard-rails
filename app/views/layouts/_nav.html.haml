@@ -7,7 +7,7 @@
         %span.icon-bar
       = link_to "Timecard", root_path, class: "navbar-brand", "data-no-turbolink" => 1
     .collapse.navbar-collapse.navbar-ex1-collapse
-      %ul.nav.navbar-nav
+      %ul.nav.navbar-nav.login{class: user_signed_in? ? "true" : "false"}
         %li= link_to "Projects", "#projects"
         - if user_signed_in?
           %li= link_to "Me", dashboard_path
