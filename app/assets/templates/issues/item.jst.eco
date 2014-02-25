@@ -21,7 +21,7 @@
       <% end %>
       <% if @issue.get('is_running') is true: %>
         <% if @issue.get('is_crowdworks') is true: %>
-          <a href="#" class="btn btn-warning js-stop-workload-password-button" data-workload-id="<%= @issue.get('running_workload_id') %>">Stop</a>
+          <a href="#" class="btn btn-warning js-btn-workload-password-button" data-workload-id="<%= @issue.get('running_workload_id') %>">Stop</a>
         <% else: %>
           <a href="#" class="btn btn-warning js-btn-stop-workload" data-workload-id="<%= @issue.get('running_workload_id') %>">Stop</a>
         <% end %>
