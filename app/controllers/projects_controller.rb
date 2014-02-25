@@ -62,7 +62,7 @@ class ProjectsController < ApplicationController
 
   def archive
     respond_to do |format|
-      if @project.update(status: Project::STATUS_ARCHIVED)
+      if @project.archived!
         format.html { redirect_to projects_path, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
 
   def active
     respond_to do |format|
-      if @project.update(status: Project::STATUS_ACTIVE)
+      if @project.active!
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -86,7 +86,7 @@ class ProjectsController < ApplicationController
 
   def close
     respond_to do |format|
-      if @project.update(status: Project::STATUS_CLOSED)
+      if @project.closed!
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
