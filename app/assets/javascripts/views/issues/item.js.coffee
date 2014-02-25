@@ -1,86 +1,79 @@
-class Timecard.Views.IssuesShow extends Backbone.View
+class Timecard.Views.IssuesItem extends Backbone.View
 
-  template: JST['issues/show']
+  template: JST['issues/item']
 
   events:
-    'click .js-close-issue-button': 'closeIssue'
-    'click .js-reopen-issue-button': 'reopenIssue'
-    'click .js-postpone-issue-button': 'postponeIssue'
-    'click .js-do-today-issue-button': 'doTodayIssue'
-    'click .js-start-workload-button': 'startWorkload'
-    'click .js-stop-workload-button': 'stopWorkload'
-    'click .js-stop-workload-password-button': 'stopWorkloadAndPassword'
+    'click .js-btn-close-issue': 'closeIssue'
+    'click .js-btn-reopen-issue': 'reopenIssue'
+    'click .js-btn-postpone-issue': 'postponeIssue'
+    'click .js-btn-do-today-issue': 'doTodayIssue'
+    'click .js-btn-start-workload': 'startWorkload'
+    'click .js-btn-stop-workload': 'stopWorkload'
+    'click .js-btn-stop-workload-password': 'stopWorkloadAndPassword'
 
   className: 'media'
 
-  initialize: (@options) ->
-    @issue = @options.issue
+  initialize: ->
 
   render: ->
-    @$el.html(@template(issue: @issue))
+    @$el.html(@template(issue: @model))
     @
 
   closeIssue: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
     if (window.confirm("Are you sure you wish to close?"))
-      @issue.save {},
-        url: @issue.urlRoot+'/'+@issue.id+'/close'
+      @model.save {},
+        url: @model.urlRoot+'/'+@model.id+'/close'
         patch: true
         success: (model) =>
-          $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+          $("#issue-#{@model.id}").closest('.media').hide(500, ->
             @.remove()
           )
-    else
-      false
+    false
 
   reopenIssue: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    @issue.save {},
-      url: @issue.urlRoot+'/'+@issue.id+'/reopen'
+    @model.save {},
+      url: @model.urlRoot+'/'+@model.id+'/reopen'
       patch: true
       success: (model) =>
-        $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+        $("#issue-#{@model.id}").closest('.media').hide(500, ->
           @.remove()
         )
+    false
 
   postponeIssue: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    @issue.save {},
-      url: @issue.urlRoot+'/'+@issue.id+'/postpone'
+    @model.save {},
+      url: @model.urlRoot+'/'+@model.id+'/postpone'
       patch: true
       success: (model) =>
-        $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+        $("#issue-#{@model.id}").closest('.media').hide(500, ->
           @.remove()
         )
+    false
 
   doTodayIssue: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    @issue.save {},
-      url: @issue.urlRoot+'/'+@issue.id+'/do_today'
+    @model.save {},
+      url: @model.urlRoot+'/'+@model.id+'/do_today'
       patch: true
       success: (model) =>
-       $("#issue-#{@issue.id}").closest('.media').hide(500, ->
+       $("#issue-#{@model.id}").closest('.media').hide(500, ->
           @.remove()
         )
+    false
 
   startWorkload: (e) ->
-    @workload = new Timecard.Models.Workload
+    @workload = new Timecard.Models.Workload()
     @workload.save { start_at: new Date() },
-      url: @issue.urlRoot + '/' + @issue.id + '/workloads/start'
+      url: @model.urlRoot + '/' + @model.id + '/workloads/start'
       success: (model) ->
         workload = new Timecard.Models.Workload(model)
         issue = new Timecard.Models.Issue(model.get('issue'))
-        @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+        @viewIssuesItem = new Timecard.Views.IssuesItem(model: issue)
+        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
         if model.get('prev_issue')?
           Workload.stop()
           prev_issue = new Timecard.Models.Issue(model.get('prev_issue'))
-          @viewIssuesShow = new Timecard.Views.IssuesShow(issue: prev_issue)
-          $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+          @viewIssuesItem = new Timecard.Views.IssuesItem(model: prev_issue)
+          $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
         @workers = new Timecard.Collections.Workers()
         @workers.fetch
           success: (collection) ->
@@ -100,19 +93,17 @@ class Timecard.Views.IssuesShow extends Backbone.View
       contentType: 'application/json'
       success: (data, textStatus, jqXHR) ->
         issue = new Timecard.Models.Issue(data.issue)
-        @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+        @viewIssuesItem = new Timecard.Views.IssuesItem(model: issue)
+        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
         @workers = new Timecard.Collections.Workers()
         @workers.fetch
           success: (collection) ->
             @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
             @viewWorkersIndex.render().el
-      Workload.stop()
+        Workload.stop()
     false
 
   stopWorkloadAndPassword: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
     pass = window.prompt("password?\n***It does not save the password.***", "")
     if (pass)
       workload_id = $(e.target).data('workload-id')
@@ -125,5 +116,7 @@ class Timecard.Views.IssuesShow extends Backbone.View
         contentType: 'application/json'
         success: (data, textStatus, jqXHR) ->
           issue = new Timecard.Models.Issue(data.issue)
-          @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-          $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+          @viewIssuesItem = new Timecard.Views.IssuesItem(issue: issue)
+          $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
+    false
+

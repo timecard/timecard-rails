@@ -30,7 +30,7 @@ class Timecard.Views.WorkersShow extends Backbone.View
         issue = new Timecard.Models.Issue(model.get('issue'))
         $("#worker-#{model.get('user_id')}").hide 500, ->
           $(@).remove()
-        @viewIssuesShow = new Timecard.Views.IssuesShow(issue: issue)
-        $("#issue-#{issue.get('id')}").closest('.media').replaceWith(@viewIssuesShow.render().el)
+        @viewIssuesItem = new Timecard.Views.IssuesItem(model: issue)
+        $("#issue-#{issue.get('id')}").closest('.media').replaceWith(@viewIssuesItem.render().el)
     Workload.stop()
     false

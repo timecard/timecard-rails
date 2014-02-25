@@ -31,8 +31,8 @@ class Timecard.Routers.Home extends Backbone.Router
       success: (collection) ->
         @viewIssuesState = new Timecard.Views.IssuesState(user_id: user_id, project_id: project_id)
         @viewIssuesState.render()
-        @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: collection)
-        @viewIssuesIndex.render()
+        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
+        @viewIssuesList.render()
         $('.nav-pills li').removeClass('active')
         $('#project-'+project_id).addClass('active')
         $('.states a').removeClass('active')
