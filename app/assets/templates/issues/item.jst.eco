@@ -1,4 +1,4 @@
-<div id="issue-<%= @issue.get('id') %>" class="row">
+<div id="issue-<%= @issue.get('id') %>" class="row issue">
   <div class="col-md-8">
     <div class="subject">
       <a href="<%= @issue.get('provider_url') %>" target="_blank"><%= @issue.get('provider_number') %></a>
@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <div class="col-md-4 text-right actions">
+  <div class="col-md-4 text-right actions hidden">
     <% if @issue.get('status') is 1: %>
       <a href="#" class="btn btn-danger js-btn-close-issue">Close</a>
       <% if @issue.get('is_do_today') is true: %>

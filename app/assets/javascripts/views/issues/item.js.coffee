@@ -10,6 +10,8 @@ class Timecard.Views.IssuesItem extends Backbone.View
     'click .js-btn-start-workload': 'startWorkload'
     'click .js-btn-stop-workload': 'stopWorkload'
     'click .js-btn-stop-workload-password': 'stopWorkloadAndPassword'
+    'mouseover .issue': 'showActions'
+    'mouseleave .issue': 'hideActions'
 
   className: 'media'
 
@@ -125,3 +127,10 @@ class Timecard.Views.IssuesItem extends Backbone.View
         Workload.stop()
     false
 
+  showActions: ->
+    $('.actions', @$el).removeClass('hidden')
+    $(@$el).closest('.media').addClass('highlight')
+
+  hideActions: ->
+    $('.actions', @$el).addClass('hidden')
+    $(@$el).closest('.media').removeClass('highlight')
