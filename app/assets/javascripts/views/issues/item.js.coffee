@@ -83,7 +83,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
     false
 
   stopWorkload: (e) ->
-    workload_id = $(e.target).data('workload-id')
+    workload_id = $(e.currentTarget).data('workload-id')
     $.ajax
       url: '/workloads/' + workload_id + '/stop'
       data:
@@ -106,7 +106,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
   stopWorkloadAndPassword: (e) ->
     pass = window.prompt("password?\n***It does not save the password.***", "")
     if (pass)
-      workload_id = $(e.target).data('workload-id')
+      workload_id = $(e.currentTarget).data('workload-id')
       $.ajax
         url: '/workloads/' + workload_id + '/stop'
         data:

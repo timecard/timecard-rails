@@ -25,3 +25,23 @@ div.table-responsive {
     border-bottom: 1px solid #dddddd;
   }
 }
+
+.btn-start,
+.btn-stop {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+.btn-start i,
+.btn-stop i {
+  color: #666;
+  font-size: 19px;
+}
+
+.btn-start i:hover {
+  color: #428bca;
+}
+
+.btn-stop i:hover {
+  color: #f0ad4e;
+}

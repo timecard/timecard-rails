@@ -5,7 +5,6 @@ ready = ->
     Workload.stop() unless @timerId?
   $('.home').on 'click', '.js-stop-workload-button', ->
     Workload.stop()
-  false
 
 $(document).ready(ready)
 $(document).on('page:change', ready)
