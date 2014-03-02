@@ -19,18 +19,14 @@
       <% else: %>
         <a href="#" class="btn btn-default js-btn-do-today-issue">Do today</a>
       <% end %>
-      <% if @issue.get('is_running') is true: %>
-        <% if @issue.get('is_crowdworks') is true: %>
-        <a href="#"
-          class="btn-stop js-btn-workload-password-button"
-          data-workload-id="<%= @issue.get('running_workload_id') %>">
+      <% if @issue.get('is_running') is true and @issue.get('is_crowdworks') is true: %>
+        <a href="#" class="btn-stop" data-toggle="modal" data-target="#myModal<%= @issue.get('running_workload_id') %>">
           <i class="fa fa-pause" title="stop"></i>
         </a>
-        <% else: %>
+      <% else if @issue.get('is_running') is true and @issue.get('is_crowdworks') is not true: %>
           <a href="#" class="btn-stop js-btn-stop-workload" data-workload-id="<%= @issue.get('running_workload_id') %>">
             <i class="fa fa-pause" title="stop"></i>
           </a>
-        <% end %>
       <% else: %>
         <a href="#" class="btn-start js-btn-start-workload">
           <i class="fa fa-play" title="start"></i>
@@ -39,5 +35,24 @@
     <% else: %>
       <a href="#" class="btn btn-default js-btn-reopen-issue">Reopen</a>
     <% end %>
+  </div>
+
+  <div class="modal fade" id="myModal<%= @issue.get('running_workload_id') %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Password?</h4>
+        </div>
+        <div class="modal-body">
+          <p>input password.</p>
+          <input type="password" id="password<%= @issue.get('running_workload_id') %>" name="password<%= @issue.get('running_workload_id') %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <a href="#" class="btn btn-default btn-primary js-btn-stop-workload-password" data-workload-id="<%= @issue.get('running_workload_id') %>" data-dismiss="modal">OK</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -104,19 +104,24 @@ class Timecard.Views.IssuesItem extends Backbone.View
     false
 
   stopWorkloadAndPassword: (e) ->
-    pass = window.prompt("password?\n***It does not save the password.***", "")
-    if (pass)
-      workload_id = $(e.currentTarget).data('workload-id')
-      $.ajax
-        url: '/workloads/' + workload_id + '/stop'
-        data:
-          JSON.stringify({ workload: { end_at: new Date() }, password: pass })
-        type: 'PATCH'
-        dataType: 'json'
-        contentType: 'application/json'
-        success: (data, textStatus, jqXHR) ->
-          issue = new Timecard.Models.Issue(data.issue)
-          @viewIssuesItem = new Timecard.Views.IssuesItem(issue: issue)
-          $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
+    workload_id = $(e.currentTarget).data('workload-id')
+    @pass = $('#password' + workload_id.toString()).val()
+    $.ajax
+      url: '/workloads/' + workload_id + '/stop'
+      data:
+        JSON.stringify({ workload: { end_at: new Date() }, password: @pass })
+      type: 'PATCH'
+      dataType: 'json'
+      contentType: 'application/json'
+      success: (data, textStatus, jqXHR) ->
+        issue = new Timecard.Models.Issue(data.issue)
+        @viewIssuesItem = new Timecard.Views.IssuesItem(model: issue)
+        $("#issue-#{issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
+        @workers = new Timecard.Collections.Workers()
+        @workers.fetch
+          success: (collection) ->
+            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
+            @viewWorkersIndex.render().el
+        Workload.stop()
     false
 
