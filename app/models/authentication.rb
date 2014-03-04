@@ -7,7 +7,7 @@ class Authentication < ActiveRecord::Base
     res = {}
     providers = ["crowdworks"]
     active_providers = user.authentications.map{|a|a.provider}
-    providers.each do |povider|
+    providers.each do |provider|
       unless active_providers.include?(provider)
         res[provider] = provider 
       end
