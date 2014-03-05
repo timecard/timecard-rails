@@ -33,15 +33,6 @@ class Timecard.Routers.Projects extends Backbone.Router
     @collectionFetched.done =>
       @viewProjectsShow = new Timecard.Views.ProjectsShow(model: @projects.get(id))
       @viewProjectsShow.render()
-    @issues.fetch
-      data:
-        project_id: id
-      success: (collection) =>
-        @viewIssuesStatus = new Timecard.Views.IssuesStatus(project_id: id)
-        @viewIssuesStatus.render()
-        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
-        @viewIssuesList.render()
-        @activeStatus('open')
 
   issues: (id, status) ->
     @collectionFetched.pipe =>

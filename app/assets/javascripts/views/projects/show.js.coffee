@@ -5,7 +5,24 @@ class Timecard.Views.ProjectsShow extends Backbone.View
   el: '#page'
 
   initialize: ->
+    @model.on('change:status', @reloadActions, @)
+    @issues = new Timecard.Collections.Issues
 
   render: ->
     @$el.html(@template(project: @model))
+    @viewProjectsAction = new Timecard.Views.ProjectsAction(model: @model)
+    @viewProjectsAction.render()
+    @issues.fetch
+      data:
+        project_id: @model.get('id')
+      success: (collection) =>
+        @viewIssuesStatus = new Timecard.Views.IssuesStatus(project_id: @model.get('id'))
+        @viewIssuesStatus.render()
+        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
+        @viewIssuesList.render()
+        $(".open").addClass('active')
     @
+
+  reloadActions: ->
+    @viewProjectsAction = new Timecard.Views.ProjectsAction(model: @model)
+    @viewProjectsAction.render()

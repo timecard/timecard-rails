@@ -13,6 +13,8 @@
     <span class="label label-default"><%= @project.get('repo') %></span>
   <% end %>
 </div>
+<div id="actions">
+</div>
 
 <h2>
   Issues

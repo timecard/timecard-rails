@@ -1,0 +1,9 @@
+<% if @project.get('status') is 1: %>
+  <a href="/projects/<%= @project.get('id') %>/members" class="btn btn-default">Add a member</a>
+  <a href="/projects/<%= @project.get('id') %>/edit" class="btn btn-default">Edit</a>
+  <a href="#" class="btn btn-default btn-close">Close</a>
+  <a href="#" class="btn btn-default btn-archive">Archive</a>
+  <a href="/data/<%= @project.get('id') %>.json" class="btn btn-default">Export</a>
+<% else: %>
+  <a href="#" class="btn btn-default btn-open">Open</a>
+<% end %>
