@@ -1,19 +1,21 @@
-<a href="#projects">Back to all projects</a>
-<h2>
-  <%= @project.get('name') %>
-</h2>
-<%- @project.get('description') %>
-<div>
-  <% if @project.get('is_public') is true: %>
+<section id="project">
+  <a href="#projects">Back to all projects</a>
+  <h2>
+    <%= @project.get('name') %>
+  </h2>
+  <%- @project.get('description') %>
+  <div>
+    <% if @project.get('is_public') is true: %>
     <span class="label label-info">Public</span>
-  <% else: %>
+    <% else: %>
     <span class="label label-default">Private</span>
-  <% end %>
-  <% if @project.get('repo')?: %>
+    <% end %>
+    <% if @project.get('repo')?: %>
     <span class="label label-default"><%= @project.get('repo') %></span>
-  <% end %>
-</div>
-<div id="actions">
+    <% end %>
+  </div>
+  <div id="actions">
+  </div>
 </div>
 
 <h2>
