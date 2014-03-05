@@ -6,18 +6,16 @@ class Timecard.Routers.Projects extends Backbone.Router
     'projects/:id/issues/:status': 'issues'
 
   initialize: ->
-    @collectionFetched = new $.Deferred
     @projects = new Timecard.Collections.Projects()
-    @projects.fetch success: =>
-      @collectionFetched.resolve()
     @issues = new Timecard.Collections.Issues()
 
-
   index: ->
-    @collectionFetched.done =>
-      @view = new Timecard.Views.ProjectsIndex(collection: @projects, router: @)
-      @view.render()
-      @activeStatus('open')
+    status = 'open'
+    @projects.fetch
+      success: (collection) =>
+        @view = new Timecard.Views.ProjectsIndex(collection: collection, router: @)
+        @view.render()
+        @activeStatus(status)
     false
 
   status: (status) ->
