@@ -1,4 +1,6 @@
 class Timecard.Models.Project extends Backbone.Model
+  urlRoot: '/projects'
+
   defaults:
     id: null
     name: ''
