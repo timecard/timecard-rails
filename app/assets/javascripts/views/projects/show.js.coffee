@@ -13,6 +13,7 @@ class Timecard.Views.ProjectsShow extends Backbone.View
     @$el.html(@template(project: @model))
     @viewProjectsAction = new Timecard.Views.ProjectsAction(model: @model)
     @viewProjectsAction.render()
+    $('#issues').html('<img src="/assets/loading_mini.gif">')
     @issues.fetch
       data:
         project_id: @model.get('id')

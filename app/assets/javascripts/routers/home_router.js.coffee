@@ -23,6 +23,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @.navigate(default_page, trigger: true)
 
   showUserProjectIssues: (user_id, project_id, state) ->
+    $('#issues').html('<img src="/assets/loading_mini.gif">')
     @issues.fetch
       data:
         user_id: user_id
