@@ -52,6 +52,10 @@
   <div class="form-group">
     <p><b>Crowdworks Project URL</b></p>
     <%= f.text_field :crowdworks_url, class: "form-control" %>
+    <label>
+      <b><br/><%= link_to "クラウドワークスアカウント登録", user_authentications_path(current_user) %></b><br/>
+      <span class="text-muted">各個人のクラウドワークスのアカウントのユーザー名も追加してください</span>
+    </label>
   </div>
   <hr>
   <div class="actions">
