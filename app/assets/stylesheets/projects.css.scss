@@ -1,13 +1,11 @@
 .projects {
-  .project-header {
-    position: relative;
-  }
-  .project-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
   form {
     margin-bottom: 15px;
+  }
+}
+
+#project {
+  #actions {
+    margin: 15px 0;
   }
 }
