@@ -4,7 +4,7 @@
       <a href="#projects/<%= @project.get('id') %>"><%= @project.get('name') %></a>
     </div>
     <div class="project-description text-muted">
-      <%= @project.get('description') %>
+      <%- @project.get('description') %>
     </div>
     <ul class="issues-count">
       <li>Open <%= @project.get('open_issues_count') %></li>
