@@ -22,6 +22,8 @@ gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 gem 'mechanize'
 gem "exception_notification"
 gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
+gem 'grape'
+gem 'grape-jbuilder'
 
 group :development do
   gem 'guard-livereload', '2.0.0'
