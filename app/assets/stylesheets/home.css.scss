@@ -32,12 +32,16 @@
   .nav-pills {
     margin-bottom: 15px;
   }
-
+  .states {
+    margin: 0 0 15px 0;
+  }
   #issues {
     .media {
       border-bottom: 1px solid #dddddd;
-      margin: 20px 0 0 0;
-      padding: 0 0 20px 0;
+      margin: 0;
+    }
+    .issue {
+      padding: 20px;
     }
     .actions {
       line-height: 40px;
