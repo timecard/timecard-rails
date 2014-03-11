@@ -4,9 +4,10 @@ class Timecard.Views.ProjectsShow extends Backbone.View
 
   el: '#page'
 
-  initialize: ->
+  initialize: (@options) ->
     @model.on('change:status', @reloadActions, @)
     @issues = new Timecard.Collections.Issues
+    @status = if @options.status then @options.status else 'open'
 
   render: ->
     @$el.html(@template(project: @model))
@@ -15,12 +16,13 @@ class Timecard.Views.ProjectsShow extends Backbone.View
     @issues.fetch
       data:
         project_id: @model.get('id')
+        status: @status
       success: (collection) =>
         @viewIssuesStatus = new Timecard.Views.IssuesStatus(project_id: @model.get('id'))
         @viewIssuesStatus.render()
         @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
         @viewIssuesList.render()
-        $(".open").addClass('active')
+        $(".#{@status}").addClass('active')
     @
 
   reloadActions: ->
