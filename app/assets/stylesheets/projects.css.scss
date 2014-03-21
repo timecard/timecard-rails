@@ -1,4 +1,43 @@
 .projects {
+  .new-project {
+    margin: 0 0 20px 0;
+  }
+  .project-status {
+    margin: 0 0 20px 0;
+  }
+  .project {
+    border: 1px solid #eeeeee;
+    box-shadow: 5px 5px 0 #cccccc;
+    height: 370px;
+    margin: 0 0 30px 0;
+    padding: 15px 20px;
+    h3.project-name {
+      margin: 0 0 10px 0;
+      a {
+        color: #333333;
+        text-decoration: none;
+        &:hover {
+          color: #999999;
+        }
+      }
+    }
+    p.description {
+      color: #999999;
+    }
+    #members {
+      a {
+        text-decoration: none;
+        &:hover {
+          opacity:0.6;
+          filter: alpha(opacity=60);
+          -ms-filter: "alpha( opacity=60 )";
+        }
+      }
+      img {
+        margin: 0 5px 5px 0;
+      }
+    }
+  }
   form {
     margin-bottom: 15px;
   }

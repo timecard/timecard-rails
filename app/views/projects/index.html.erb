@@ -1,30 +1,35 @@
 <% if can? :create, Project.new %>
-  <div class="new-project" style="margin-bottom:20px">
+  <div class="new-project">
     <%= link_to "New Project", new_project_path, class: "btn btn-default" %>
     <%= link_to "Import", data_path, class: "btn btn-default" %>
   </div>
 <% end %>
-<div class="btn-group btn-group-sm" style="margin-bottom:20px">
+<div class="btn-group btn-group-sm project-status">
   <%= link_to "Active", projects_path(status: Project::STATUS_ACTIVE), class: "btn btn-default" %>
   <%= link_to "Closed", projects_path(status: Project::STATUS_CLOSED), class: "btn btn-default" %>
   <%= link_to "Archive", projects_path(status: Project::STATUS_ARCHIVED), class: "btn btn-default" %>
 </div>
 <div class="row">
   <% @projects.each do |project| %>
-    <div class="col-md-4" style="margin-bottom:20px;">
-      <%= div_for project, style: "height:200px;" do %>
-        <div class="project-name">
-          <%= link_to_unless (project.status == Project::STATUS_ARCHIVED), project.name, project %>
-          <% if project.status == Project::STATUS_ARCHIVED %>
+    <div class="col-md-4">
+      <%= div_for project do %>
+        <h3 class="project-name">
+          <%= link_to_unless project.archived?, project.name, project %>
+          <% if project.archived? %>
             <%= link_to "Active", active_project_path(project), class: "btn btn-xs btn-default", method: :patch %>
           <% end %>
-        </div>
-        <div>
-          <p><%= project.description.truncate(50) if project.description %></p>
-        </div>
+        </h3>
+        <p class="description"><%= project.description.truncate(70) if project.description %></p>
+        <dl>
+          <dt>Issue (<%= project.issues.count %>)</dt>
+          <dd>Open: <%= project.issues.open.count %></dd>
+          <dd>Closed: <%= project.issues.closed.count %></dd>
+        </dl>
         <div id="members">
-          <% project.members.each do |member| %>
-            <%= link_to member.user.name, member.user %>
+          <% project.members.limit(10).each do |member| %>
+            <%= link_to member.user do %>
+              <%= image_tag gravatar_url(member.user.email), class: "img-circle" %>
+            <% end %>
           <% end %>
         </div>
       <% end %>
