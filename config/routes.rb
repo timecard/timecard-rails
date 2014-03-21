@@ -39,4 +39,5 @@ Timecard::Application.routes.draw do
 
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
   root :to => "home#index"
+  mount API => "/"
 end
