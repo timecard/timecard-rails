@@ -14,8 +14,8 @@
     <div class="col-md-4">
       <%= div_for project do %>
         <h3 class="project-name">
-          <%= link_to_unless (project.status == Project::STATUS_ARCHIVED), project.name, project %>
-          <% if project.status == Project::STATUS_ARCHIVED %>
+          <%= link_to_unless project.archived?, project.name, project %>
+          <% if project.archived? %>
             <%= link_to "Active", active_project_path(project), class: "btn btn-xs btn-default", method: :patch %>
           <% end %>
         </h3>
