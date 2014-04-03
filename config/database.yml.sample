@@ -2,19 +2,19 @@ development:
   adapter: mysql2
   database: timecard_dev
   host: localhost
-  username: mysqluser
-  password: mysqlpass
+  username: root
+  password: 
 
 production:
   adapter: mysql2
   database: timecard_prod
   host: localhost
-  username: mysqluser
-  password: mysqlpass
+  username: root
+  password: 
 
 test:
   adapter: mysql2
   database: timecard_test
   host: localhost
-  username: mysqluser
-  password: mysqlpass
+  username: root
+  password: 
