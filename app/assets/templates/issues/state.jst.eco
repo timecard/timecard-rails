@@ -1,3 +1,4 @@
+<a href="/projects/<%= @project_id %>/issues/new" class="btn btn-default add_issue">Add Issue</a>
 <a href="#users/<%= @user_id %>/projects/<%= @project_id %>/issues/open" class="btn btn-default open">Open</a>
 <a href="#users/<%= @user_id %>/projects/<%= @project_id %>/issues/closed" class="btn btn-default closed">Closed</a>
 <a href="#users/<%= @user_id %>/projects/<%= @project_id %>/issues/not_do_today" class="btn btn-default not_do_today">Don't do today</a>
