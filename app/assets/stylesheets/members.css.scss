@@ -1,0 +1,45 @@
+.members {
+  background-color: #fcfffa;
+
+  .page {
+    background-color: #ffffff;
+    margin: 0 0 20px 0;
+    padding: 0 0 20px 0;
+  }
+
+  h2 {
+    padding: 20px;
+  }
+
+  h3 {
+    background-color: #666666;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+  }
+
+  ul.member-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li.member {
+      padding: 20px;
+      a {
+        display: block;
+      }
+      .name {
+        float: left;
+        a {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+      .action {
+        float: right;
+      }
+    }
+    li.select {
+      background-color: #eeeeee;
+    }
+  }
+}
