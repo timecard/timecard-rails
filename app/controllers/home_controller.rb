@@ -5,6 +5,7 @@ class HomeController < ApplicationController
       joins(:issues).
       where("issues.assignee_id = #{current_user.id}").
       where("issues.status = 1").
+      where("issues.will_start_at is null OR issues.will_start_at < ?", Time.now).
       group("projects.id")
     else
       render 'welcome'
