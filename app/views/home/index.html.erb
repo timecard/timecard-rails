@@ -1,13 +1,14 @@
+<% if @projects.present? %>
 <div id="page">
   <ul class="nav nav-pills project-nav">
-    <% @projects.each do |project| %>
-      <li id="project-<%= project.id %>">
-        <%= link_to "#users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
-          <%= project.name %>
-          <span class="badge"><%= project.issues_count %></span>
-        <% end %>
-      </li>
-    <% end %>
+      <% @projects.each do |project| %>
+        <li id="project-<%= project.id %>">
+          <%= link_to "#users/#{current_user.id}/projects/#{project.id}/issues/open" do %>
+            <%= project.name %>
+            <span class="badge"><%= project.issues_count %></span>
+          <% end %>
+        </li>
+      <% end %>
   </ul>
   <hr>
   <div class="btn-group btn-group-sm states">
@@ -15,3 +16,6 @@
   <div id="issues" class="media-list">
   </div>
 </div>
+<% else %>
+  <p>There is not task today. Have a your day!</p>
+<% end %>
