@@ -4,11 +4,12 @@ class IssuesController < ApplicationController
 
   def index
     status = params[:status] || "open"
+    page = params[:page] || 1
     if @project.present?
       if params[:user_id].present?
-        @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id])
+        @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id]).page(page)
       else
-        @issues = @project.issues.with_status(status)
+        @issues = @project.issues.with_status(status).page(page)
       end
     end
 
