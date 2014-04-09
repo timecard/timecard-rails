@@ -1,0 +1,51 @@
+%h2
+  Edit #{resource_name.to_s.humanize}
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+  = devise_error_messages!
+  .form-group
+    = f.label :email
+    %br/
+    = f.email_field :email, :autofocus => true, class: "form-control"
+  .form-group
+    = f.label :name
+    %br/
+    = f.text_field :name, class: "form-control"
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    %div
+      Currently waiting confirmation for: #{resource.unconfirmed_email}
+  .form-group
+    = f.label :password
+    %i (leave blank if you don't want to change it)
+    %br/
+    = f.password_field :password, :autocomplete => "off", class: "form-control"
+  .form-group
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation, class: "form-control"
+  %div= f.submit "Update", class: "btn btn-default"
+%h2 Service
+%dl
+  %dt
+    %b Github
+  %dd
+    - if current_user.connected?("github")
+      %div
+        = current_user.github_username
+        = link_to "Disconnect from Github", disconnect_provider_path(:github), method: :delete
+    - else
+      = link_to "Connect to Github", omniauth_authorize_path(:user, :github), class: "btn btn-default"
+    - if current_user.connected?("ruffnote")
+      %div
+        = current_user.ruffnote_username
+        = link_to "Disconnect from Ruffnote", disconnect_provider_path(:ruffnote), method: :delete
+    - else
+      = link_to "Connect to Ruffnote", omniauth_authorize_path(:user, :ruffnote), class: "btn btn-default"
+  %dt
+    %b Other Authentications
+  %dd
+    %div
+      = link_to "Authentications", user_authentications_path(current_user), class: "btn btn-default"
+%h3 Cancel my account
+%p
+  Unhappy? #{button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: "btn btn-danger"}
+= link_to "Back", :back

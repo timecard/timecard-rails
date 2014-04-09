@@ -1,0 +1,13 @@
+- if @projects.present?
+  #page
+    %ul.nav.nav-pills.project-nav
+      - @projects.each do |project|
+        %li{:id => "project-#{project.id}"}
+          = link_to "#users/#{current_user.id}/projects/#{project.id}/issues/open" do
+            = project.name
+            %span.badge= project.issues_count
+    %hr/
+    .btn-group.btn-group-sm.states
+    #issues.media-list
+- else
+  %p There is not task today. Have a your day!

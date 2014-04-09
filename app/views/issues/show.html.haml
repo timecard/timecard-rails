@@ -1,0 +1,48 @@
+.row
+  .col-lg-6
+    .issue
+      .wrap
+        .header
+          .author.text-muted
+            %b= @issue.author.name
+            opened this issue #{time_ago_in_words(@issue.created_at)} ago
+            - if can? :update, @issue
+              = link_to "Edit", edit_issue_path(@issue), class: "btn btn-sm btn-default pull-right"
+          .subject
+            %h2{:style => "margin:0"}
+              = link_to_provider(@issue)
+              = @issue.subject
+          .status
+            - if @issue.status == 1
+              %span.label.label-success Open
+            - else
+              %span.label.label-danger Close
+        .assignee
+          - if @issue.assignee.present?
+            %b= link_to @issue.assignee.name, @issue.assignee
+            is assigned
+          - else
+            No one is assigned
+          will start at #{@issue.will_start_at || "today"}
+        .description
+          = @issue.description.present? ? markdown(@issue.description) : "No description given."
+      = render 'actions'
+  .col-lg-6
+    %h2
+      = link_to @issue.project.name, @issue.project
+    = markdown(@issue.project.description)
+.row
+  .col-lg-6
+    %ul.media-list
+      = render partial: 'comments/comment', collection: @issue.comments.order("id ASC")
+    - if can?(:update, @issue) && @issue.project.active?
+      = form_for [@issue, Comment.new] do |f|
+        .form-group
+          = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
+        .actions.pull-right
+          = f.submit "Comment", class: "btn btn-success"
+  .col-lg-6
+    .section
+      %h3 Workloads
+      %ul.media-list
+        = render @issue.workloads.complete.order("updated_at DESC")

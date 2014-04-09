@@ -29,6 +29,7 @@ group :development do
   gem 'guard-livereload', '2.0.0'
   gem 'guard-rspec', '4.0.3'
   gem 'quiet_assets', '1.0.2'
+  gem 'erb2haml'
 end
 
 group :test do
