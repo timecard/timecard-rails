@@ -35,7 +35,10 @@ class Timecard.Routers.Home extends Backbone.Router
         user_id: user_id
         project_id: project_id
         status: status
-      success: (collection) ->
+      success: (collection) =>
         $('#issues').html('')
         @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
         @viewIssuesList.render()
+        unless collection.last_page
+          @viewHomeMore = new Timecard.Views.HomeMore(collection: collection, user_id: user_id, project_id: project_id, status: status)
+          @viewHomeMore.render()
