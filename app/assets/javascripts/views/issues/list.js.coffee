@@ -5,7 +5,6 @@ class Timecard.Views.IssuesList extends Backbone.View
   el: '#issues'
 
   initialize: ->
-    @$el.html('')
 
   render: ->
     if @collection.length is 0

@@ -1,4 +1,6 @@
 class Issue < ActiveRecord::Base
+  paginates_per 10
+
   default_scope { order("updated_at DESC") }
 
   scope :open, -> { where("status = ?", 1) }
