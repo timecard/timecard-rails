@@ -1,0 +1,17 @@
+%h3 new Authentication
+- if @authentication.errors.any?
+  - @authentication.errors.messages.each do |message|
+    %p= message[1]
+= form_for([current_user, @authentication]) do |u|
+  .form-group
+    = u.label :provider
+    = u.select( :provider, @select_list, {}, { :class => "form-control", :disabled => @select_list.empty? } )
+  .form-group
+    = u.label "crowdworks mail address"
+    = u.text_field :username, {:class => "form-control", :disabled => @select_list.empty? }
+  = u.hidden_field :user_id, :value => current_user.id
+  .actions
+    = u.submit class: "btn btn-success", :disabled => @select_list.empty?
+%p
+  %br/
+  = link_to 'Back', user_authentications_path(current_user)

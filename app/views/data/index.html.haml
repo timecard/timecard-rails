@@ -1,0 +1,5 @@
+= form_tag "/data", multipart: true do
+  .checkbox
+    = file_field_tag "import"
+  .actions
+    = submit_tag "import", {class: "btn btn-default"}

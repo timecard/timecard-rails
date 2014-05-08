@@ -1,0 +1,58 @@
+= form_for(@project) do |f|
+  - if @project.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@project.errors.count, "error")
+        prohibited this project from being saved:
+      %ul
+        - @project.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label :name
+    %br/
+    = f.text_field :name, class: "form-control", placeholder: "Enter project name"
+  .form-group
+    = f.label :description
+    (optional)
+    %br/
+    = f.text_area :description, class: "form-control"
+  - if @project.persisted?
+    %hr/
+    - if @project.admin.github
+      .form-group
+        = f.label :github_full_name
+        (optional)
+        %br/
+        = f.text_field :github_full_name, class: "form-control", placeholder: "rails/rails"
+    .form-group
+      = f.label :ruffnote_full_name
+      (optional)
+      %br/
+      = f.text_field :ruffnote_full_name, class: "form-control"
+  %hr/
+  .radio
+    %label
+      = f.radio_button :is_public, "true"
+      %b Public
+      %br/
+      %span.text-muted Anyone can see this project.
+  .radio
+    %label
+      = f.radio_button :is_public, "false"
+      %b Private
+      %br/
+      %span.text-muted You choose who can see to this project.
+  %hr/
+  .form-group
+    %p
+      %b Crowdworks Project URL
+    = f.text_field :crowdworks_url, class: "form-control"
+    %label
+      %b
+        %br/
+        = link_to "クラウドワークスアカウント登録", user_authentications_path(current_user)
+      %br/
+      %span.text-muted 各個人のクラウドワークスのアカウントのユーザー名も追加してください
+  %hr/
+  .actions
+    = f.submit class: "btn btn-success"
