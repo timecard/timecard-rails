@@ -19,8 +19,8 @@ class Timecard.Routers.Home extends Backbone.Router
               Workload.start(new Date(workload.get('start_at')))
 
   index: ->
-    default_page = $('.project-nav li a').first().attr('href')
-    @.navigate(default_page, trigger: true)
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar
+    @viewHomeSidebar.render()
 
   showUserProjectIssues: (user_id, project_id, state) ->
     $('#issues').html('<img src="/assets/loading_mini.gif">')
