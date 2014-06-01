@@ -21,6 +21,8 @@ class Timecard.Routers.Home extends Backbone.Router
   index: ->
     @viewHomeSidebar = new Timecard.Views.HomeSidebar
     @viewHomeSidebar.render()
+    @viewHomeMain = new Timecard.Views.HomeMain
+    @viewHomeMain.render()
 
   showUserProjectIssues: (user_id, project_id, state) ->
     $('#issues').html('<img src="/assets/loading_mini.gif">')

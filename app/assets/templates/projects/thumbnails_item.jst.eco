@@ -1,0 +1,6 @@
+<div class="projects-thumbnails__item">
+  <h3 class="projects__name">
+    <%= @project.get('name') %>
+  </h3>
+  <%= @project.get('description') %>
+</div>
