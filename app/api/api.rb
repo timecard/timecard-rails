@@ -21,11 +21,13 @@ class API < Grape::API
     end
   end
 
-  resource :my do
-    desc "Return all my projects"
-    get :projects do
-      authenticated!
-      @projects = Project.visible(current_user)
+  namespace :my do
+    resource :projects do
+      desc "Return all my projects"
+      get do
+        authenticated!
+        @projects = Project.visible(current_user)
+      end
     end
   end
 end
