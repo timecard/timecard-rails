@@ -2,10 +2,9 @@ class Timecard.Views.IssuesList extends Backbone.View
 
   template: JST['issues/list']
 
-  el: '#issues'
+  el: '.issue-list__container'
 
   initialize: ->
-    @$el.html('')
 
   render: ->
     if @collection.length is 0

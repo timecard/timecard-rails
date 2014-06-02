@@ -1,0 +1,5 @@
+<h1><%= @project.get('name') %></h1>
+<p><%= @project.get('description') %></p>
+<span class="label label-default">
+  <%= @project.get('publicity') %>
+</span>
