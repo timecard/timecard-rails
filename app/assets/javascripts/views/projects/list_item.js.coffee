@@ -17,6 +17,8 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
 
   show: (e) ->
     e.preventDefault()
+    $(".project-list__item").removeClass('project-list__item--current')
+    @$el.addClass('project-list__item--current')
     @viewIssuesIndex = new Timecard.Views.IssuesIndex(project: @model)
     @viewIssuesIndex.render()
     Backbone.trigger('navigate', @model)

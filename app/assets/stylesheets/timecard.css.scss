@@ -15,6 +15,13 @@
       }
     }
   }
+
+  .project-list__item--current {
+    .project__name--link {
+      background-color: #428bca;
+      color: #ffffff;
+    }
+  }
 }
 
 .projects-thumbnails {
