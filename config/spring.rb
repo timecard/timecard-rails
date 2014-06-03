@@ -1,1 +1,0 @@
-require "spring/commands/rspec"
