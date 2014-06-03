@@ -19,6 +19,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
   open: (e) ->
     e.preventDefault()
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
+    @$('.issue__status-button').removeClass('active')
+    @$('.issue__status-button--open').addClass('active')
     @collection.fetch
       reset: true
       data:
@@ -28,6 +30,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
   closed: (e) ->
     e.preventDefault()
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
+    @$('.issue__status-button').removeClass('active')
+    @$('.issue__status-button--closed').addClass('active')
     @collection.fetch
       reset: true
       data:
@@ -37,6 +41,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
   deferred: (e) ->
     e.preventDefault()
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
+    @$('.issue__status-button').removeClass('active')
+    @$('.issue__status-button--deferred').addClass('active')
     @collection.fetch
       reset: true
       data:
