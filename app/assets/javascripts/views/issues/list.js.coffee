@@ -8,7 +8,7 @@ class Timecard.Views.IssuesList extends Backbone.View
     @listenTo(@collection, 'reset', @render)
 
   render: ->
-    @$el.html('')
+    @$el.html(@template())
     if @collection.length is 0
       @$el.append("<div class='media'><p>You don't have assigned issue.</p></div>")
     else
@@ -18,4 +18,4 @@ class Timecard.Views.IssuesList extends Backbone.View
     @
   
   addIssueView: (issue) ->
-    @$el.append(new Timecard.Views.IssuesItem(model: issue).render().el)
+    @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue).render().el)
