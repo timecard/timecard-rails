@@ -2,7 +2,7 @@ class Timecard.Views.ProjectsList extends Backbone.View
 
   template: JST['projects/list']
 
-  el: '.projects-list__container'
+  el: '.project-list__container'
 
   initialize: ->
 
@@ -14,4 +14,4 @@ class Timecard.Views.ProjectsList extends Backbone.View
 
   addProjectsListItem: (project) ->
     @viewProjectsListItem = new Timecard.Views.ProjectsListItem(model: project)
-    @$('.projects-list').append(@viewProjectsListItem.render().el)
+    @$('.project-list').append(@viewProjectsListItem.render().el)

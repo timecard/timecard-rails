@@ -3,11 +3,11 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
   template: JST['projects/list_item']
 
   events:
-    'click .projects__name--link': 'show'
+    'click .project__name--link': 'show'
 
   tagName: 'li'
 
-  className: 'projects-list__item'
+  className: 'project-list__item'
 
   initialize: ->
 
@@ -17,5 +17,5 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
 
   show: (e) ->
     e.preventDefault()
-    @viewProjectsShow = new Timecard.Views.ProjectsShow(model: @model)
-    @viewProjectsShow.render()
+    @viewIssuesIndex = new Timecard.Views.IssuesIndex(project: @model)
+    @viewIssuesIndex.render()

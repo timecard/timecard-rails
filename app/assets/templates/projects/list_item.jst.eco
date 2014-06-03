@@ -1,1 +1,1 @@
-<a class="projects__name--link" href="#"><%= @project.get('name') %></a>
+<a class="project__name--link" href="#"><%= @project.get('name') %></a>
