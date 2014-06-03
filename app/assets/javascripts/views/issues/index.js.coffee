@@ -9,7 +9,7 @@ class Timecard.Views.IssuesIndex extends Backbone.View
     @issues = new Timecard.Collections.Issues
 
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(project: @project))
     @issues.fetch
       data:
         project_id: @project.id

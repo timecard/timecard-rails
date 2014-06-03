@@ -37,8 +37,13 @@
   }
 }
 
+.project__add-button {
+  display: inline-block;
+  margin: 0 0 15px 30px;
+}
+
 .issue__status-button__container {
-  margin: 0 0 15px 15px;
+  display: inline-block;
 }
 
 .issue-list__container {
