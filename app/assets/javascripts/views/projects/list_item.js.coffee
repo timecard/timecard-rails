@@ -19,3 +19,4 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
     e.preventDefault()
     @viewIssuesIndex = new Timecard.Views.IssuesIndex(project: @model)
     @viewIssuesIndex.render()
+    Backbone.trigger('navigate', @model)

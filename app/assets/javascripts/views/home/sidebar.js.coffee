@@ -4,8 +4,9 @@ class Timecard.Views.HomeSidebar extends Backbone.View
 
   el: '.sidebar'
 
-  initialize: ->
+  initialize: (@options) ->
     @projects = new Timecard.Collections.Projects
+    Backbone.on('navigate', @navigate, @)
 
   render: ->
     @$el.html(@template())
@@ -15,3 +16,6 @@ class Timecard.Views.HomeSidebar extends Backbone.View
         @viewProjectsList = new Timecard.Views.ProjectsList(collection: collection)
         @viewProjectsList.render()
     @
+
+  navigate: (project) ->
+    @options.router.navigate('/my/projects/'+project.id, trigger: false)

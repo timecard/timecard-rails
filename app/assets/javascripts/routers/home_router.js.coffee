@@ -1,6 +1,7 @@
 class Timecard.Routers.Home extends Backbone.Router
   routes:
     'users/:user_id/projects/:project_id/issues/:state': 'showUserProjectIssues'
+    'my/projects/:id': 'show'
     '*path': 'index'
 
   initialize: ->
@@ -19,9 +20,15 @@ class Timecard.Routers.Home extends Backbone.Router
               Workload.start(new Date(workload.get('start_at')))
 
   index: ->
-    @viewHomeSidebar = new Timecard.Views.HomeSidebar
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(router: @)
     @viewHomeSidebar.render()
     @viewHomeMain = new Timecard.Views.HomeMain
+    @viewHomeMain.render()
+
+  show: (id) ->
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(router: @)
+    @viewHomeSidebar.render()
+    @viewHomeMain = new Timecard.Views.HomeMain(project_id: id)
     @viewHomeMain.render()
 
   showUserProjectIssues: (user_id, project_id, state) ->
