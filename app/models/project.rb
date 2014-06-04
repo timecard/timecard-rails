@@ -1,11 +1,9 @@
 class Project < ActiveRecord::Base
   STATUS_ACTIVE   = 1
   STATUS_CLOSED   = 5
-  STATUS_ARCHIVED = 9
 
   scope :active, -> { where(status: STATUS_ACTIVE) }
   scope :closed, -> { where(status: STATUS_CLOSED) }
-  scope :archive, -> { where(status: STATUS_ARCHIVED) }
   scope :public, -> { where(is_public: true) }
   scope :visible, -> (user) { where(id: Member.where(user_id: user.id).pluck(:project_id)) }
 
@@ -123,18 +121,12 @@ class Project < ActiveRecord::Base
     self.status == Project::STATUS_CLOSED
   end
 
-  def archived?
-    status == Project::STATUS_ARCHIVED
-  end
-
   def self.status(status)
     case status.to_i
     when Project::STATUS_ACTIVE
       self.active
     when Project::STATUS_CLOSED
       self.closed
-    when Project::STATUS_ARCHIVED
-      self.archive
     end
   end
 

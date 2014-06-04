@@ -5,15 +5,12 @@
 .btn-group.btn-group-sm.project-status
   = link_to "Active", projects_path(status: Project::STATUS_ACTIVE), class: "btn btn-default"
   = link_to "Closed", projects_path(status: Project::STATUS_CLOSED), class: "btn btn-default"
-  = link_to "Archive", projects_path(status: Project::STATUS_ARCHIVED), class: "btn btn-default"
 .row
   - @projects.each do |project|
     .col-md-4
       = div_for project do
         %h3.project-name
-          = link_to_unless project.archived?, project.name, project
-          - if project.archived?
-            = link_to "Active", active_project_path(project), class: "btn btn-xs btn-default", method: :patch
+          = link_to project.name, project
         %p.description= project.description.truncate(70) if project.description
         %dl
           %dt

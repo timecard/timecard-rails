@@ -21,7 +21,7 @@ class Ability
     can :create, Project do |project|
       user.persisted? # logged in user
     end
-    can [:update, :close, :active, :archive], Project do |project|
+    can [:update, :close, :active], Project do |project|
       project.admin?(user)
     end
     cannot :destroy, Project
