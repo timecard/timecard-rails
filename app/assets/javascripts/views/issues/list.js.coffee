@@ -2,14 +2,15 @@ class Timecard.Views.IssuesList extends Backbone.View
 
   template: JST['issues/list']
 
-  el: '#issues'
+  el: '.issue-list__container'
 
   initialize: ->
-    @$el.html('')
+    @listenTo(@collection, 'reset', @render)
 
   render: ->
+    @$el.html(@template())
     if @collection.length is 0
-      @$el.append("<div class='media'><p>You don't have assigned issue.</p></div>")
+      @$('.issue-list').append("<li class='media'><p>You don't have assigned issue.</p></li>")
     else
       @collection.each (issue) ->
         @addIssueView(issue)
@@ -17,4 +18,4 @@ class Timecard.Views.IssuesList extends Backbone.View
     @
   
   addIssueView: (issue) ->
-    @$el.append(new Timecard.Views.IssuesItem(model: issue).render().el)
+    @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue).render().el)

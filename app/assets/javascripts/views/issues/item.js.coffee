@@ -10,57 +10,49 @@ class Timecard.Views.IssuesItem extends Backbone.View
     'click .js-btn-start-workload': 'startWorkload'
     'click .js-btn-stop-workload': 'stopWorkload'
     'click .js-btn-stop-workload-password': 'stopWorkloadAndPassword'
-    'mouseover .issue': 'showActions'
-    'mouseleave .issue': 'hideActions'
+    'mouseover': 'showActions'
+    'mouseleave': 'hideActions'
 
-  className: 'media'
+  tagName: 'li'
+
+  className: 'media issue-list__item'
 
   initialize: ->
+    @listenTo(@model, 'change:status', @remove)
+    @listenTo(@model, 'change:will_start_at', @remove)
 
   render: ->
     @$el.html(@template(issue: @model))
     @
 
   closeIssue: (e) ->
+    e.preventDefault()
     if (window.confirm("Are you sure you wish to close?"))
-      @model.save {},
+      @model.save {status: 9},
         url: @model.urlRoot+'/'+@model.id+'/close'
         patch: true
-        success: (model) =>
-          $("#issue-#{@model.id}").closest('.media').hide(500, ->
-            @.remove()
-          )
-    false
+        success: (model) ->
 
   reopenIssue: (e) ->
-    @model.save {},
+    e.preventDefault()
+    @model.save {status: 1},
       url: @model.urlRoot+'/'+@model.id+'/reopen'
       patch: true
-      success: (model) =>
-        $("#issue-#{@model.id}").closest('.media').hide(500, ->
-          @.remove()
-        )
-    false
+      success: (model) ->
 
   postponeIssue: (e) ->
-    @model.save {},
-      url: @model.urlRoot+'/'+@model.id+'/postpone'
+    e.preventDefault()
+    today = new Date()
+    tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000))
+    @model.save {will_start_at: tomorrow},
       patch: true
-      success: (model) =>
-        $("#issue-#{@model.id}").closest('.media').hide(500, ->
-          @.remove()
-        )
-    false
+      success: (model) ->
 
   doTodayIssue: (e) ->
-    @model.save {},
-      url: @model.urlRoot+'/'+@model.id+'/do_today'
+    e.preventDefault()
+    @model.save {will_start_at: new Date()},
       patch: true
-      success: (model) =>
-       $("#issue-#{@model.id}").closest('.media').hide(500, ->
-          @.remove()
-        )
-    false
+      success: (model) ->
 
   startWorkload: (e) ->
     @workload = new Timecard.Models.Workload()
@@ -128,9 +120,12 @@ class Timecard.Views.IssuesItem extends Backbone.View
     false
 
   showActions: ->
-    $('.actions', @$el).removeClass('hidden')
-    $(@$el).closest('.media').addClass('highlight')
+    @$('.issue__actions').removeClass('hidden')
+    @$el.addClass('highlight')
 
   hideActions: ->
-    $('.actions', @$el).addClass('hidden')
-    $(@$el).closest('.media').removeClass('highlight')
+    @$('.issue__actions').addClass('hidden')
+    @$el.removeClass('highlight')
+
+  remove: ->
+    @$el.remove()

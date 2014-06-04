@@ -1,6 +1,6 @@
 class Timecard.Routers.Home extends Backbone.Router
   routes:
-    'users/:user_id/projects/:project_id/issues/:state': 'showUserProjectIssues'
+    'my/projects/:id': 'show'
     '*path': 'index'
 
   initialize: ->
@@ -19,22 +19,13 @@ class Timecard.Routers.Home extends Backbone.Router
               Workload.start(new Date(workload.get('start_at')))
 
   index: ->
-    default_page = $('.project-nav li a').first().attr('href')
-    @.navigate(default_page, trigger: true)
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(router: @)
+    @viewHomeSidebar.render()
+    @viewHomeMain = new Timecard.Views.HomeMain
+    @viewHomeMain.render()
 
-  showUserProjectIssues: (user_id, project_id, state) ->
-    $('#issues').html('<img src="/assets/loading_mini.gif">')
-    @issues.fetch
-      data:
-        user_id: user_id
-        project_id: project_id
-        status: state
-      success: (collection) ->
-        @viewIssuesState = new Timecard.Views.IssuesState(user_id: user_id, project_id: project_id)
-        @viewIssuesState.render()
-        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
-        @viewIssuesList.render()
-        $('.nav-pills li').removeClass('active')
-        $('#project-'+project_id).addClass('active')
-        $('.states a').removeClass('active')
-        $(".states .#{state}").addClass('active')
+  show: (id) ->
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(project_id: id, router: @)
+    @viewHomeSidebar.render()
+    @viewHomeMain = new Timecard.Views.HomeMain(project_id: id)
+    @viewHomeMain.render()

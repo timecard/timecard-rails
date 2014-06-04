@@ -1,0 +1,5 @@
+<div class="project-<%= @project.get('id') %>">
+  <a class="project__name--link" href="#">
+    <%= @project.get('name') %>
+  </a>
+</div>

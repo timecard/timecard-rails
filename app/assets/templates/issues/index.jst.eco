@@ -1,0 +1,9 @@
+<div class="project__add-button">
+  <a class="btn btn-primary" href="/projects/<%= @project.get('id') %>/issues/new">
+    <i class="fa fa-plus"></i>
+  </a>
+</div>
+<div class="issue__status-button__container">
+</div>
+<div class="issue-list__container">
+</div>

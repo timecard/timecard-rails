@@ -30,6 +30,8 @@ group :development do
   gem 'guard-rspec', '4.0.3'
   gem 'quiet_assets', '1.0.2'
   gem 'erb2haml'
+  gem 'spring'
+  gem 'spring-commands-rspec', require: false
 end
 
 group :test do
@@ -40,8 +42,6 @@ end
 group :development, :test do
   gem 'rspec-rails', '2.14.0'
   gem 'factory_girl_rails', '4.3.0'
-  gem 'spring', '1.0.0'
-  gem 'spring-commands-rspec', '1.0.1', require: false
   gem "letter_opener", '1.1.2'
 end
 

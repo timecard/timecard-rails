@@ -6,10 +6,9 @@ class Timecard.Models.Project extends Backbone.Model
     name: ''
     description: ''
     is_public: ''
-    parent_id: ''
+    parent_id: 0
     status: ''
-    members: []
 
   parse: (response) ->
-    response.members = new Timecard.Collections.Users(response.members)
+    response.publicity = if response.is_public then 'Public' else 'Private'
     response
