@@ -28,7 +28,6 @@ Timecard::Application.routes.draw do
   end
 
   resources :projects do
-    patch :archive, on: :member
     patch :active, on: :member
     patch :close, on: :member
     resources :issues, only: [:new, :create]

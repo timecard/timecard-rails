@@ -18,7 +18,6 @@
         = link_to "Add a member", project_members_path(@project), class: "btn btn-default"
         = link_to "Edit", edit_project_path(@project), class: "btn btn-default"
         = link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch
-        = link_to "Archive", archive_project_path(@project), class: "btn btn-default", method: :patch
       - else
         = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
       = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"

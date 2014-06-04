@@ -22,12 +22,4 @@ FactoryGirl.define do
     parent_id 1
     status Project::STATUS_ACTIVE
   end
-
-  factory :archived_project, class: :project do
-    name "Private Active Project"
-    description "MyText"
-    is_public true
-    parent_id 1
-    status Project::STATUS_ARCHIVED
-  end
 end

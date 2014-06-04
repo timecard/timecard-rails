@@ -57,18 +57,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def archive
-    respond_to do |format|
-      if @project.update(status: Project::STATUS_ARCHIVED)
-        format.html { redirect_to projects_path, notice: 'Project was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'show' }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def active
     respond_to do |format|
       if @project.update(status: Project::STATUS_ACTIVE)
@@ -110,9 +98,5 @@ class ProjectsController < ApplicationController
     def require_member
       return if @project.is_public
       return redirect_to root_path, alert: "You are not project member." unless @project.member?(current_user)
-    end
-
-    def reject_archived
-      return redirect_to root_path, alert: "You need to sign in or sign up before continuing." if @project.status == Project::STATUS_ARCHIVED
     end
 end
