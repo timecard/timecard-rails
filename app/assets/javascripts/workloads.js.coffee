@@ -1,6 +1,7 @@
 class Workload
   @timerId: null
   @start: (start_time) ->
+    Workload.replace(Workload.render(start_time))
     @timerId = setInterval ->
       Workload.replace(Workload.render(start_time))
     , 1000
@@ -23,6 +24,7 @@ class Workload
     user_id = $('#workers').data('user-id')
     $("#worker-#{user_id} span.timer").html(time_str)
     $('title').text(time_str)
+    $('.timer__field').text(time_str)
 
 ready = ->
   $('.dashboards').on 'click', '.js-workloads-on-day-link', (e) ->

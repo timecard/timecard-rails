@@ -1,0 +1,2 @@
+<p class="timer__field navbar-text" data-time="<%= @workload.get('start_at') %>">
+</p>
