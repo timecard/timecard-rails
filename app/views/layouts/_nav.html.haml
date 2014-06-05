@@ -13,6 +13,9 @@
           %li= link_to "Me", dashboard_path
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
+          %li.timer{ class: "timer--#{user_work_in_progress? ? 'on' : 'off'}" }
+            - if user_work_in_progress?
+              %p.navbar-text.timer__field{ "data-time" => current_user.running_workload.start_at }
           %li= link_to "Account settings", edit_user_registration_path
           %li= link_to "Logout", destroy_user_session_path, method: :delete
         - else

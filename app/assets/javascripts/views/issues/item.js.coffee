@@ -73,7 +73,11 @@ class Timecard.Views.IssuesItem extends Backbone.View
           success: (collection) ->
             @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
             @viewWorkersIndex.render().el
+        @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model)
+        @viewWorkloadsTimer.render()
         Workload.start(new Date(model.get('start_at')))
+        $('.timer').removeClass('timer--off')
+        $('.timer').addClass('timer--on')
     false
 
   stopWorkload: (e) ->
