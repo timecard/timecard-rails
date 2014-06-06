@@ -29,5 +29,13 @@ class API < Grape::API
         @projects = Project.visible(current_user)
       end
     end
+
+    resource :workloads do
+      desc "Return latest my workloads"
+      get "latest" do
+        authenticated!
+        @workloads = current_user.workloads.order("updated_at DESC").limit(10)
+      end
+    end
   end
 end

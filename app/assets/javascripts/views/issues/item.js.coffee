@@ -68,14 +68,8 @@ class Timecard.Views.IssuesItem extends Backbone.View
           prev_issue = new Timecard.Models.Issue(model.get('prev_issue'))
           @viewIssuesItem = new Timecard.Views.IssuesItem(model: prev_issue)
           $("#issue-#{prev_issue.id}").closest('.media').replaceWith(@viewIssuesItem.render().el)
-        @workers = new Timecard.Collections.Workers()
-        @workers.fetch
-          success: (collection) ->
-            @viewWorkersIndex = new Timecard.Views.WorkersIndex(collection: collection)
-            @viewWorkersIndex.render().el
         @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model)
         @viewWorkloadsTimer.render()
-        Workload.start(new Date(model.get('start_at')))
         $('.timer').removeClass('timer--off')
         $('.timer').addClass('timer--on')
     false
