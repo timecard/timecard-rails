@@ -22,9 +22,7 @@ Timecard::Application.routes.draw do
     patch :postpone, on: :member
     patch :do_today, on: :member
     resources :comments, only: [:create]
-    resource :workloads, only: [:start] do
-      post :start, on: :member
-    end
+    resource :workloads, only: :create
   end
 
   resources :projects do

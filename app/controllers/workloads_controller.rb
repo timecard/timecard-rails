@@ -21,6 +21,28 @@ class WorkloadsController < ApplicationController
   def edit
   end
 
+  def create
+    if current_user.workloads.running?
+      @prev_issue = current_user.working_issue
+      current_user.running_workload.update!(end_at: Time.now.utc)
+    end
+    @issue = Issue.find(params[:issue_id])
+    @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
+
+    if @workload.save
+      if Authentication.exists?(["provider = 'chatwork'"])
+        rails_host = env["HTTP_HOST"]
+        body = "#{current_user.name}さんが「#{@issue.project.name}」における「#{@issue.subject}」を開始しました\nhttp://#{rails_host}/issues/#{@issue.id}"
+        Chatwork.post(body)
+      end
+      respond_to do |format|
+        format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
+        format.js
+        format.json { render action: 'workload' }
+      end
+    end
+  end
+
   def update
     respond_to do |format|
       if @workload.update(workload_params)
@@ -38,28 +60,6 @@ class WorkloadsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @workload.issue }
       format.json { head :no_content }
-    end
-  end
-
-  def start
-    if current_user.workloads.running?
-      @prev_issue = current_user.working_issue
-      current_user.running_workload.update!(end_at: Time.now.utc)
-    end
-    @issue = Issue.find(params[:issue_id])
-    @workload = @issue.workloads.build(start_at: Time.now.utc, user_id: current_user.id)
-
-    if @workload.save
-      if Authentication.exists?(["provider = 'chatwork'"])
-        rails_host = env["HTTP_HOST"]
-        body = "#{current_user.name}さんが「#{@issue.project.name}」における「#{@issue.subject}」を開始しました\nhttp://#{rails_host}/issues/#{@issue.id}"
-        Chatwork.post(body)
-      end
-      respond_to do |format|
-        format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
-        format.js
-        format.json { render action: 'start', status: :created, location: @workload }
-      end
     end
   end
 

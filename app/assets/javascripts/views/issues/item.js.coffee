@@ -57,7 +57,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
   startWorkload: (e) ->
     @workload = new Timecard.Models.Workload()
     @workload.save { start_at: new Date() },
-      url: @model.urlRoot + '/' + @model.id + '/workloads/start'
+      url: '/issues/'+@model.id+'/workloads'
       success: (model) ->
         workload = new Timecard.Models.Workload(model)
         issue = new Timecard.Models.Issue(model.get('issue'))

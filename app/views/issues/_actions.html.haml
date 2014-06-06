@@ -6,7 +6,7 @@
       - else
         = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch, remote: true, :'data-type' => :html, data: { prompt: { message: "password?\n***It does not save the password.***", default: '', param: 'password'} }
     - else
-      = link_to "Start", start_issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post
+      = link_to "Start", issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post
     - if @issue.will_start_at.present? && @issue.will_start_at >= Time.now.utc
       = link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
     - else
