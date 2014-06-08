@@ -20,15 +20,15 @@
     <% end %>
     <% if @issue.get('is_running') is true and @issue.get('is_crowdworks') is true: %>
       <a href="#" class="btn-stop" data-toggle="modal" data-target="#myModal<%= @issue.get('running_workload_id') %>">
-        <i class="fa fa-pause" title="stop"></i>
+        <i class="fa fa-pause" title="stop"></i>STOP
       </a>
     <% else if @issue.get('is_running') is true and @issue.get('is_crowdworks') is not true: %>
         <a href="#" class="btn-stop js-btn-stop-workload" data-workload-id="<%= @issue.get('running_workload_id') %>">
-          <i class="fa fa-pause" title="stop"></i>
+          <i class="fa fa-pause" title="stop"></i>STOP
         </a>
     <% else: %>
       <a href="#" class="btn-start js-btn-start-workload">
-        <i class="fa fa-play" title="start"></i>
+        <i class="fa fa-play" title="start"></i>START
       </a>
     <% end %>
   <% else: %>

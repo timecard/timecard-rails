@@ -26,7 +26,7 @@
 <td>
   <% if $('#workers').data('user-id') is @worker.get('id'): %>
     <a href="#" class="js-stop-workload-button">
-      <i class="fa fa-pause"></i>
+      <i class="fa fa-pause"></i>STOP
     </a>
   <% end %>
 </td>
