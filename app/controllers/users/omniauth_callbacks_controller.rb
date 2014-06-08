@@ -11,13 +11,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def callback
     omniauth = request.env["omniauth.auth"]
+    prov = omniauth.provider
+
     authentication = Authentication.where(provider: omniauth.provider, uid: omniauth.uid).first
     if authentication.present? # sign in
       flash[:notice] = "Signed in successfully."
       remember_me(authentication.user)
       sign_in_and_redirect(:user, authentication.user)
     else
-      prov = omniauth.provider
       if user_signed_in? # connect to provider
         current_user.send("apply_omniauth_with_#{prov}", omniauth)
         if current_user.save
@@ -26,8 +27,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           flash[:alert] = "Linked with #{prov} faild."
         end
       else # sign up
-        user = User.where(email: omniauth.info.email).first_or_initialize
+        email = omniauth.info.email
+
+        # Ruffnote APIからはメールアドレスが取得できない
+        if email.nil? && prov == "ruffnote"
+          email = "timecard_ruffnote_#{omniauth.info.name}@mindia.jp"
+        end
+        user = User.where(email: email).first_or_initialize
         user.send("apply_omniauth_with_#{prov}", omniauth)
+
         if user.save
           flash[:notice] = "Signed in successfully."
           remember_me(user)

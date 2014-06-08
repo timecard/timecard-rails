@@ -13,6 +13,12 @@ GIT
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
 
+GIT
+  remote: git://github.com/pandeiro245/ruffnote_api.git
+  revision: b72e4b570f75c231906b8db06667bd61e89f31e6
+  specs:
+    ruffnote_api (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -361,6 +367,7 @@ DEPENDENCIES
   rails (= 4.0.2)
   redcarpet (= 3.0.0)
   rspec-rails (= 2.14.0)
+  ruffnote_api!
   sass-rails (~> 4.0.0)
   sdoc
   simplecov (= 0.7.1)
