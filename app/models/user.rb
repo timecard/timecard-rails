@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     authentications.build(
       provider: omniauth.provider,
       uid: omniauth.uid,
-      username: name,
+      username: omniauth.info.nickname,
       oauth_token: omniauth.credentials.token
     )
   end
