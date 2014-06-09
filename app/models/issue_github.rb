@@ -30,7 +30,7 @@ class IssueGithub < Provider
       options["assignee"] = nil
     end
     fn = self.issue.project.github.full_name.split("/")
-    issue = Provider.github(token).issues.edit(
+    Provider.github(token).issues.edit(
       fn[0], fn[1], self.number, options
     )
   end
