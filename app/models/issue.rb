@@ -53,6 +53,12 @@ class Issue < ActiveRecord::Base
     issue_ruffnote.save
   end
 
+  def provider
+    return github if github
+    return ruffnote if ruffnote
+    nil
+  end
+
   def self.with_status(status)
     case status
     when "open"

@@ -10,7 +10,6 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     'click .issue__status-button--deferred': 'deferred'
 
   initialize: (@options) ->
-    @project = @options.project
 
   render: ->
     @$el.html(@template())
@@ -21,30 +20,54 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
     @$('.issue__status-button').removeClass('active')
     @$('.issue__status-button--open').addClass('active')
-    @collection.fetch
-      reset: true
-      data:
-        project_id: @project.id
-        status: 'open'
+
+    if @options?.project_id?
+      @collection.fetch
+        reset: true
+        data:
+          project_id: @options.project_id
+          status: 'open'
+    else
+      @collection.fetch
+        reset: true
+        url: '/api/my/issues'
+        data:
+          status: 'open'
 
   closed: (e) ->
     e.preventDefault()
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
     @$('.issue__status-button').removeClass('active')
     @$('.issue__status-button--closed').addClass('active')
-    @collection.fetch
-      reset: true
-      data:
-        project_id: @project.id
-        status: 'closed'
+
+    if @options?.project_id?
+      @collection.fetch
+        reset: true
+        data:
+          project_id: @options.project_id
+          status: 'closed'
+    else
+      @collection.fetch
+        reset: true
+        url: '/api/my/issues'
+        data:
+          status: 'closed'
 
   deferred: (e) ->
     e.preventDefault()
     $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
     @$('.issue__status-button').removeClass('active')
     @$('.issue__status-button--deferred').addClass('active')
-    @collection.fetch
-      reset: true
-      data:
-        project_id: @project.id
-        status: 'not_do_today'
+
+    if @options?.project_id?
+      @collection.fetch
+        reset: true
+        data:
+          project_id: @options.project_id
+          status: 'not_do_today'
+    else
+      @collection.fetch
+        reset: true
+        url: '/api/my/issues'
+        data:
+          status: 'not_do_today'
