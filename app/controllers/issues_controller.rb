@@ -104,6 +104,28 @@ class IssuesController < ApplicationController
             format.html { render action: 'edit' }
           end
         end
+
+        if params[:ruffnote].present?
+          issue = @issue.project.ruffnote.add_issue(current_user.ruffnote.oauth_token , params[:issue])
+          if issue
+            @issue.add_ruffnote(issue)
+          else
+            flash[:alert] = 'Create a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+            return false
+          end
+        end
+
+        if @issue.project.ruffnote && @issue.ruffnote
+          issue = @issue.ruffnote.modify(
+            current_user.ruffnote.oauth_token, issue_params
+          )
+          unless issue
+            flash[:alert] = 'Update a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'edit' }
+          end
+        end
+
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       else

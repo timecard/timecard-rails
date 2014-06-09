@@ -38,5 +38,18 @@
               %br
               %span.text-muted If checked add this issue to github.
           %hr
+
+        - if current_user.ruffnote && @issue.project.ruffnote
+          %hr
+          .form-group.checkbox
+            = label_tag "ruffnote" do
+              = check_box_tag 'ruffnote', 1, @issue.ruffnote, checked: true, id: "js-add-ruffnote-checkbox"
+              Ruffnote
+              %br
+              %span.text-muted If checked add this issue to ruffnote.
+          %hr
+
+
+
       .actions.pull-right
         = f.submit "Create a new issue", class: "btn btn-success"
