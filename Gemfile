@@ -17,7 +17,7 @@ gem 'backbone-on-rails'
 gem 'omniauth-github', '1.1.1'
 gem 'github_api', '0.11.3'
 gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
-#gem 'ruffnote_api', :github => 'pandeiro245/ruffnote_api'
+gem 'ruffnote_api', :github => 'pandeiro245/ruffnote_api'
 #gem 'ruffnote_api', :path => '/Users/[yourpath]/git/ruffnote_api'
 gem 'mechanize'
 gem "exception_notification"
