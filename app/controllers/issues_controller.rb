@@ -104,6 +104,17 @@ class IssuesController < ApplicationController
             format.html { render action: 'edit' }
           end
         end
+
+        if @issue.project.ruffnote && current_user.ruffnote
+          issue = @issue.ruffnote.modify(
+            current_user.ruffnote.oauth_token, issue_params
+          )
+          unless issue
+            flash[:alert] = 'Update a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'edit' }
+          end
+        end
+
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -122,6 +133,9 @@ class IssuesController < ApplicationController
       if @issue.github
         @issue.github.close(current_user.github.oauth_token)
       end
+      if @issue.ruffnote
+        @issue.ruffnote.close(current_user.ruffnote.oauth_token)
+      end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
@@ -133,6 +147,9 @@ class IssuesController < ApplicationController
     if @issue.reopen
       if @issue.github
         @issue.github.reopen(current_user.github.oauth_token)
+      end
+      if @issue.ruffnote
+        @issue.ruffnote.reopen(current_user.ruffnote.oauth_token)
       end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }

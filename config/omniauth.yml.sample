@@ -3,13 +3,15 @@ development:
     key: "your-github-api-key"
     secret: "your-github-api-secret"
   ruffnote: 
-    key: "your-github-api-key"
-    secret: "your-github-api-secret"
+    key: "your-ruffnote-api-key"
+    secret: "your-ruffnote-api-secret"
+    url: 'http://ruffnote.dev'
 
 production:
   github:
     key: "your-github-api-key"
     secret: "your-github-api-secret"
   ruffnote: 
-    key: "your-github-api-key"
-    secret: "your-github-api-secret"
+    key: "your-ruffnote-api-key"
+    secret: "your-ruffnote-api-secret"
+    url: 'https://ruffnote.com'
