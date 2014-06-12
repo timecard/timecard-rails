@@ -8,12 +8,14 @@
     = csrf_meta_tags
   %body{:class => controller.controller_name}
     = render 'layouts/nav'
-    .container
-      - if user_signed_in?
-        .table-responsive
-          %table#workers.table.hidden{"data-user-id" => current_user.id}
-      - if notice
-        .alert.alert-success= notice
-      - if alert
-        .alert.alert-danger= alert
-      = yield
+    .container-fluid
+      .row
+        .col-lg-12.col-md-12
+          - if user_signed_in?
+            .table-responsive
+              %table#workers.table.hidden{"data-user-id" => current_user.id}
+          - if notice
+            .alert.alert-success= notice
+          - if alert
+            .alert.alert-danger= alert
+          = yield
