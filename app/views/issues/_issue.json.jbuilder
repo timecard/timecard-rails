@@ -1,4 +1,5 @@
-json.extract! issue, :id, :subject, :description, :will_start_at, :status, :closed_on, :project_id, :created_at, :updated_at
+json.extract! issue, :id, :subject, :description, :will_start_at, :status, :closed_on, :created_at, :updated_at
+json.project issue.project
 json.user issue.author
 json.assignee issue.assignee if issue.assignee
 json.provider issue.provider if issue.provider
