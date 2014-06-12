@@ -27,7 +27,7 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
     @collection.create {start_at: new Date()},
       url: '/issues/'+@issue.id+'/workloads'
       success: (model) =>
-        @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model)
+        @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model, issues: @issue.collection)
         @viewWorkloadsTimer.render()
         @issue.set('is_running', true)
         $('.timer').removeClass('timer--off')

@@ -9,7 +9,7 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
 
   className: 'project-list__item'
 
-  initialize: ->
+  initialize: (@options) ->
 
   render: ->
     @$el.html(@template(project: @model))
@@ -19,6 +19,6 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
     e.preventDefault()
     $(".project-list__item").removeClass('project-list__item--current')
     @$el.addClass('project-list__item--current')
-    @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @model.id)
+    @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @model.id, issues: @options.issues)
     @viewIssuesIndex.render()
     Backbone.trigger('navigate', @model)
