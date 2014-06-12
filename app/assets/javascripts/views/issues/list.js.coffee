@@ -4,7 +4,7 @@ class Timecard.Views.IssuesList extends Backbone.View
 
   el: '.issue-list__container'
 
-  initialize: ->
+  initialize: (@options) ->
     @listenTo(@collection, 'reset', @render)
 
   render: ->
@@ -18,4 +18,4 @@ class Timecard.Views.IssuesList extends Backbone.View
     @
   
   addIssueView: (issue) ->
-    @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue).render().el)
+    @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue, workloads: @options.workloads).render().el)

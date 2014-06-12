@@ -17,6 +17,7 @@ class Timecard.Models.Issue extends Backbone.Model
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
     created_at = new Date(response.created_at)
     response.created_on = "#{monthNames[created_at.getMonth()]} #{created_at.getDate()}"
+    response.project = new Timecard.Models.Project(response.project)
     response.user = new Timecard.Models.User(response.user)
     response.assignee = new Timecard.Models.User(response.assignee) if response.assignee?
     response.provider = new Timecard.Models.Provider(response.provider) if response.provider?

@@ -5,29 +5,20 @@ class Timecard.Views.IssuesIndex extends Backbone.View
   el: '.issues-index'
 
   initialize: (@options) ->
-    @collection = new Timecard.Collections.Issues
-    @listenTo(@collection, 'change:is_running', @render)
+    @issues = @options.issues
 
   render: ->
     @$el.html(@template(project_id: @options?.project_id))
     if @options?.project_id?
-      @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(project_id: @options.project_id, collection: @collection)
-      @viewIssuesStatusButton.render()
+      @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(project_id: @options.project_id, collection: @issues)
+      @issues.url = '/projects/'+@options.project_id+'/issues'
     else
-      @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(collection: @collection)
-      @viewIssuesStatusButton.render()
+      @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(collection: @issues)
+      @issues.url = '/api/my/issues'
 
-    if @options?.project_id?
-      @collection.fetch
-        data:
-          project_id: @options.project_id
-        success: (collection) =>
-          @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
-          @viewIssuesList.render()
-    else
-      @collection.fetch
-        url: '/api/my/issues'
-        success: (collection) ->
-          @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
-          @viewIssuesList.render()
+    @viewIssuesStatusButton.render()
+    @issues.fetch
+      success: (collection) =>
+        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection, workloads: @options.workloads)
+        @viewIssuesList.render()
     @

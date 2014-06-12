@@ -1,2 +1,7 @@
-<p class="timer__field navbar-text" data-time="<%= @workload.get('start_at') %>">
+<p class="navbar-text">
+  <span class="timer__field">
+  </span>
+  <a class="timer-button--stop" href="#">
+    <i class="fa fa-pause"></i>
+  </a>
 </p>
