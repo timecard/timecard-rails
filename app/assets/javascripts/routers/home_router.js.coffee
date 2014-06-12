@@ -31,4 +31,3 @@ class Timecard.Routers.Home extends Backbone.Router
     if workload?
       @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: workload)
       @viewWorkloadsTimer.render()
-
