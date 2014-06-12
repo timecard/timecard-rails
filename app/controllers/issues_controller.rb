@@ -105,7 +105,7 @@ class IssuesController < ApplicationController
           end
         end
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: "issue" }
       else
         format.html { render action: 'edit' }
         format.json { render json: @issue.errors, status: :unprocessable_entity }
@@ -124,7 +124,7 @@ class IssuesController < ApplicationController
       end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: "issue" }
       end
     end
   end
@@ -136,7 +136,7 @@ class IssuesController < ApplicationController
       end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: "issue" }
       end
     end
   end
@@ -145,7 +145,7 @@ class IssuesController < ApplicationController
     if @issue.update(will_start_at: 1.day.since(Time.now.utc))
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: "issue" }
       end
     end
   end
@@ -154,7 +154,7 @@ class IssuesController < ApplicationController
     if @issue.update(will_start_at: Time.now.utc)
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: "issue" }
       end
     end
   end

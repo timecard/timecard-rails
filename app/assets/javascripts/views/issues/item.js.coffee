@@ -27,7 +27,8 @@ class Timecard.Views.IssuesItem extends Backbone.View
       assignee: @model.get('assignee')
       provider: @model.get('provider')
     ))
-    @viewWorkloadsTimerButton.setElement(@$('.timer-button__container')).render()
+    if @model.get('status') isnt 9
+      @viewWorkloadsTimerButton.setElement(@$('.timer-button__container')).render()
     if @model.get('is_running') is true
       @$('.issue-list__item__button-group').removeClass('hidden')
     @
@@ -39,6 +40,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
         url: @model.urlRoot+'/'+@model.id+'/close'
         patch: true
         success: (model) ->
+          Workload.stop()
 
   reopenIssue: (e) ->
     e.preventDefault()
