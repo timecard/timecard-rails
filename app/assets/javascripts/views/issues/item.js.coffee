@@ -40,6 +40,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
         url: @model.urlRoot+'/'+@model.id+'/close'
         patch: true
         success: (model) ->
+          Workload.stop()
 
   reopenIssue: (e) ->
     e.preventDefault()
