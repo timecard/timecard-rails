@@ -11,8 +11,6 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
 
   initialize: (@options) ->
     @issue = @options.issue
-    @issues = @issue.collection
-    @listenTo(@issues, 'change:is_running', @render)
 
   render: ->
     @$el.html(@template(issue: @issue))
@@ -20,15 +18,18 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
 
   startTimer: (e) ->
     e.preventDefault()
-    if Workload.timerId?
+    model = @collection.findWhere(end_at: null)
+    if model?
+      model.set('end_at', new Date())
+      issue = @issue.collection.get(model.get('issue').id)
+      issue.set('is_running', false)
       Workload.stop()
     @collection.create {start_at: new Date()},
       url: '/issues/'+@issue.id+'/workloads'
       success: (model) =>
-        @issue.set('is_running', true)
         @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model)
         @viewWorkloadsTimer.render()
-        $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
+        @issue.set('is_running', true)
         $('.timer').removeClass('timer--off')
         $('.timer').addClass('timer--on')
 
@@ -46,14 +47,10 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
     @updateWorkload(attrs)
 
   updateWorkload: (attrs) ->
-    @collection.fetch
-      url: '/api/my/workloads/latest'
-      success: (collection) =>
-        model = collection.findWhere(end_at: null)
-        model.save attrs,
-          success: (model) =>
-            @issue.set('is_running', false)
-            Workload.stop()
-            $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
-            $('.timer').removeClass('timer--on')
-            $('.timer').addClass('timer--off')
+    model = @collection.findWhere(end_at: null)
+    model.save attrs,
+      success: (model) =>
+        Workload.stop()
+        @issue.set('is_running', false)
+        $('.timer').removeClass('timer--on')
+        $('.timer').addClass('timer--off')

@@ -6,7 +6,6 @@ class Timecard.Views.IssuesIndex extends Backbone.View
 
   initialize: (@options) ->
     @collection = new Timecard.Collections.Issues
-    @listenTo(@collection, 'change:is_running', @render)
 
   render: ->
     @$el.html(@template(project_id: @options?.project_id))
@@ -20,6 +19,6 @@ class Timecard.Views.IssuesIndex extends Backbone.View
     @viewIssuesStatusButton.render()
     @collection.fetch
       success: (collection) =>
-        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection)
+        @viewIssuesList = new Timecard.Views.IssuesList(collection: collection, workloads: @options.workloads)
         @viewIssuesList.render()
     @

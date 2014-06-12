@@ -14,11 +14,11 @@ class Timecard.Views.IssuesItem extends Backbone.View
 
   className: 'media issue-list__item'
 
-  initialize: ->
+  initialize: (@options) ->
     @listenTo(@model, 'change:status', @remove)
     @listenTo(@model, 'change:will_start_at', @remove)
-    @workloads = new Timecard.Collections.Workloads
-    @viewWorkloadsTimerButton = new Timecard.Views.WorkloadsTimerButton(issue: @model, collection: @workloads)
+    @listenTo(@model, 'change:is_running', @render)
+    @viewWorkloadsTimerButton = new Timecard.Views.WorkloadsTimerButton(issue: @model, collection: @options.workloads)
 
   render: ->
     @$el.html(@template(

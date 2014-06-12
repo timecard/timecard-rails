@@ -10,8 +10,8 @@ class Timecard.Views.HomeMain extends Backbone.View
   render: ->
     @$el.html(@template())
     if @options?.project_id?
-      @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @options.project_id)
+      @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @options.project_id, workloads: @options.workloads)
     else
-      @viewIssuesIndex = new Timecard.Views.IssuesIndex
+      @viewIssuesIndex = new Timecard.Views.IssuesIndex(workloads: @options.workloads)
     @viewIssuesIndex.render()
     @

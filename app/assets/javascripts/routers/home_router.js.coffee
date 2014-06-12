@@ -12,7 +12,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @workloads.fetch
       url: '/api/my/workloads/latest'
       success: (workloads) =>
-        @viewHomeMain = new Timecard.Views.HomeMain
+        @viewHomeMain = new Timecard.Views.HomeMain(workloads: workloads)
         @viewHomeMain.render()
         @renderGlobalTimer(workloads)
 
@@ -22,7 +22,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @workloads.fetch
       url: '/api/my/workloads/latest'
       success: (workloads) =>
-        @viewHomeMain = new Timecard.Views.HomeMain(project_id: id)
+        @viewHomeMain = new Timecard.Views.HomeMain(project_id: id, workloads: workloads)
         @viewHomeMain.render()
         @renderGlobalTimer(workloads)
 
