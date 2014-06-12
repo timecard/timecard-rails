@@ -4,15 +4,31 @@ class Timecard.Routers.Home extends Backbone.Router
     '*path': 'index'
 
   initialize: ->
+    @workloads = new Timecard.Collections.Workloads
 
   index: ->
     @viewHomeSidebar = new Timecard.Views.HomeSidebar(router: @)
     @viewHomeSidebar.render()
-    @viewHomeMain = new Timecard.Views.HomeMain
-    @viewHomeMain.render()
+    @workloads.fetch
+      url: '/api/my/workloads/latest'
+      success: (workloads) =>
+        @viewHomeMain = new Timecard.Views.HomeMain
+        @viewHomeMain.render()
+        @renderGlobalTimer(workloads)
 
   show: (id) ->
     @viewHomeSidebar = new Timecard.Views.HomeSidebar(project_id: id, router: @)
     @viewHomeSidebar.render()
-    @viewHomeMain = new Timecard.Views.HomeMain(project_id: id)
-    @viewHomeMain.render()
+    @workloads.fetch
+      url: '/api/my/workloads/latest'
+      success: (workloads) =>
+        @viewHomeMain = new Timecard.Views.HomeMain(project_id: id)
+        @viewHomeMain.render()
+        @renderGlobalTimer(workloads)
+
+  renderGlobalTimer: (workloads) ->
+    workload = workloads.findWhere(end_at: null)
+    if workload?
+      @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: workload)
+      @viewWorkloadsTimer.render()
+
