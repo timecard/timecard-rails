@@ -44,9 +44,12 @@
   }
 }
 
-.project__add-button {
-  display: inline-block;
+.issue-list__head-buttons {
   margin: 0 0 15px 30px;
+}
+
+.new-issue {
+  display: inline-block;
 }
 
 .issue__status-button__container {
@@ -62,5 +65,12 @@
     padding: 15px;
     margin: 0;
     border-bottom: solid 1px #dddddd;
+    .issue__action-buttons__container {
+      display: inline;
+    }
+
+    .timer-button__container {
+      display: inline;
+    }
   }
 }

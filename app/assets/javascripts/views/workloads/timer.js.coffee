@@ -8,4 +8,5 @@ class Timecard.Views.WorkloadsTimer extends Backbone.View
 
   render: ->
     @$el.html(@template(workload: @model))
+    Workload.start(new Date(@model.get('start_at')))
     @

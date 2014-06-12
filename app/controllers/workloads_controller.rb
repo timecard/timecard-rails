@@ -21,27 +21,7 @@ class WorkloadsController < ApplicationController
   def edit
   end
 
-  def update
-    respond_to do |format|
-      if @workload.update(workload_params)
-        format.html { redirect_to @workload.issue, notice: 'Work log was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @workload.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @workload.destroy
-    respond_to do |format|
-      format.html { redirect_to @workload.issue }
-      format.json { head :no_content }
-    end
-  end
-
-  def start
+  def create
     if current_user.workloads.running?
       @prev_issue = current_user.working_issue
       current_user.running_workload.update!(end_at: Time.now.utc)
@@ -58,8 +38,29 @@ class WorkloadsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
         format.js
-        format.json { render action: 'start', status: :created, location: @workload }
+        format.json { render action: 'workload' }
       end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @workload.update(workload_params)
+        logging_crowdworks unless get_project(@workload.issue_id).crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
+        format.html { redirect_to @workload.issue, notice: 'Work log was successfully updated.' }
+        format.json { render action: "workload" }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @workload.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @workload.destroy
+    respond_to do |format|
+      format.html { redirect_to @workload.issue }
+      format.json { head :no_content }
     end
   end
 
@@ -81,7 +82,7 @@ class WorkloadsController < ApplicationController
   end
 
   def workload_params
-    params.require(:workload).permit(:start_at, :end_at, :issue_id, :user_id, :password)
+    params.require(:workload).permit(:id, :start_at, :end_at, :issue_id, :user_id, :created_at, :updated_at, :password)
   end
   
   def get_project issue_id
@@ -121,7 +122,8 @@ class WorkloadsController < ApplicationController
           form.click_button
         }
       end
-    rescue
+    rescue => e
+      logger.debug "#{e.class}: #{e.message}"
     end
   end
 end

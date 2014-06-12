@@ -1,2 +1,7 @@
 <ul class="project-list">
+  <li class="project-list__item">
+    <div class="project-all">
+      <a class="project__name--link" href="#my/projects">All</a>
+    </div>
+  </li>
 </ul>

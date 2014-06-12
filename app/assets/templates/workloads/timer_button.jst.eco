@@ -1,0 +1,30 @@
+<% if @issue.get('is_running') is true: %>
+  <a href="#" class="btn btn-warning timer-button--stop">
+    <i class="fa fa-pause" title="stop"></i>
+    STOP
+  </a>
+<% else: %>
+  <a href="#" class="btn btn-primary timer-button--start">
+    <i class="fa fa-play" title="start"></i>
+    START
+  </a>
+<% end %>
+
+<div class="modal fade crowdworks-form__modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Password?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please input your crowdworks password.</p>
+        <input type="password" class="form-control crowdworks-form__password" name="password" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a href="#" class="btn btn-primary crowdworks-form__submit" data-dismiss="modal">OK</a>
+      </div>
+    </div>
+  </div>
+</div>

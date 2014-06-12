@@ -31,4 +31,4 @@
           - else
             = link_to "Stop", stop_workload_path(current_user.running_workload.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-password-button"
         - else
-          = link_to "Start", start_issue_workloads_path(issue_id: issue.id), remote: true, method: :post, class: "btn btn-primary js-start-workload-button"
+          = link_to "Start", issue_workloads_path(issue_id: issue.id), remote: true, method: :post, class: "btn btn-primary js-start-workload-button"

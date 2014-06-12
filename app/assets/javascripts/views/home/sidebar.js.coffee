@@ -17,6 +17,8 @@ class Timecard.Views.HomeSidebar extends Backbone.View
         @viewProjectsList.render()
         if @options?.project_id?
           @$(".project-#{@options.project_id}").closest('li').addClass('project-list__item--current')
+        else
+          @$(".project-all").closest('li').addClass('project-list__item--current')
     @
 
   navigate: (project) ->

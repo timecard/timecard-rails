@@ -9,5 +9,15 @@ class Timecard.Models.Issue extends Backbone.Model
     status: 1
     closed_on: null
     project_id: null
-    author_id: null
-    assignee_id: null
+    created_at: null
+    updated_at: null
+
+  parse: (response) ->
+    monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+    created_at = new Date(response.created_at)
+    response.created_on = "#{monthNames[created_at.getMonth()]} #{created_at.getDate()}"
+    response.user = new Timecard.Models.User(response.user)
+    response.assignee = new Timecard.Models.User(response.assignee) if response.assignee?
+    response.provider = new Timecard.Models.Provider(response.provider) if response.provider?
+    response
