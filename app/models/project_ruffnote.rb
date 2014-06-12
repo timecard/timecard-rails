@@ -13,7 +13,7 @@ class ProjectRuffnote < Provider
       assignee = a.ruffnote.username
     end
     fn = self.full_name
-    Provider.ruffnote(token).post(
+    issue = Provider.ruffnote(token).post(
       "/api/v1/#{fn}/issues.json", 
       body: { 
         issue: { 
@@ -22,6 +22,6 @@ class ProjectRuffnote < Provider
           to_user: assignee
         }
       }
-    )
+    ).parsed
   end
 end

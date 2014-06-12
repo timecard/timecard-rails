@@ -33,4 +33,13 @@ class IssueRuffnote < Provider
     }).parsed
   end
 
+  def add_comment(token, params)
+    fn = self.issue.project.ruffnote.full_name
+    comment = Provider.ruffnote(token).post("/api/v1/#{fn}/issues/#{self.number}/comments", body: { 
+      comment: {
+        comment: params[:body]
+      }
+    }).parsed
+  end
+
 end

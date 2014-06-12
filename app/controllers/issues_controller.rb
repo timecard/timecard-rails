@@ -65,8 +65,7 @@ class IssuesController < ApplicationController
         if @issue.project.ruffnote && current_user.ruffnote
           issue = @issue.project.ruffnote.add_issue(current_user.ruffnote.oauth_token , params[:issue])
           if issue
-            number = JSON.parse(issue.response.env[:body])["index"]
-            @issue.add_ruffnote(number)
+            @issue.add_ruffnote(issue['index'])
           else
             flash[:alert] = 'Create a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'new' }
