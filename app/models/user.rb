@@ -33,15 +33,15 @@ class User < ActiveRecord::Base
   def apply_omniauth(omniauth)
     self.email = omniauth.info.email if self.email.blank?
     self.password = Devise.friendly_token[0,20] if self.encrypted_password.blank?
-    name =  omniauth.info.nickname 
+    name = omniauth.info.nickname
     if self.name.blank? && !User.find_by(name: name).nil?
       i = 1 
       while !User.find_by(name: "#{name}#{i}").nil?
         i += 1 
       end
       name = "#{name}#{i}"
-      self.name = name
     end
+    self.name = name
     authentications.build(
       provider: omniauth.provider,
       uid: omniauth.uid,

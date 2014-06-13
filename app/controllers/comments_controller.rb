@@ -18,6 +18,17 @@ class CommentsController < ApplicationController
             format.html { render action: 'new' }
           end
         end
+
+        if @comment.issue.ruffnote && current_user.ruffnote
+          comment = @comment.issue.ruffnote.add_comment(current_user.ruffnote.oauth_token , comment_params)
+          if comment
+            @comment.add_ruffnote(comment['id'])
+          else
+            flash[:alert] = 'Create a new comment to Ruffnote failed.' + @comment.errors.full_messages.join("\n")
+            format.html { render action: 'new' }
+          end
+        end
+
         format.html { redirect_to @issue, notice: 'Comment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
@@ -52,6 +63,11 @@ class CommentsController < ApplicationController
     if @comment.github && @comment.github.comment_id && current_user.github
       comment = @comment.github.destroy(
         current_user.github.oauth_token
+      )
+    end
+    if @comment.ruffnote && @comment.ruffnote.comment_id && current_user.ruffnote
+      comment = @comment.ruffnote.destroy(
+        current_user.ruffnote.oauth_token
       )
     end
     @comment.destroy

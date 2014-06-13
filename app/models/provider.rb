@@ -25,7 +25,7 @@ class Provider < ActiveRecord::Base
     client = OAuth2::Client.new(
       SERVICES['ruffnote']['key'], 
       SERVICES['ruffnote']['secret'], 
-      site: "https://ruffnote.com"
+      site: SERVICES['ruffnote']['url']
     )
     return OAuth2::AccessToken.new(client, token)
   end

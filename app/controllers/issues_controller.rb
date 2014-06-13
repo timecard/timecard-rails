@@ -65,8 +65,7 @@ class IssuesController < ApplicationController
         if @issue.project.ruffnote && current_user.ruffnote
           issue = @issue.project.ruffnote.add_issue(current_user.ruffnote.oauth_token , params[:issue])
           if issue
-            number = JSON.parse(issue.response.env[:body])["index"]
-            @issue.add_ruffnote(number)
+            @issue.add_ruffnote(issue['index'])
           else
             flash[:alert] = 'Create a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'new' }
@@ -104,6 +103,17 @@ class IssuesController < ApplicationController
             format.html { render action: 'edit' }
           end
         end
+
+        if @issue.project.ruffnote && current_user.ruffnote
+          issue = @issue.ruffnote.modify(
+            current_user.ruffnote.oauth_token, issue_params
+          )
+          unless issue
+            flash[:alert] = 'Update a new issue to Ruffnote failed.' + @issue.errors.full_messages.join("\n")
+            format.html { render action: 'edit' }
+          end
+        end
+
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { render action: "issue" }
       else
@@ -122,6 +132,9 @@ class IssuesController < ApplicationController
       if @issue.github
         @issue.github.close(current_user.github.oauth_token)
       end
+      if @issue.ruffnote
+        @issue.ruffnote.close(current_user.ruffnote.oauth_token)
+      end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { render action: "issue" }
@@ -133,6 +146,9 @@ class IssuesController < ApplicationController
     if @issue.reopen
       if @issue.github
         @issue.github.reopen(current_user.github.oauth_token)
+      end
+      if @issue.ruffnote
+        @issue.ruffnote.reopen(current_user.ruffnote.oauth_token)
       end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }

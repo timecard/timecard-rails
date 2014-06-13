@@ -21,4 +21,23 @@ class Comment < ActiveRecord::Base
     comment_github.comment_id = comment_id
     comment_github.save
   end
+
+  def ruffnote
+    CommentRuffnote.find_by(
+      name: "ruffnote",
+      provided_type: "Comment",
+      foreign_id: self.id
+    )
+  end
+
+  def add_ruffnote(comment_id)
+    comment_ruffnote  = CommentRuffnote.find_or_create_by(
+      name: "ruffnote",
+      provided_type: "Comment",
+      foreign_id: self.id
+    )
+    comment_ruffnote.comment_id = comment_id
+    comment_ruffnote.save
+  end
+
 end
