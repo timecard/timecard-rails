@@ -16,7 +16,7 @@ Setup
     $ bundle install
     $ cp config/database.yml.sample config/database.yml
     $ rake db:setup
-    $ rake assets:precompile
+    $ rake assets:precompile RAILS_ENV=production
     $ cp config/omniauth.yml.sample config/omniauth.yml # setup Client ID and Client Secret of GitHub and Ruffnote
       (callback URL is project root ex: http:/yoursite.example.com/)  
       https://github.com/settings/applications, https://ruffnote.com/oauth/applications
