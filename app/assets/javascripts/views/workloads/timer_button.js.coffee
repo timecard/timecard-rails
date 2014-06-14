@@ -22,7 +22,8 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
     if model?
       model.set('end_at', new Date())
       issue = @issue.collection.get(model.get('issue').id)
-      issue.set('is_running', false)
+      if issue?
+        issue.set('is_running', false)
       Workload.stop()
     @collection.create {start_at: new Date()},
       url: '/issues/'+@issue.id+'/workloads'
@@ -42,7 +43,7 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
       @updateWorkload(attrs)
 
   addCrowdworksPassword: ->
-    password = $('.crowdworks-form__password').val()
+    password = @$('.crowdworks-form__password').val()
     attrs = {end_at: new Date(), password: password}
     @updateWorkload(attrs)
 
