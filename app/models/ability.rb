@@ -43,14 +43,9 @@ class Ability
   end
 
   def authorize_workload(user)
-    can [:read, :update, :destroy], Workload do |workload|
+    can [:read, :create, :update, :destroy, :stop], Workload do |workload|
       workload.issue.project.admin?(user) ||
         (workload.issue.project.member?(user) && workload.user_id == user.id)
-    end
-
-    can [:start, :stop], Workload do |workload|
-      workload.issue.project.admin?(user) ||
-        workload.issue.project.member?(user)
     end
   end
 end
