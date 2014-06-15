@@ -11,7 +11,7 @@ class Timecard.Views.IssuesIndex extends Backbone.View
     @$el.html(@template(project_id: @options?.project_id))
     if @options?.project_id?
       @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(project_id: @options.project_id, collection: @issues)
-      @issues.url = '/projects/'+@options.project_id+'/issues'
+      @issues.url = '/api/my/projects/'+@options.project_id+'/issues'
     else
       @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(collection: @issues)
       @issues.url = '/api/my/issues'
