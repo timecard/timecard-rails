@@ -21,7 +21,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @workloads.fetch
       url: '/api/my/workloads/latest'
       success: (workloads) =>
-        @viewHomeSidebar = new Timecard.Views.HomeSidebar(issues: @issues, workloads: workloads, router: @)
+        @viewHomeSidebar = new Timecard.Views.HomeSidebar(project_id: id, issues: @issues, workloads: workloads, router: @)
         @viewHomeSidebar.render()
         @viewHomeMain = new Timecard.Views.HomeMain(project_id: id, issues: @issues, workloads: workloads)
         @viewHomeMain.render()

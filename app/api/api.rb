@@ -29,15 +29,29 @@ class API < Grape::API
         authenticated!
         @projects = Project.visible(current_user)
       end
+
+      route_param :id do
+        params do
+          optional :status, type: String, default: "open"
+        end
+
+        get "issues", jbuilder: "issues" do
+          authenticated!
+          project = Project.find(params[:id])
+          @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
+        end
+      end
     end
 
     resource :issues do
+      params do
+        optional :status, type: String, default: "open"
+      end
       desc "Return all my issues"
       get "", jbuilder: "issues" do
         authenticated!
-        status = params[:status] || "open"
         @current_user = current_user
-        @issues = current_user.issues.with_status(status)
+        @issues = current_user.issues.with_status(params[:status])
       end
     end
 

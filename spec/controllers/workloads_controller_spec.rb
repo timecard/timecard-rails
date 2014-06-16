@@ -47,6 +47,23 @@ describe WorkloadsController do
     end
   end
 
+  describe "POST 'create'" do
+    it "creates new workload" do
+      expect {
+        post "create", issue_id: @issue, workload: attributes_for(:workload)
+      }.to change(Workload, :count).by(1)
+    end
+
+    describe "if other issue already running" do
+      it "stop previous issue and start new issue" do
+        workload = create(:workload, user: @user, issue_id: @issue.id+1, end_at: nil)
+        post 'create', issue_id: @issue, workload: attributes_for(:workload)
+        workload.reload
+        expect(workload.end_at).not_to be_nil
+      end
+    end
+  end
+
   describe "PATCH 'update'" do
     describe "with valid params" do
       it "redirects to issue url" do
@@ -80,26 +97,9 @@ describe WorkloadsController do
     end
   end
 
-  describe "POST 'start'" do
-    it "creates new workload" do
-      expect {
-        post 'start', issue_id: @issue, workload: attributes_for(:workload)
-      }.to change(Workload, :count).by(1)
-    end
-
-    describe "if other issue already running" do
-      it "stop prev issue and start new issue" do
-        workload = create(:workload, user: @user, issue_id: @issue.id+1, end_at: nil)
-        post 'start', issue_id: @issue, workload: attributes_for(:workload)
-        workload.reload
-        expect(workload.end_at).not_to be_nil
-      end
-    end
-  end
-
   describe "PATCH 'stop'" do
     it "inserts time to end_at" do
-      post 'start', issue_id: @issue, workload: attributes_for(:workload)
+      post 'create', issue_id: @issue, workload: attributes_for(:workload)
       expect(Workload.last.end_at).to be_nil
       patch 'stop', id: Workload.last
       expect(Workload.last.end_at).not_to be_nil
