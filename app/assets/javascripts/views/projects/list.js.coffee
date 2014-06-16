@@ -13,5 +13,5 @@ class Timecard.Views.ProjectsList extends Backbone.View
     @
 
   addProjectsListItem: (project) ->
-    @viewProjectsListItem = new Timecard.Views.ProjectsListItem(model: project, issues: @options.issues, workloads: @options.workloads)
+    @viewProjectsListItem = new Timecard.Views.ProjectsListItem(model: project, issues: @options.issues, workloads: @options.workloads, router: @options.router)
     @$('.project-list').append(@viewProjectsListItem.render().el)
