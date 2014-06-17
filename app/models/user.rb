@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :issues, class_name: "Issue", foreign_key: "assignee_id"
   has_many :comments
   has_many :workloads
+  has_many :crowdworks_contracts
 
   validates :name, presence: true
   validates :name, uniqueness: true

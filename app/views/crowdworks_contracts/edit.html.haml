@@ -1,0 +1,6 @@
+.edit-crowdworks-contract__form--full
+  = form_for @contract do |f|
+    .form-group
+      = f.label :contract_id
+      = f.text_field :contract_id, class: "form-control"
+    = f.submit "Submit", class: "btn btn-primary"

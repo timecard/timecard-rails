@@ -9,8 +9,9 @@ json.is_running (current_user.work_in_progress?(issue))
 if current_user.work_in_progress?(issue)
   json.running_workload_id current_user.running_workload.id
 end
-if Project.where(id: issue.project_id).first.crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
-  json.is_crowdworks false
-else
+
+if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
   json.is_crowdworks true
+else
+  json.is_crowdworks false
 end

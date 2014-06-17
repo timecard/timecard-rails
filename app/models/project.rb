@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
 
   has_many :members, dependent: :destroy
   has_many :issues, dependent: :destroy
+  has_many :crowdworks_contracts
 
   validates :name, presence: true
 

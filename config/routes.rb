@@ -30,7 +30,10 @@ Timecard::Application.routes.draw do
     patch :close, on: :member
     resources :issues, only: [:index, :new, :create]
     resources :members, only: [:index, :create]
+    resources :crowdworks_contracts, only: [:new, :create]
   end
+
+  resources :crowdworks_contracts, only: [:edit, :update, :destroy]
 
   resources :workers, only: :index
 
