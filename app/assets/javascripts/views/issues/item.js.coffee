@@ -39,8 +39,10 @@ class Timecard.Views.IssuesItem extends Backbone.View
       @model.save {status: 9},
         url: @model.urlRoot+'/'+@model.id+'/close'
         patch: true
-        success: (model) ->
-          Workload.stop()
+        success: (model) =>
+          workload = @options.workloads.findWhere(end_at: null)
+          if workload.get('issue').id is @model.id
+            Workload.stop()
 
   reopenIssue: (e) ->
     e.preventDefault()
