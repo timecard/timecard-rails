@@ -43,16 +43,5 @@
       %br/
       %span.text-muted You choose who can see to this project.
   %hr/
-  .form-group
-    %p
-      %b Crowdworks Project URL
-    = f.text_field :crowdworks_url, class: "form-control"
-    %label
-      %b
-        %br/
-        = link_to "クラウドワークスアカウント登録", user_authentications_path(current_user)
-      %br/
-      %span.text-muted 各個人のクラウドワークスのアカウントのユーザー名も追加してください
-  %hr/
   .actions
     = f.submit class: "btn btn-success"
