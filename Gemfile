@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.5'
 gem 'mysql2'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
@@ -20,7 +20,7 @@ gem 'omniauth-ruffnote', :github => 'pandeiro245/omniauth-ruffnote'
 gem 'ruffnote_api', :github => 'pandeiro245/ruffnote_api'
 #gem 'ruffnote_api', :path => '/Users/[yourpath]/git/ruffnote_api'
 gem 'mechanize'
-gem "exception_notification"
+gem 'exception_notification'
 gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
 gem 'grape'
 gem 'grape-jbuilder'
@@ -42,7 +42,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '2.14.0'
   gem 'factory_girl_rails', '4.3.0'
-  gem "letter_opener", '1.1.2'
+  gem 'letter_opener', '1.1.2'
 end
 
 group :doc do
