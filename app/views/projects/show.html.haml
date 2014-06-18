@@ -3,6 +3,15 @@
   .project-name
     %h2
       = @project.name
+    - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
+      .crowdworks-contract
+        - if @cwcontract
+          Crowdworks Contract ID:
+          = link_to "#{@cwcontract.contract_id}", "https://crowdworks.jp/contracts/#{@cwcontract.contract_id}"
+          = link_to "Edit", edit_crowdworks_contract_path(@project.crowdworks_contracts.find_by(user_id: current_user.id))
+          = link_to "Destroy", @cwcontract, method: :delete, "data-confirm" => "Are you sure?"
+        - else
+          = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
   .project-description
     %p= markdown(@project.description)
   .project-labels
@@ -21,6 +30,7 @@
       - else
         = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
       = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"
+
 %h3
   Issue
   - if @project.active?

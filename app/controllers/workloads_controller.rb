@@ -46,7 +46,9 @@ class WorkloadsController < ApplicationController
   def update
     respond_to do |format|
       if @workload.update(workload_params)
-        logging_crowdworks unless get_project(@workload.issue_id).crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
+        if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
+          logging_crowdworks
+        end
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully updated.' }
         format.json { render action: "workload" }
       else
@@ -66,7 +68,9 @@ class WorkloadsController < ApplicationController
 
   def stop
     if @workload.update_attribute(:end_at, Time.now.utc)
-      logging_crowdworks unless get_project(@workload.issue_id).crowdworks_url.blank? || current_user.authentications.where(provider: "crowdworks").blank?
+      if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
+        logging_crowdworks
+      end
       respond_to do |format|
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully stopped.' }
         format.js
@@ -85,35 +89,31 @@ class WorkloadsController < ApplicationController
     params.require(:workload).permit(:id, :start_at, :end_at, :issue_id, :user_id, :created_at, :updated_at, :password)
   end
   
-  def get_project issue_id
-    issue = Issue.where(id: issue_id).first
-    project = Project.where(id: issue.project_id).first
-  end
-
   def logging_crowdworks
     # crowdworks target uri
     # https://crowdworks.jp/contracts/77127/fiscal_works/new?date=2014-01-08
     # etc.
     begin
-      project = get_project(@workload.issue_id)
-      authentication = current_user.authentications.where(provider: "crowdworks").first
-      crowdworks_uri = "https://crowdworks.jp/"
-      crowdworks_login_uri = crowdworks_uri + "login"
-      crowdworks_project_uri = project.crowdworks_url
-      today_format = Date.today.strftime("%Y-%m-%d")
-      crowdworks_project_timecard_uri = crowdworks_project_uri + "/fiscal_works/new?date=" + today_format
-      crowdworks_id = authentication.username
+      project = @workload.issue.project
+      contract_id = project.crowdworks_contracts.find_by(user: current_user).contract_id
+      crowdworks = current_user.authentications.where(provider: "crowdworks").first
+
+      crowdworks_login_url = "https://crowdworks.jp/login"
+      crowdworks_id = crowdworks.username
       crowdworks_password = params[:password]
+
+      today = Date.today.strftime("%Y-%m-%d")
+      crowdworks_timesheet_url = "https://crowdworks.jp/contracts/#{contract_id}/fiscal_works/new?date=#{today}"
 
       if crowdworks_password.present?
         agent = Mechanize.new
-        agent.get(crowdworks_login_uri)
+        agent.get(crowdworks_login_url)
         agent.page.form_with(:method => "POST"){|form|
           form["username"] = crowdworks_id
           form["password"] = crowdworks_password
           form.click_button
         }
-        agent.get(crowdworks_project_timecard_uri)
+        agent.get(crowdworks_timesheet_url)
         agent.page.form_with(:method => "POST"){|form|
           form["fiscal_work[started_at(4i)]"] = @workload.start_at.strftime("%H")
           form["fiscal_work[started_at(5i)]"] = @workload.start_at.strftime("%M")
