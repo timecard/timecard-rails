@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      res = params.require(:project).permit(:name, :description, :is_public, :parent_id, :status, :crowdworks_url)
+      res = params.require(:project).permit(:name, :description, :is_public, :parent_id, :status)
       res["github_full_name"] = params["project"]["github_full_name"].gsub(/ 　/,"") unless params["project"]["github_full_name"].blank?
       res["ruffnote_full_name"] = params["project"]["ruffnote_full_name"].gsub(/ 　/,"") unless params["project"]["ruffnote_full_name"].blank?
       return res
