@@ -21,8 +21,6 @@ class Workload
     "#{hour}:#{min}:#{sec}"
 
   @replace: (time_str) ->
-    user_id = $('#workers').data('user-id')
-    $("#worker-#{user_id} span.timer").html(time_str)
     $('title').text(time_str)
     $('.timer__field').text(time_str)
 

@@ -35,8 +35,6 @@ Timecard::Application.routes.draw do
 
   resources :crowdworks_contracts, only: [:edit, :update, :destroy]
 
-  resources :workers, only: :index
-
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
   root :to => "home#index"
   mount API => "/"
