@@ -1,4 +1,12 @@
-<div class="pull-left">
+<div class="issue-list__item__layout--inline-block">
+  <div class="issue__assignee">
+    <a href="/users/<%= @assignee.id %>">
+      <img class="img-circle" src="<%= @assignee.get('image') %>" />
+    </a>
+  </div>
+</div>
+
+<div class="issue-list__item__layout--inline-block">
   <div class="issue__subject">
     <% if @provider?: %>
       <a href="<%= @provider.get('url') %>" target="_blank">
@@ -12,20 +20,18 @@
   </div>
 </div>
 
-<div class="pull-right issue-list__item__button-group hidden">
-  <div class="issue__action-buttons__container">
-    <% if @issue.get('status') is 1: %>
-      <a href="#" class="btn btn-danger js-btn-close-issue">Close</a>
-      <% if @issue.get('is_do_today') is true: %>
-        <a href="#" class="btn btn-default js-btn-postpone-issue">Don't do today</a>
-      <% else: %>
-        <a href="#" class="btn btn-default js-btn-do-today-issue">Do today</a>
-      <% end %>
+<div class="issue__action-buttons issue__action-buttons__container issue-list__item__layout--inline-block hidden">
+  <% if @issue.get('status') is 1: %>
+    <a href="#" class="btn btn-danger js-btn-close-issue">Close</a>
+    <% if @issue.get('is_do_today') is true: %>
+      <a href="#" class="btn btn-default js-btn-postpone-issue">Don't do today</a>
     <% else: %>
-      <a href="#" class="btn btn-default js-btn-reopen-issue">Reopen</a>
+      <a href="#" class="btn btn-default js-btn-do-today-issue">Do today</a>
     <% end %>
-  </div>
+  <% else: %>
+    <a href="#" class="btn btn-default js-btn-reopen-issue">Reopen</a>
+  <% end %>
+</div>
 
-  <div class="timer-button__container">
-  </div>
+<div class="issue__action-buttons timer-button__container issue-list__item__layout--inline-block hidden">
 </div>

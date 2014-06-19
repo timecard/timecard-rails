@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require md5.min
 //= require bootstrap.min
 //= require underscore
 //= require backbone
