@@ -17,6 +17,7 @@ class Timecard.Views.IssuesIndex extends Backbone.View
       @issues.url = '/api/my/issues'
 
     @viewIssuesStatusButton.render()
+    new Timecard.Views.IssuesLoading
     @issues.fetch
       success: (collection) =>
         @viewIssuesList = new Timecard.Views.IssuesList(collection: collection, workloads: @options.workloads)

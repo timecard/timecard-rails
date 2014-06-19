@@ -10,7 +10,7 @@ class Timecard.Views.IssuesList extends Backbone.View
   render: ->
     @$el.html(@template())
     if @collection.length is 0
-      @$('.issue-list').append("<li class='media'><p>You don't have assigned issue.</p></li>")
+      @$('.issue-list').append("<li class='media issue-list__item'><p>You don't have any assigned issue.</p></li>")
     else
       @collection.each (issue) ->
         @addIssueView(issue)
