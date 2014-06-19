@@ -17,9 +17,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
 
   open: (e) ->
     e.preventDefault()
-    $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
-    @$('.issue__status-button').removeClass('active')
-    @$('.issue__status-button--open').addClass('active')
+    new Timecard.Views.IssuesLoading
+    @toggle('open')
 
     if @options?.project_id?
       @collection.fetch
@@ -36,9 +35,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
 
   closed: (e) ->
     e.preventDefault()
-    $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
-    @$('.issue__status-button').removeClass('active')
-    @$('.issue__status-button--closed').addClass('active')
+    new Timecard.Views.IssuesLoading
+    @toggle('closed')
 
     if @options?.project_id?
       @collection.fetch
@@ -55,9 +53,8 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
 
   deferred: (e) ->
     e.preventDefault()
-    $('.issue-list__container').html('<img src="/assets/loading_mini.gif" />')
-    @$('.issue__status-button').removeClass('active')
-    @$('.issue__status-button--deferred').addClass('active')
+    new Timecard.Views.IssuesLoading
+    @toggle('deferred')
 
     if @options?.project_id?
       @collection.fetch
@@ -71,3 +68,7 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
         url: '/api/my/issues'
         data:
           status: 'not_do_today'
+
+  toggle: (status) ->
+    @$('.issue__status-button').removeClass('active')
+    @$(".issue__status-button--#{status}").addClass('active')

@@ -7,6 +7,7 @@ class Workload
     , 1000
   @stop: ->
     clearInterval(@timerId)
+    $('.timer-button--stop').remove()
   @render: (start_time) ->
     end_time = new Date()
     total = end_time.getTime() - start_time.getTime()
@@ -21,8 +22,6 @@ class Workload
     "#{hour}:#{min}:#{sec}"
 
   @replace: (time_str) ->
-    user_id = $('#workers').data('user-id')
-    $("#worker-#{user_id} span.timer").html(time_str)
     $('title').text(time_str)
     $('.timer__field').text(time_str)
 
