@@ -75,12 +75,17 @@
     padding: 15px;
     margin: 0;
     border-bottom: solid 1px #dddddd;
-    .issue__action-buttons__container {
-      display: inline;
+    .issue-list__item__layout--inline-block {
+      display: inline-block;
+      vertical-align: middle;
     }
 
-    .timer-button__container {
-      display: inline;
+    .issue__assignee {
+      margin: 0 10px 0 0;
+    }
+
+    .issue__action-buttons__container {
+      margin: 0 0 0 15px;
     }
   }
 }
