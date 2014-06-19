@@ -15,11 +15,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Password?</h4>
+        <h4 class="modal-title" id="myModalLabel">CrowdWorks Password</h4>
       </div>
       <div class="modal-body">
         <p>Please input your crowdworks password.</p>
-        <input type="password" class="form-control crowdworks-form__password" name="password" />
+        <div class="form-group">
+          <input type="password" class="form-control crowdworks-form__password" name="password" />
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" class="crowdworks-form__remember-me" /> Remember me while browser open.
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

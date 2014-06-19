@@ -37,14 +37,22 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
   stopTimer: (e) ->
     e.preventDefault()
     if @issue.get('is_crowdworks') is true
-      @$('.crowdworks-form__modal').modal('show')
+      password = sessionStorage.getItem('crowdworks_password')
+      if password?
+        attrs = {end_at: new Date(), password: password}
+        @updateWorkload(attrs)
+      else
+        @$('.crowdworks-form__modal').modal('show')
     else
       attrs = {end_at: new Date()}
       @updateWorkload(attrs)
 
   addCrowdworksPassword: ->
     password = @$('.crowdworks-form__password').val()
+    remember_me = @$('.crowdworks-form__remember-me').prop('checked')
     attrs = {end_at: new Date(), password: password}
+    if remember_me
+      sessionStorage.setItem('crowdworks_password', password)
     @updateWorkload(attrs)
 
   updateWorkload: (attrs) ->
