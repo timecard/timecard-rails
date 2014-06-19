@@ -1,5 +1,6 @@
 class Timecard.Routers.Home extends Backbone.Router
   routes:
+    'my/projects': 'index'
     'my/projects/:id': 'show'
     '*path': 'index'
 

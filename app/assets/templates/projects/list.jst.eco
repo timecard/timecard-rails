@@ -1,7 +1,7 @@
 <ul class="project-list">
   <li class="project-list__item">
     <div class="project-all">
-      <a class="project__name--link" href="#my/projects">All</a>
+      <a class="project__name--link project-all--link" href="#">All</a>
     </div>
   </li>
 </ul>
