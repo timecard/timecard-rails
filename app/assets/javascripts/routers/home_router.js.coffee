@@ -9,6 +9,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @workloads = new Timecard.Collections.Workloads
 
   index: ->
+    return if $('.login').hasClass('false')
     @workloads.fetch
       url: '/api/my/workloads/latest'
       success: (workloads) =>
