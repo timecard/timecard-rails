@@ -42,7 +42,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
         patch: true
         success: (model) =>
           workload = @options.workloads.findWhere(end_at: null)
-          if workload.get('issue').id is @model.id
+          if workload? and workload.get('issue').id is @model.id
             Workload.stop()
 
   reopenIssue: (e) ->
