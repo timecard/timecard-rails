@@ -21,4 +21,5 @@ class Timecard.Models.Issue extends Backbone.Model
     response.user = new Timecard.Models.User(response.user, parse: true)
     response.assignee = new Timecard.Models.User(response.assignee, parse: true) if response.assignee?
     response.provider = new Timecard.Models.Provider(response.provider) if response.provider?
+    response.comments = new Timecard.Collections.Comments(response.comments)
     response

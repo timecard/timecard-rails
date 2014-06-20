@@ -15,8 +15,19 @@
     <% end %>
     <a href="/issues/<%= @issue.get('id') %>"><%= @issue.get('subject') %></a>
   </div>
-  <div class="issue__author">
-    <span class="text-muted">Opened by <%= @author.get('name') %> on <%= @issue.get('created_on') %></span>
+  <div class="issue__meta issue__author">
+    <span class="text-muted">
+      Opened by
+      <a href="/users/<%= @author.id %>"><%= @author.get('name') %></a>
+      on
+      <%= @issue.get('created_on') %>
+      <% if @comments.length isnt 0: %>
+        <i class="fa fa-comments"></i>
+      <% end %>
+      <a href="/issues/<%= @issue.id %>">
+        <%= @comments.countPluralizedName() %>
+      </a>
+    </span>
   </div>
 </div>
 

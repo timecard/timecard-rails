@@ -26,6 +26,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
       author: @model.get('user'),
       assignee: @model.get('assignee')
       provider: @model.get('provider')
+      comments: @model.get('comments')
     ))
     if @model.get('status') isnt 9
       @viewWorkloadsTimerButton.setElement(@$('.timer-button__container')).render()
