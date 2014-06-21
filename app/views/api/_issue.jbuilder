@@ -3,6 +3,7 @@ json.project issue.project
 json.user issue.author
 json.assignee issue.assignee if issue.assignee
 json.provider issue.provider if issue.provider
+json.comments issue.comments
 
 json.is_do_today issue.do_today?
 json.is_running (current_user.work_in_progress?(issue))

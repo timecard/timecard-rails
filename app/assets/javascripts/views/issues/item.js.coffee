@@ -26,6 +26,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
       author: @model.get('user'),
       assignee: @model.get('assignee')
       provider: @model.get('provider')
+      comments: @model.get('comments')
     ))
     if @model.get('status') isnt 9
       @viewWorkloadsTimerButton.setElement(@$('.timer-button__container')).render()
@@ -41,7 +42,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
         patch: true
         success: (model) =>
           workload = @options.workloads.findWhere(end_at: null)
-          if workload.get('issue').id is @model.id
+          if workload? and workload.get('issue').id is @model.id
             Workload.stop()
 
   reopenIssue: (e) ->
