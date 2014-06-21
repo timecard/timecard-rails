@@ -15,10 +15,10 @@
     <% end %>
     <a href="/issues/<%= @issue.get('id') %>"><%= @issue.get('subject') %></a>
   </div>
-  <div class="issue__meta issue__author">
+  <div class="issue__meta">
     <span class="text-muted">
       Opened by
-      <a href="/users/<%= @author.id %>"><%= @author.get('name') %></a>
+      <a class="issue__author" href="/users/<%= @author.id %>"><%= @author.get('name') %></a>
       on
       <%= @issue.get('created_on') %>
       <% if @comments.length isnt 0: %>
