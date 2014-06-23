@@ -90,38 +90,13 @@ class WorkloadsController < ApplicationController
   end
   
   def logging_crowdworks
-    # crowdworks target uri
-    # https://crowdworks.jp/contracts/77127/fiscal_works/new?date=2014-01-08
-    # etc.
     begin
+      auth = current_user.authentications.where(provider: "crowdworks").first
       project = @workload.issue.project
       contract_id = project.crowdworks_contracts.find_by(user: current_user).contract_id
-      crowdworks = current_user.authentications.where(provider: "crowdworks").first
 
-      crowdworks_login_url = "https://crowdworks.jp/login"
-      crowdworks_id = crowdworks.username
-      crowdworks_password = params[:password]
-
-      today = Date.today.strftime("%Y-%m-%d")
-      crowdworks_timesheet_url = "https://crowdworks.jp/contracts/#{contract_id}/fiscal_works/new?date=#{today}"
-
-      if crowdworks_password.present?
-        agent = Mechanize.new
-        agent.get(crowdworks_login_url)
-        agent.page.form_with(:method => "POST"){|form|
-          form["username"] = crowdworks_id
-          form["password"] = crowdworks_password
-          form.click_button
-        }
-        agent.get(crowdworks_timesheet_url)
-        agent.page.form_with(:method => "POST"){|form|
-          form["fiscal_work[started_at(4i)]"] = @workload.start_at.strftime("%H")
-          form["fiscal_work[started_at(5i)]"] = @workload.start_at.strftime("%M")
-          form["fiscal_work[ended_at(4i)]"] = @workload.end_at.strftime("%H")
-          form["fiscal_work[ended_at(5i)]"] = @workload.end_at.strftime("%M")
-          form.click_button
-        }
-      end
+      @crowdworks = Crowdworks.new(auth.username, params[:password])
+      @crowdworks.submit_timesheet(contract_id, @workload)
     rescue => e
       logger.debug "#{e.class}: #{e.message}"
     end
