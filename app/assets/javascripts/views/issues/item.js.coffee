@@ -37,18 +37,25 @@ class Timecard.Views.IssuesItem extends Backbone.View
   closeIssue: (e) ->
     e.preventDefault()
     if (window.confirm("Are you sure you wish to close?"))
-      @model.save {status: 9},
-        url: @model.urlRoot+'/'+@model.id+'/close'
+      @model.save({status: 9},
         patch: true
-        success: (model) =>
-          workload = @options.workloads.findWhere(end_at: null)
-          if workload? and workload.get('issue').id is @model.id
-            Workload.stop()
+        success: (model) ->
+      ).pipe =>
+        if @model.previous('is_running') is true
+          if @model.get('is_crowdworks') is true
+            password = sessionStorage.getItem('crowdworks_password')
+            if password?
+              attrs = {end_at: new Date(), password: password}
+              @updateWorkload(attrs)
+            else
+              $('.crowdworks-form__modal').modal('show')
+          else
+            attrs = {end_at: new Date()}
+            @updateWorkload(attrs)
 
   reopenIssue: (e) ->
     e.preventDefault()
     @model.save {status: 1},
-      url: @model.urlRoot+'/'+@model.id+'/reopen'
       patch: true
       success: (model) ->
 
@@ -77,3 +84,12 @@ class Timecard.Views.IssuesItem extends Backbone.View
 
   remove: ->
     @$el.remove()
+
+  updateWorkload: (attrs) ->
+    workload = @options.workloads.findWhere(end_at: null)
+    workload.save attrs,
+      success: (model) =>
+        Workload.stop()
+        @model.set('is_running', false)
+        $('.timer').removeClass('timer--on')
+        $('.timer').addClass('timer--off')

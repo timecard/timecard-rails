@@ -178,6 +178,6 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at)
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status)
   end
 end
