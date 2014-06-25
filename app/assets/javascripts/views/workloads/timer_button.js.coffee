@@ -7,7 +7,6 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
   events:
     'click .timer-button--start': 'startTimer'
     'click .timer-button--stop': 'stopTimer'
-    'click .crowdworks-form__submit': 'addCrowdworksPassword'
 
   initialize: (@options) ->
     @issue = @options.issue
@@ -42,18 +41,10 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
         attrs = {end_at: new Date(), password: password}
         @updateWorkload(attrs)
       else
-        @$('.crowdworks-form__modal').modal('show')
+        $('.crowdworks-form__modal').modal('show')
     else
       attrs = {end_at: new Date()}
       @updateWorkload(attrs)
-
-  addCrowdworksPassword: ->
-    password = @$('.crowdworks-form__password').val()
-    remember_me = @$('.crowdworks-form__remember-me').prop('checked')
-    attrs = {end_at: new Date(), password: password}
-    if remember_me
-      sessionStorage.setItem('crowdworks_password', password)
-    @updateWorkload(attrs)
 
   updateWorkload: (attrs) ->
     model = @collection.findWhere(end_at: null)

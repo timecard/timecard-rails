@@ -24,7 +24,7 @@ class Crowdworks
   end
 
   def timesheet_url(contract_id)
-    today = Date.today.strftime("%Y-%m-%d")
+    today = Time.zone.today.strftime("%Y-%m-%d")
     timesheet_url = "https://crowdworks.jp/contracts/#{contract_id}/fiscal_works/new?date=#{today}"
   end
 end

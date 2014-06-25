@@ -22,7 +22,11 @@ class IssueGithub < Provider
     options = {}
     options["title"] = params[:subject] if params[:subject]
     options["body"] = params[:description] if params[:description]
-    options["state"] = params[:state] if params[:state]
+    if params[:status] == 1
+      options["state"] = "open"
+    else
+      options["state"] = "close"
+    end
     if params[:assignee_id].present?
       user = User.find(params[:assignee_id])
       options["assignee"] = user.github.username

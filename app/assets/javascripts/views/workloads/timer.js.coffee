@@ -20,13 +20,13 @@ class Timecard.Views.WorkloadsTimer extends Backbone.View
     e.preventDefault()
     issue = @model.get('issue')
     if issue.get('is_crowdworks') is true
-      @$('.crowdworks-form__modal').modal('show')
+      $('.crowdworks-form__modal').modal('show')
     else
       attrs = {end_at: new Date()}
       @updateWorkload(attrs)
 
   addCrowdworksPassword: ->
-    password = @$('.crowdworks-form__password').val()
+    password = $('.crowdworks-form__password').val()
     attrs = {end_at: new Date(), password: password}
     @updateWorkload(attrs)
 
