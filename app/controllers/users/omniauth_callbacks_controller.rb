@@ -41,7 +41,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           remember_me(user)
           sign_in(:user, user)
           if current_user
-            NotifyMailer.sign_up_user(user).deliver
+            begin
+              NotifyMailer.sign_up_user(user).deliver
+            rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+              logger.debug "[#{e.class}] #{e.message}"
+            end
           end
         else
           session[:omniauth] = omniauth.except('extra')
