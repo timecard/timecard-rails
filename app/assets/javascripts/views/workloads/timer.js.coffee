@@ -10,9 +10,11 @@ class Timecard.Views.WorkloadsTimer extends Backbone.View
 
   initialize: (@options) ->
     @issues = @options.issues
+    @issue = @model.get('issue')
 
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(issue: @issue))
+    @$('.timer__field').popover()
     Workload.start(new Date(@model.get('start_at')))
     @
 
