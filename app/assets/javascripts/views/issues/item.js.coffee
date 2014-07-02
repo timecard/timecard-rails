@@ -15,8 +15,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
   className: 'media issue-list__item'
 
   initialize: (@options) ->
-    @listenTo(@model, 'change:status', @remove)
-    @listenTo(@model, 'change:will_start_at', @remove)
+    @listenTo(@model, 'change:status change:will_start_at', @remove)
     @listenTo(@model, 'change:is_running', @render)
     @viewWorkloadsTimerButton = new Timecard.Views.WorkloadsTimerButton(issue: @model, collection: @options.workloads)
 
@@ -84,6 +83,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
 
   remove: ->
     @$el.remove()
+    @stopListening()
 
   updateWorkload: (attrs) ->
     workload = @options.workloads.findWhere(end_at: null)

@@ -19,5 +19,5 @@ class Timecard.Views.IssuesIndex extends Backbone.View
     @issues.fetch
       success: (collection) =>
         @viewIssuesList = new Timecard.Views.IssuesList(collection: collection, workloads: @options.workloads)
-        @viewIssuesList.render()
+        @viewIssuesList.setElement(@$('.issue-list__container')).render()
     @

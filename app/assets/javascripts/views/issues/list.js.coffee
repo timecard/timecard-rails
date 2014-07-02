@@ -6,6 +6,7 @@ class Timecard.Views.IssuesList extends Backbone.View
 
   initialize: (@options) ->
     @listenTo(@collection, 'reset', @render)
+    @listenTo(@collection, 'change:status change:will_start_at', @remove)
 
   render: ->
     @$el.html(@template())
@@ -27,3 +28,8 @@ class Timecard.Views.IssuesList extends Backbone.View
   
   addIssueView: (issue) ->
     @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue, workloads: @options.workloads).render().el)
+
+  remove: (model) ->
+    @collection.remove(model)
+    if @collection.length is 0
+      @render()
