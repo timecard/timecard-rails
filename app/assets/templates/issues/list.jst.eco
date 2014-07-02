@@ -1,5 +1,8 @@
 <ul class="media-list issue-list">
 </ul>
 
+<div class="issue-list-pagination">
+</div>
+
 <div class="crowdworks-modal__container">
 </div>
