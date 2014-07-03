@@ -25,7 +25,7 @@ class API < Grape::API
   namespace :my do
     resource :projects do
       desc "Return all my projects"
-      get do
+      get "", jbuilder: "projects" do
         authenticated!
         @projects = Project.visible(current_user)
       end

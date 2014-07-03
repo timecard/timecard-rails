@@ -1,4 +1,19 @@
-<div class="project-detail">
-</div>
-<div class="issue-list__container">
+<h2 class="projects-show__name">
+  <a href="/projects/<%= @project.id %>"><%= @project.get('name') %></a>
+</h2>
+<ul class="projects-show__meta">
+  <li class="projects-show__meta__item">
+    <span class="label label-info">
+      <%= @project.get('publicity') %>
+    </span>
+  </li>
+  <li class="projects-show__meta__item">
+    <i class="fa fa-exclamation-circle"></i>
+    Issues <span class="badge">
+      <%= @project.get('open_issues_count') %>
+    </span>
+  </li>
+</ul>
+<div class="projects-show__desc">
+  <%= @project.get('description') %>
 </div>
