@@ -8,6 +8,21 @@
   padding: 15px;
 }
 
+.projects-show {
+  margin: 0 0 15px 0;
+
+  .projects-show__meta {
+    padding: 10px;
+    margin: 0 0 10px 0;
+    list-style-type: none;
+    background-color: #fcfcfc;
+
+    .projects-show__meta__item {
+      display: inline-block;
+    }
+  }
+}
+
 .project-list {
   padding: 0;
   margin: 0 0 15px 0;
@@ -54,10 +69,6 @@
   }
 }
 
-.issue-list__head-buttons {
-  margin: 0 0 15px 30px;
-}
-
 .new-issue {
   display: inline-block;
 }
@@ -66,11 +77,8 @@
   display: inline-block;
 }
 
-.issue-list__container {
-  padding: 0 30px 0 15px;
-}
-
 .issue-list {
+  margin: 15px 0 0 0;
   .issue-list__item {
     padding: 15px;
     margin: 0;
