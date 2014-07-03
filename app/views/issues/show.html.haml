@@ -39,7 +39,7 @@
       = form_for [@issue, Comment.new] do |f|
         .form-group
           = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
-        .actions.pull-right
+        .actions.text-right
           = f.submit "Comment", class: "btn btn-success"
   .col-lg-6
     .section
