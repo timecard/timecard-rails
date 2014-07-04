@@ -6,6 +6,7 @@ class Timecard.Views.HomeSidebar extends Backbone.View
 
   initialize: (@options) ->
     @projects = new Timecard.Collections.Projects
+    @comments = new Timecard.Collections.Comments
 
   render: ->
     @$el.html(@template())
@@ -18,4 +19,9 @@ class Timecard.Views.HomeSidebar extends Backbone.View
           @$(".project-#{@options.project_id}").closest('li').addClass('project-list__item--current')
         else
           @$(".project-all").closest('li').addClass('project-list__item--current')
+    @comments.fetch
+      url: '/api/my/projects/comments'
+      success: (collection) ->
+        @viewCommentsList = new Timecard.Views.CommentsList(collection: collection)
+        @viewCommentsList.render()
     @

@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require md5.min
+//= require moment-with-langs
 //= require bootstrap.min
 //= require underscore
 //= require backbone
@@ -14,4 +15,3 @@
 //= require_tree ./routers
 //= require_tree .
 //= require websocket_rails/main
-

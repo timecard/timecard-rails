@@ -41,6 +41,10 @@ class API < Grape::API
           @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
         end
       end
+
+      get :comments, jbuilder: "comments" do
+        @comments = Comment.limit(10).order("created_at DESC")
+      end
     end
 
     resource :issues do
