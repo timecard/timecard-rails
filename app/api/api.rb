@@ -43,7 +43,7 @@ class API < Grape::API
       end
 
       get :comments, jbuilder: "comments" do
-        @comments = Comment.limit(10).order("created_at DESC")
+        @comments = PublicActivity::Activity.where(owner_id: Project.visible(current_user), owner_type: "Project").order("created_at DESC").map { |activity| activity.trackable }
       end
     end
 

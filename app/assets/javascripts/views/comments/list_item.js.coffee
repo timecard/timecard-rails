@@ -9,5 +9,9 @@ class Timecard.Views.CommentsListItem extends Backbone.View
   className: 'comments-list__item'
 
   render: ->
-    @$el.html(@template(comment: @model, user: @model.get('user')))
+    @$el.html(@template(
+      comment: @model
+      user: @model.get('user')
+      issue: @model.get('issue')
+    ))
     @

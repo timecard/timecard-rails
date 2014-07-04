@@ -3,7 +3,8 @@
     <%= @user.get('name') %>
   </a>
   <span class="text-muted">
-    commentted
+    commentted on issue
+    <a href="/issues/<%= @issue.id %>"><%= @issue.get('subject') %></a>
     <%= @comment.createdFromNow() %>
   </span>
 </div>

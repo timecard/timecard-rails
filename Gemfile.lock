@@ -253,6 +253,11 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    public_activity (1.4.1)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -400,6 +405,7 @@ DEPENDENCIES
   mysql2
   omniauth-github (= 1.1.1)
   omniauth-ruffnote!
+  public_activity
   quiet_assets (= 1.0.2)
   rails (= 4.0.5)
   redcarpet (= 3.0.0)
