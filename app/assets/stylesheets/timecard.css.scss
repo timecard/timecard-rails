@@ -9,8 +9,6 @@
 }
 
 .projects-show {
-  margin: 0 0 15px 0;
-
   .projects-show__meta {
     padding: 10px;
     margin: 0 0 10px 0;
@@ -20,6 +18,10 @@
     .projects-show__meta__item {
       display: inline-block;
     }
+  }
+  .projects-show__desc {
+    padding: 10px;
+    margin: 0 0 10px 0;
   }
 }
 
