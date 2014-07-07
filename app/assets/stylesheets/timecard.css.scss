@@ -100,6 +100,23 @@
   }
 }
 
+.workers {
+  .workers-logo {
+    padding: 0 0 0 15px;
+  }
+
+  .workers-list {
+    padding: 0 0 0 15px;
+    margin: 0 0 30px 0;
+    list-style-type: none;
+
+    .workers-list__item {
+      padding: 15px 0 15px 0;
+      border-bottom: solid 1px #eeeeee;
+    }
+  }
+}
+
 .comments {
   .comments-logo {
     padding: 0 0 0 15px;

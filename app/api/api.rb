@@ -42,6 +42,14 @@ class API < Grape::API
         end
       end
 
+      namespace :workloads do
+        get :running, jbuilder: "workloads" do
+          projects = Project.visible(current_user)
+          issue_ids = Issue.select(:id).where(project_id: projects.pluck(:id))
+          @workloads = Workload.where(issue_id: issue_ids).where(end_at: nil).order("created_at ASC")
+        end
+      end
+
       get :comments, jbuilder: "comments" do
         @comments = PublicActivity::Activity.where(owner_id: Project.visible(current_user), owner_type: "Project").order("created_at DESC").map { |activity| activity.trackable }
       end
