@@ -1,0 +1,9 @@
+<h4 class="sidebar-logo workers-logo">
+  <i class="fa fa-users"></i>
+  Working Now
+  <a class="workers-reload" href="#" title="reload">
+    <i class="fa fa-refresh"></i>
+  </a>
+</h4>
+<ul class="workers-list">
+</ul>

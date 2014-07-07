@@ -1,0 +1,17 @@
+<div class="worker">
+  <span class="worker-name">
+    <a href="/users/<%= @user.id %>">
+      <%= @user.get('name') %>
+    </a>
+  </span>
+  is working on issue
+  <span class="issue-name">
+    <a href="/issues/<%= @issue.id %>">
+      <%= @issue.get('subject') %>
+    </a>
+  </span>
+  <br>
+  <span class="worker-duration">
+    <%= @workload.duration() %>
+  </span>
+</div>

@@ -6,6 +6,7 @@ class Timecard.Views.HomeSidebar extends Backbone.View
 
   initialize: (@options) ->
     @projects = new Timecard.Collections.Projects
+    @workloads = new Timecard.Collections.Workloads
     @comments = new Timecard.Collections.Comments
 
   render: ->
@@ -19,6 +20,11 @@ class Timecard.Views.HomeSidebar extends Backbone.View
           @$(".project-#{@options.project_id}").closest('li').addClass('project-list__item--current')
         else
           @$(".project-all").closest('li').addClass('project-list__item--current')
+    @workloads.fetch
+      url: '/api/my/projects/workloads/running'
+      success: (collection) ->
+        @viewWorkersList = new Timecard.Views.WorkersList(collection: collection)
+        @viewWorkersList.render()
     @comments.fetch
       url: '/api/my/projects/comments'
       success: (collection) ->
