@@ -31,4 +31,6 @@ Timecard::Application.configure do
 
 
   config.action_mailer.delivery_method = :letter_opener
+
+  config.middleware.delete Rack::Lock
 end

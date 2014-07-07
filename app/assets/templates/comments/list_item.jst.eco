@@ -1,0 +1,13 @@
+<div class="comments-header">
+  <a href="/users/<%= @user.id %>">
+    <%= @user.get('name') %>
+  </a>
+  <span class="text-muted">
+    commentted on issue
+    <a href="/issues/<%= @issue.id %>"><%= @issue.get('subject') %></a>
+    <%= @comment.createdFromNow() %>
+  </span>
+</div>
+<div class="comments-body">
+  <%= @comment.get('body') %>
+</div>

@@ -24,6 +24,8 @@ gem 'exception_notification'
 gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
 gem 'grape'
 gem 'grape-jbuilder'
+gem 'websocket-rails'
+gem 'public_activity'
 
 group :development do
   gem 'guard-livereload', '~> 2.2.0'

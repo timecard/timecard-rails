@@ -97,3 +97,22 @@
     }
   }
 }
+
+.comments {
+  .comments-logo {
+    padding: 0 0 0 15px;
+  }
+  .comments-list {
+    padding: 0 0 0 15px;
+    list-style-type: none;
+
+    .comments-list__item {
+      padding: 15px 0 15px 0;
+      border-bottom: solid 1px #eeeeee;
+
+      .comments-header {
+        margin: 0 0 5px 0;
+      }
+    }
+  }
+}

@@ -41,6 +41,10 @@ class API < Grape::API
           @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
         end
       end
+
+      get :comments, jbuilder: "comments" do
+        @comments = PublicActivity::Activity.where(owner_id: Project.visible(current_user), owner_type: "Project").order("created_at DESC").map { |activity| activity.trackable }
+      end
     end
 
     resource :issues do
