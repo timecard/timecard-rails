@@ -23,6 +23,8 @@ class API < Grape::API
   end
 
   namespace :my do
+    PER_PAGE = 10
+
     resource :projects do
       desc "Return all my projects"
       get "", jbuilder: "projects" do
@@ -33,12 +35,13 @@ class API < Grape::API
       route_param :id do
         params do
           optional :status, type: String, default: "open"
+          optional :page, type: Integer, default: 1
         end
 
         get "issues", jbuilder: "issues" do
           authenticated!
           project = Project.find(params[:id])
-          @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
+          @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id).page(params[:page]).per(PER_PAGE)
         end
       end
 
@@ -58,12 +61,13 @@ class API < Grape::API
     resource :issues do
       params do
         optional :status, type: String, default: "open"
+        optional :page, type: Integer, default: 1
       end
       desc "Return all my issues"
       get "", jbuilder: "issues" do
         authenticated!
         @current_user = current_user
-        @issues = current_user.issues.with_status(params[:status])
+        @issues = current_user.issues.with_status(params[:status]).page(params[:page]).per(PER_PAGE)
       end
     end
 

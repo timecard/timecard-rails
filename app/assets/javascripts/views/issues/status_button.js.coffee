@@ -9,7 +9,7 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     'click .issue__status-button--closed': 'closed'
     'click .issue__status-button--deferred': 'deferred'
 
-  initialize: (@options) ->
+  initialize: ->
 
   render: ->
     @$el.html(@template())
@@ -19,55 +19,31 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('open')
-
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'open'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'open'
+    @collection.status = 'open'
+    @collection.fetch
+      reset: true
+      data:
+        status: 'open'
 
   closed: (e) ->
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('closed')
-
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'closed'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'closed'
+    @collection.status = 'closed'
+    @collection.fetch
+      reset: true
+      data:
+        status: 'closed'
 
   deferred: (e) ->
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('deferred')
-
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'not_do_today'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'not_do_today'
+    @collection.status = 'not_do_today'
+    @collection.fetch
+      reset: true
+      data:
+        status: 'not_do_today'
 
   toggle: (status) ->
     @$('.issue__status-button').removeClass('active')
