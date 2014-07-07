@@ -51,26 +51,6 @@
   }
 }
 
-.projects-thumbnails {
-  margin: 0;
-
-  .projects-thumbnails__layout {
-    margin: 0 0 20px 0;
-  }
-
-  .projects-thumbnails__item {
-    padding: 10px 15px;
-    border: solid 1px #dddddd;
-    box-shadow: 5px 5px 0 #cccccc;
-
-    .projects__name {
-      padding: 0;
-      margin: 0 0 10px 0;
-      font-size: 16px;
-    }
-  }
-}
-
 .new-issue {
   display: inline-block;
 }
@@ -100,11 +80,15 @@
   }
 }
 
-.workers {
-  .workers-logo {
-    padding: 0 0 0 15px;
+.sidebar {
+  .sidebar-logo {
+    padding: 15px;
+    background-color: #fcfcfc;
+    border-left: solid 5px #eeeeee;
   }
+}
 
+.workers {
   .workers-list {
     padding: 0 0 0 15px;
     margin: 0 0 30px 0;
@@ -118,9 +102,6 @@
 }
 
 .comments {
-  .comments-logo {
-    padding: 0 0 0 15px;
-  }
   .comments-list {
     padding: 0 0 0 15px;
     list-style-type: none;
