@@ -1,5 +1,5 @@
 - if can?(:update, @issue) && @issue.project.active?
-  .actions
+  .issue__actions
     - if @issue.status == 1
       = link_to "Close", close_issue_path(@issue), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :patch
     - else
