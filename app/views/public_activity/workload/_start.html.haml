@@ -2,14 +2,18 @@
   .pull-left
     = fa_icon "play"
   .media-body
-    .text-muted
-      #{time_ago_in_words(activity.created_at)} ago
-    .activity-title
-      = link_to activity.owner.name, activity.owner
-      started work on issue
-      = link_to activity.trackable.issue.subject, activity.trackable.issue
-    .media
-      .pull-left
-        .media-object
-          = image_tag gravatar_url(activity.owner.email, 32)
-      .media-body
+    - if activity.trackable
+      .text-muted
+        #{time_ago_in_words(activity.created_at)} ago
+      .activity-title
+        = link_to activity.owner.name, activity.owner
+        started work on issue
+        = link_to activity.trackable.issue.subject, activity.trackable.issue
+      .media
+        .pull-left
+          .media-object
+            = image_tag gravatar_url(activity.owner.email, 32)
+        .media-body
+    - else
+      %p.text-muted
+        This workload was removed.
