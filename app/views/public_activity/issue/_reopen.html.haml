@@ -1,0 +1,15 @@
+.media
+  .pull-left
+    = fa_icon "exclamation-circle"
+  .media-body
+    .text-muted
+      #{time_ago_in_words(activity.created_at)} ago
+    .activity-title
+      = link_to activity.owner.name, activity.owner
+      reopened issue
+      = link_to activity.trackable.subject, activity.trackable
+    .media
+      .pull-left
+        .media-object
+          = image_tag gravatar_url(activity.owner.email, 32)
+      .media-body

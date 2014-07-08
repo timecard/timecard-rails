@@ -31,6 +31,11 @@
         = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
       = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"
 
+.col-lg-12
+  .activities
+    %ul.activities-list.media-list
+      = render_activities(@activities, layout: :activity)
+
 %h3
   Issue
   - if @project.active?

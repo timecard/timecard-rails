@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @cwcontract = @project.crowdworks_contracts.find_by(user: current_user)
     end
+    @activities = PublicActivity::Activity.where(recipient: @project).order("created_at DESC").limit(10)
   end
 
   def new

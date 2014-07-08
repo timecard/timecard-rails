@@ -81,4 +81,12 @@ class User < ActiveRecord::Base
   def selectable_providers
     Authentication.selectable_providers(self)
   end
+
+  def self.current
+    Thread.current[:user]
+  end
+
+  def self.current=(user)
+    Thread.current[:user] = user
+  end
 end

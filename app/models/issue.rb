@@ -1,4 +1,6 @@
 class Issue < ActiveRecord::Base
+  include PublicActivity::Model
+
   default_scope { order("updated_at DESC") }
 
   scope :open, -> { where("status = ?", 1) }
@@ -13,6 +15,9 @@ class Issue < ActiveRecord::Base
   has_many :workloads
 
   validates :subject, presence: true
+
+  after_create :track_create_activity
+  before_update :track_update_status_activity
 
   def github
     IssueGithub.find_by(
@@ -81,5 +86,21 @@ class Issue < ActiveRecord::Base
   def do_today?
     return true if self.will_start_at.nil? || self.will_start_at < Time.now
     false
+  end
+
+  private
+
+  def track_create_activity
+    self.create_activity(:create, owner: self.author, recipient: self.project)
+  end
+
+  def track_update_status_activity
+    if self.changes.has_key?("status")
+      if self.changes["status"][1] == 1
+        self.create_activity(:reopen, owner: User.current, recipient: self.project)
+      else
+        self.create_activity(:close, owner: User.current, recipient: self.project)
+      end
+    end
   end
 end
