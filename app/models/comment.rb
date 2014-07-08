@@ -1,12 +1,12 @@
 class Comment < ActiveRecord::Base
   include PublicActivity::Model
-  tracked owner: ->(controller, model) { controller && controller.current_user }
-  tracked recipient: ->(controller, model) { model && model.issue.project }
 
   belongs_to :issue
   belongs_to :user
 
   validates :body, presence: true
+
+  after_create :track_public_activity
 
   def github
     CommentGithub.find_by(
@@ -42,5 +42,11 @@ class Comment < ActiveRecord::Base
     )
     comment_ruffnote.comment_id = comment_id
     comment_ruffnote.save
+  end
+
+  private
+
+  def track_public_activity
+    self.create_activity(:create, owner: self.user, recipient: self.issue.project)
   end
 end
