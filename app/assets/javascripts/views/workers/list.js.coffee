@@ -2,7 +2,7 @@ class Timecard.Views.WorkersList extends Backbone.View
 
   template: JST['workers/list']
 
-  el: '.workers'
+  el: '.workers-list__container'
   
   events:
     'click .workers-reload': 'reloadWorkersList'
