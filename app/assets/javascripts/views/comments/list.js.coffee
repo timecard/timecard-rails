@@ -2,7 +2,7 @@ class Timecard.Views.CommentsList extends Backbone.View
 
   template: JST['comments/list']
 
-  el: '.comments'
+  el: '.comments-list__container'
 
   initialize: ->
 

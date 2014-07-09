@@ -1,6 +1,6 @@
-<div class="projects">
+<div class="projects-list__container">
 </div>
-<div class="workers">
+<div class="workers-list__container">
 </div>
-<div class="comments">
+<div class="comments-list__container">
 </div>
