@@ -1,6 +1,5 @@
 class Comment < ActiveRecord::Base
   include PublicActivity::Model
-  tracked owner: ->(controller, model) { controller && controller.current_user }
 
   belongs_to :issue
   belongs_to :user
@@ -48,6 +47,6 @@ class Comment < ActiveRecord::Base
   private
 
   def track_public_activity
-    self.create_activity(:create, owner: self.issue.project)
+    self.create_activity(:create, owner: self.user, recipient: self.issue.project)
   end
 end

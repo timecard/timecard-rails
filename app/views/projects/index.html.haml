@@ -1,25 +1,26 @@
-- if can? :create, Project.new
-  .new-project
-    = link_to "New Project", new_project_path, class: "btn btn-default"
-    = link_to "Import", data_path, class: "btn btn-default"
-.btn-group.btn-group-sm.project-status
+.btn-group.btn-group-sm.project__status
   = link_to "Active", projects_path(status: Project::STATUS_ACTIVE), class: "btn btn-default"
   = link_to "Closed", projects_path(status: Project::STATUS_CLOSED), class: "btn btn-default"
+
 .row
-  - @projects.each do |project|
-    .col-md-4
-      = div_for project do
-        %h3.project-name
-          = link_to project.name, project
-        %p.description= project.description.truncate(70) if project.description
-        %dl
-          %dt
-            Issue (#{project.issues.count})
-          %dd
-            Open: #{project.issues.open.count}
-          %dd
-            Closed: #{project.issues.closed.count}
-        #members
-          - project.members.limit(10).each do |member|
-            = link_to member.user do
-              = image_tag gravatar_url(member.user.email), class: "img-circle"
+  .project__layout.project__layout--card
+    - if can?(:create, Project.new)
+      .col-lg-3.col-md-3
+        = link_to new_project_path, class: "project__new project__layout-unit" do
+          .project__new-icon
+            = fa_icon "plus"
+          .project__new-text
+            Add Project
+    - @projects.each do |project|
+      .col-lg-3.col-md-3
+        .project__layout-unit
+          %h3.project__name
+            = link_to project.name, project
+          .project__description.text-muted
+            = project.description.truncate(70) if project.description
+          .project__meta.text-muted
+            #{project.issues.open.count} issues, #{Comment.where(issue_id: project.issues.pluck(:id)).count} comments
+          .project__members
+            - project.members.limit(10).each do |member|
+              = link_to member.user, class: "project__member" do
+                = image_tag gravatar_url(member.user.email, 45), class: "img-circle"

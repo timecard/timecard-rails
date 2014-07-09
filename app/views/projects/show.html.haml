@@ -1,49 +1,52 @@
-= link_to "Back to all projects", projects_path
-.project-header
-  .project-name
-    %h2
-      = @project.name
-    - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
-      .crowdworks-contract
-        - if @cwcontract
-          Crowdworks Contract ID:
-          = link_to "#{@cwcontract.contract_id}", "https://crowdworks.jp/contracts/#{@cwcontract.contract_id}"
-          = link_to "Edit", edit_crowdworks_contract_path(@project.crowdworks_contracts.find_by(user_id: current_user.id))
-          = link_to "Destroy", @cwcontract, method: :delete, "data-confirm" => "Are you sure?"
-        - else
-          = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
-  .project-description
-    %p= markdown(@project.description)
-  .project-labels
-    - if @project.is_public
-      %span.label.label-info Public
-    - else
-      %span.label.label-default Private
-    - if @project.github
-      %span.label.label-default= @project.github.full_name
-  - if can? :update, @project
-    .project-actions
-      - if @project.active?
-        = link_to "Add a member", project_members_path(@project), class: "btn btn-default"
-        = link_to "Edit", edit_project_path(@project), class: "btn btn-default"
-        = link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch
-      - else
-        = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
-      = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"
-
-%h3
-  Issue
-  - if @project.active?
-    - if can? :create, @project.issues.build
-      = link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default"
-.btn-group.btn-group-sm{:style => "margin-bottom:10px"}
-  = link_to "Open", issues_path(project_id: @project.id, status: "open"), remote: true, class: "btn btn-default"
-  = link_to "Closed", issues_path(project_id: @project.id, status: "closed"), remote: true, class: "btn btn-default"
-  = link_to "Don't do today", issues_path(project_id: @project.id, status: "not_do_today"), remote: true, class: "btn btn-default"
-#issues.media-list
-  = render "shared/issue_list", collection: @issues
 .row
-  .col-lg-6
+  .col-lg-8
+    .project
+      %h2.project__name
+        = @project.name
+      .project__description
+        = markdown(@project.description)
+      .project__meta
+        - if @project.is_public
+          %span.label.label-info Public
+        - else
+          %span.label.label-default Private
+        - if @project.github
+          %span.label.label-default= @project.github.full_name
+
+      - if can? :update, @project
+        .project__actions
+          - if @project.active?
+            = link_to "Add a member", project_members_path(@project), class: "btn btn-default"
+            = link_to "Edit", edit_project_path(@project), class: "btn btn-default"
+            = link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch
+          - else
+            = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
+          = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"
+
+        - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
+          .crowdworks-contract
+            - if @cwcontract
+              Crowdworks Contract ID:
+              = link_to "#{@cwcontract.contract_id}", "https://crowdworks.jp/contracts/#{@cwcontract.contract_id}"
+              = link_to "Edit", edit_crowdworks_contract_path(@project.crowdworks_contracts.find_by(user_id: current_user.id))
+              = link_to "Destroy", @cwcontract, method: :delete, "data-confirm" => "Are you sure?"
+            - else
+              = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
+    %hr
+
+    %h3
+      Issue
+      - if @project.active?
+        - if can? :create, @project.issues.build
+          = link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default"
+
+    .btn-group.btn-group-sm{:style => "margin-bottom:10px"}
+      = link_to "Open", issues_path(project_id: @project.id, status: "open"), remote: true, class: "btn btn-default"
+      = link_to "Closed", issues_path(project_id: @project.id, status: "closed"), remote: true, class: "btn btn-default"
+      = link_to "Don't do today", issues_path(project_id: @project.id, status: "not_do_today"), remote: true, class: "btn btn-default"
+    #issues.media-list
+      = render "shared/issue_list", collection: @issues
+
     %h3
       Comments
     #comments
@@ -56,9 +59,14 @@
                 @ #{time_ago_in_words(comment.created_at)} ago
               .comment-body
                 = markdown(comment.body)
-  .col-lg-6
+
     %h3
       WorkLoads
     #work-logs
       %ul.media-list
         = render @workloads
+
+  .col-lg-4
+    .activities.project-activities
+      %ul.activities-list.media-list
+        = render_activities(@activities, layout: :activity)
