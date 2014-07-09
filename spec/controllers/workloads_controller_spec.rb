@@ -7,6 +7,7 @@ describe WorkloadsController do
     @project = create(:project)
     create(:member, project: @project, user: @user)
     @issue = create(:issue, project: @project)
+    @previous_issue = create(:issue, project: @project)
     sign_in @user
 
     Chatwork.stub(:post)
@@ -56,7 +57,7 @@ describe WorkloadsController do
 
     describe "if other issue already running" do
       it "stop previous issue and start new issue" do
-        workload = create(:workload, user: @user, issue_id: @issue.id+1, end_at: nil)
+        workload = create(:workload, user: @user, issue: @previous_issue, end_at: nil)
         post 'create', issue_id: @issue, workload: attributes_for(:workload)
         workload.reload
         expect(workload.end_at).not_to be_nil
