@@ -2,7 +2,7 @@ class Timecard.Views.ProjectsList extends Backbone.View
 
   template: JST['projects/list']
 
-  el: '.project-list__container'
+  el: '.projects'
 
   events:
     'click .project-all--link': 'show'
