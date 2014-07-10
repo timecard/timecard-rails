@@ -1,7 +1,7 @@
 .row
   .col-lg-8
     .project
-      %h2.project__name
+      %h1.project__name
         = @project.name
       .project__description
         = markdown(@project.description)
@@ -34,20 +34,13 @@
               = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
     %hr
 
-    %h3
-      Issue
-      - if @project.active?
-        - if can? :create, @project.issues.build
-          = link_to "Add a issue", new_project_issue_path(@project), class: "btn btn-xs btn-default"
+    %h2.issues__caption
+      = fa_icon "exclamation-circle"
+      Issues
+    .issues-index
 
-    .btn-group.btn-group-sm{:style => "margin-bottom:10px"}
-      = link_to "Open", issues_path(project_id: @project.id, status: "open"), remote: true, class: "btn btn-default"
-      = link_to "Closed", issues_path(project_id: @project.id, status: "closed"), remote: true, class: "btn btn-default"
-      = link_to "Don't do today", issues_path(project_id: @project.id, status: "not_do_today"), remote: true, class: "btn btn-default"
-    #issues.media-list
-      = render "shared/issue_list", collection: @issues
-
-    %h3
+    %h2.comments__caption
+      = fa_icon "comments"
       Comments
     #comments
       %ul.media-list
@@ -60,7 +53,8 @@
               .comment-body
                 = markdown(comment.body)
 
-    %h3
+    %h2.workloads__caption
+      = fa_icon "clock-o"
       WorkLoads
     #work-logs
       %ul.media-list
@@ -70,3 +64,16 @@
     .activities.project-activities
       %ul.activities-list.media-list
         = render_activities(@activities, layout: :activity)
+
+:javascript
+  (function() {
+    var issues = new Timecard.Collections.Issues();
+    issues.url = '/projects/'+#{@project.id}+'/issues'
+    var workloads = new Timecard.Collections.Workloads();
+    var viewIssuesIndex = new Timecard.Views.IssuesIndex({
+      project_id: #{@project.id},
+      issues: issues,
+      workloads: workloads
+    })
+    viewIssuesIndex.render();
+  })();

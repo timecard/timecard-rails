@@ -31,7 +31,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
     if @model.get('status') isnt 9
       @viewWorkloadsTimerButton.setElement(@$('.timer-button__container')).render()
     if @model.get('is_running') is true
-      @$('.issue__action-buttons').removeClass('hidden')
+      @$('.issue__buttons').removeClass('hidden')
     @
 
   closeIssue: (e) ->
@@ -74,12 +74,12 @@ class Timecard.Views.IssuesItem extends Backbone.View
       success: (model) ->
 
   showActions: ->
-    @$('.issue__action-buttons').removeClass('hidden')
+    @$('.issue__buttons').removeClass('hidden')
     @$el.addClass('highlight')
 
   hideActions: ->
     if @model.get('is_running') is false
-      @$('.issue__action-buttons').addClass('hidden')
+      @$('.issue__buttons').addClass('hidden')
     @$el.removeClass('highlight')
 
   remove: ->

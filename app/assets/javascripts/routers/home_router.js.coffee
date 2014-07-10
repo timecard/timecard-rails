@@ -11,6 +11,7 @@ class Timecard.Routers.Home extends Backbone.Router
 
   index: ->
     return if $('.login').hasClass('false')
+    return if $('.home').length is 0
     @viewHomeSidebar = new Timecard.Views.HomeSidebar(issues: @issues, workloads: @workloads, router: @)
     @viewHomeSidebar.render()
     @viewHomeMain = new Timecard.Views.HomeMain(issues: @issues, workloads: @workloads)
@@ -18,6 +19,7 @@ class Timecard.Routers.Home extends Backbone.Router
     @renderGlobalTimer()
 
   show: (id) ->
+    return if $('.home').length is 0
     @projects.fetch
       url: '/api/my/projects'
       success: (projects) =>
