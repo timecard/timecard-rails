@@ -1,1 +1,3 @@
-json.partial! 'issues/issue', collection: @issues, as: :issue
+json.array! @issues do |issue|
+  json.partial! "issue", issue: issue
+end

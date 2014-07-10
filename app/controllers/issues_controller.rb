@@ -13,8 +13,7 @@ class IssuesController < ApplicationController
     end
 
     respond_to do |format|
-      format.js
-      format.json { render action: "index", status: :ok }
+      format.json
     end
   end
 
