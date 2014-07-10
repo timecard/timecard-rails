@@ -1,7 +1,7 @@
 <div class="issue-list__item__layout--inline-block">
-  <div class="issue__assignee">
-    <a href="/users/<%= @assignee.id %>">
-      <img class="img-circle" src="<%= @assignee.get('image') %>" />
+  <div class="issue__author">
+    <a href="/users/<%= @author.id %>">
+      <img class="img-circle" src="<%= @author.get('image') %>" />
     </a>
   </div>
 </div>
