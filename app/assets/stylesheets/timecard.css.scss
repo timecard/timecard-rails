@@ -51,6 +51,14 @@
   }
 }
 
+.issues__caption,
+.comments__caption,
+.workloads__caption {
+  margin: 25px 0 25px 0;
+  color: #3366cc;
+  font-size: 24px;
+}
+
 .new-issue {
   display: inline-block;
 }
@@ -65,17 +73,9 @@
     padding: 15px;
     margin: 0;
     border-bottom: solid 1px #dddddd;
-    .issue-list__item__layout--inline-block {
+
+    .timer-button__container {
       display: inline-block;
-      vertical-align: middle;
-    }
-
-    .issue__author {
-      margin: 0 10px 0 0;
-    }
-
-    .issue__action-buttons__container {
-      margin: 0 0 0 15px;
     }
   }
 }

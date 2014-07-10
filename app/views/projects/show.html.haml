@@ -1,7 +1,7 @@
 .row
   .col-lg-8
     .project
-      %h2.project__name
+      %h1.project__name
         = @project.name
       .project__description
         = markdown(@project.description)
@@ -34,12 +34,13 @@
               = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
     %hr
 
-    %h3
+    %h2.issues__caption
+      = fa_icon "exclamation-circle"
       Issues
-
     .issues-index
 
-    %h3
+    %h2.comments__caption
+      = fa_icon "comments"
       Comments
     #comments
       %ul.media-list
@@ -52,7 +53,8 @@
               .comment-body
                 = markdown(comment.body)
 
-    %h3
+    %h2.workloads__caption
+      = fa_icon "clock-o"
       WorkLoads
     #work-logs
       %ul.media-list
