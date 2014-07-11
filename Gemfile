@@ -45,6 +45,10 @@ group :development, :test do
   gem 'rspec-rails', '2.14.0'
   gem 'factory_girl_rails', '4.3.0'
   gem 'letter_opener', '1.1.2'
+  gem 'konacha'
+  gem 'poltergeist'
+  gem 'chai-jquery-rails'
+  gem 'sinon-rails'
 end
 
 group :doc do
