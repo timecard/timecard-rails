@@ -103,9 +103,12 @@ class IssuesController < ApplicationController
           issue = @issue.github.modify(
             current_user.github.oauth_token, params[:issue]
           )
-          unless issue
+          if issue
+            @issue.add_github(issue)
+          else
             flash[:alert] = 'Update a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'edit' }
+            return false
           end
         end
 
