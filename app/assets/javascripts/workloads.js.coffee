@@ -24,3 +24,5 @@ class Workload
   @replace: (time_str) ->
     $('title').text(time_str)
     $('.timer__field').text(time_str)
+
+window.Workload = window.Workload || Workload
