@@ -11,21 +11,24 @@ class IssueGithub < Provider
   end
 
   def reopen(token)
-    modify(token, {state: "open"})
+    modify(token, {status: 1})
   end
 
   def close(token)
-    modify(token, {state: "close"})
+    modify(token, {status: 9})
   end
 
   def modify(token, params)
     options = {}
     options["title"] = params[:subject] if params[:subject]
     options["body"] = params[:description] if params[:description]
-    if params[:status] == 1
+    case params[:status]
+    when 1
       options["state"] = "open"
-    else
+    when 9
       options["state"] = "close"
+    else
+      options["state"] = nil
     end
     if params[:assignee_id].present?
       user = User.find(params[:assignee_id])
