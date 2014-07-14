@@ -2,6 +2,10 @@
   .issue {
     margin: 0 0 20px 0;
 
+    .issue__subject {
+      font-size: 30px;
+    }
+
     .issue__meta {
       margin: 0 0 15px 0;
       .issue__status {
@@ -11,6 +15,18 @@
 
       .issue__author {
         display: inline-block;
+      }
+
+      .issue__assignee {
+        margin: 10px 0;
+      }
+
+      .issue__labels {
+        margin: 10px 0;
+        .issue__label {
+          margin: 0 10px 0 0;
+          font-size: 14px;
+        }
       }
     }
 

@@ -20,16 +20,24 @@
           opened this issue on #{@issue.created_at.to_date.to_s(:long)}
         - if can?(:update, @issue)
           = link_to "Edit", edit_issue_path(@issue)
-      .issue__description
-        = @issue.description.present? ? markdown(@issue.description) : "No description given."
-      .issue__meta
-        .issue__assignee
+
+        - if @issue.github
+          .issue__labels
+            - @issue.github.labels.each do |github_label|
+              %span.label.issue__label{ style: "background-color:##{github_label["color"]}" }
+                = github_label["name"]
+
+        .issue__assignee.text-muted
           - if @issue.assignee.present?
+            = image_tag gravatar_url(@issue.assignee.email, 20)
             %b= link_to @issue.assignee.name, @issue.assignee
             is assigned
           - else
             No one is assigned
           will start at #{@issue.will_start_at || "today"}
+
+      .issue__description
+        = @issue.description.present? ? markdown(@issue.description) : "No description given."
       = render 'actions'
     %hr
 
