@@ -12,20 +12,18 @@ class Issue
     target.closest('form').hide()
     target.closest('.comment-area').find('.comment-body').show()
 
-  @hide = (e) ->
-    e.preventDefault()
-    $(e.target).closest('.issue').hide()
-
-  @showWillStartAt = (e) ->
-    $(e.target).closest('.form-group').addClass('hidden')
-    $('#will-start-at').removeClass('hidden')
-    $('#will-start-at').find('select').removeAttr('disabled')
-    false
-
-  @hideWillStartAt = (e) ->
-    $(e.target).closest('.form-group').addClass('hidden')
-    $('#add-will-start-at').removeClass('hidden')
-    $('#will-start-at').find('select').attr('disabled', 'disabled')
-    false
+  toggleWillStartAt: (e) ->
+    e?.preventDefault()
+    $field = $('.issue__will-start-at__field')
+    $link = $('.issue__will-start-at__link--add')
+    if $field.hasClass('hidden')
+      $field.removeClass('hidden')
+      $field.find('select').removeAttr('disabled')
+      $link.addClass('hidden')
+    else
+      $field.addClass('hidden')
+      $field.find('select').attr('disabled', 'disabled')
+      $link.removeClass('hidden')
 
 window.Issue = window.Issue || Issue
+window.issue = window.issue || new Issue

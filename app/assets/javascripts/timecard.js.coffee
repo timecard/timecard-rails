@@ -45,8 +45,7 @@ ready = ->
   # .issues
   $('.issues').on 'click', '.js-edit-comment-button', Issue.showEditCommentForm
   $('.issues').on 'click', '.js-cancel-edit-comment-button', Issue.hideEditComment
-  $('.issues').on 'click', '.js-add-will-start-at', Issue.showWillStartAt
-  $('.issues').on 'click', '.js-close-will-start-at', Issue.hideWillStartAt
+  $('.issues').on 'click', '.issue__will-start-at__link--add, .issue__will-start-at__link--close', issue.toggleWillStartAt
   $('.issues').on 'change', '#js-add-github-checkbox', ->
     $('#js-assignee-select-box').html('<img src="/assets/loading_mini.gif" alt="loading..." />')
     project_id = $('#new_issue, .edit_issue').data('project-id')
