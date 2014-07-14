@@ -6,4 +6,12 @@ FactoryGirl.define do
     username "MyString"
     oauth_token SecureRandom.hex(16)
   end
+
+  factory :github, class: Authentication do
+    user
+    provider "github"
+    uid 1
+    username "github"
+    oauth_token SecureRandom.hex(16)
+  end
 end

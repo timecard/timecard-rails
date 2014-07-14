@@ -58,7 +58,11 @@ class IssuesController < ApplicationController
         end
 
         if params[:github].present?
-          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @project.github.full_name
+          )
+          issue = mediator.create_issue(params[:issue])
           if issue
             @issue.add_github(issue)
           else
@@ -90,7 +94,11 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if @issue.update(issue_params)
         if params[:github].present?
-          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
+          )
+          issue = mediator.create_issue(params[:issue])
           if issue
             @issue.add_github(issue)
           else
@@ -100,9 +108,11 @@ class IssuesController < ApplicationController
           end
         end
         if @issue.project.github && @issue.github
-          issue = @issue.github.modify(
-            current_user.github.oauth_token, params[:issue]
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
           )
+          issue = mediator.edit_issue(params[:issue], @issue.github.number)
           if issue
             @issue.add_github(issue)
           else
@@ -138,7 +148,11 @@ class IssuesController < ApplicationController
 
     if @issue.close
       if @issue.github
-        @issue.github.close(current_user.github.oauth_token)
+        mediator = GithubMediator.new(
+          current_user.github.oauth_token,
+          @issue.project.github.full_name
+        )
+        issue = mediator.edit_issue({status: 9}, @issue.github.number)
       end
       if @issue.ruffnote
         @issue.ruffnote.close(current_user.ruffnote.oauth_token)
@@ -153,7 +167,11 @@ class IssuesController < ApplicationController
   def reopen
     if @issue.reopen
       if @issue.github
-        @issue.github.reopen(current_user.github.oauth_token)
+        mediator = GithubMediator.new(
+          current_user.github.oauth_token,
+          @issue.project.github.full_name
+        )
+        issue = mediator.edit_issue({status: 1}, @issue.github.number)
       end
       if @issue.ruffnote
         @issue.ruffnote.reopen(current_user.ruffnote.oauth_token)
