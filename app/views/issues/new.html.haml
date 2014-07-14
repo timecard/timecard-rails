@@ -22,6 +22,15 @@
           = f.label :assignee_id
           #js-assignee-select-box
             = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+        - if current_user.github && @issue.project.github
+          .form-group
+            %ul
+              - @labels.each_with_index do |github_label, index|
+                %li
+                  .checkbox
+                    = label_tag nil do
+                      = check_box_tag "issue[github_labels][#{index}]", github_label.name, false
+                      = github_label.name
         .form-group
           .issue__will-start-at__link--add
             = link_to "Add will start at", "#", class: "js-add-will-start-at"

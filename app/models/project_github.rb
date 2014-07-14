@@ -11,11 +11,18 @@ class ProjectGithub < Provider
       a = User.find(params[:assignee_id])
       assignee = a.github.username
     end
+    labels = []
+    unless params[:github_labels].blank?
+      params[:github_labels].each do |key, value|
+        labels << value
+      end
+    end
     issue = Provider.github(token).issues.create(
       fn[0], fn[1],
       title: params[:subject],
       body: params[:description],
-      assignee: assignee
+      assignee: assignee,
+      labels: labels
     )
   end
 end

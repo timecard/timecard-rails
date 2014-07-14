@@ -35,6 +35,7 @@ class Issue < ActiveRecord::Base
     )
     issue_github.number = issue.number
     issue_github.html_url = issue.html_url
+    issue_github.labels = issue.labels
     issue_github.save
   end
 

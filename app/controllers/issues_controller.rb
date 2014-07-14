@@ -26,6 +26,9 @@ class IssuesController < ApplicationController
     @issue = @project.issues.build
     if @issue.project.github
       @members = @project.github_members(current_user.github.oauth_token)
+      github = Github.new(token: current_user.github.oauth_token)
+      owner, repo = @project.github_full_name.split("/")
+      @labels = github.issues.labels.list(user: owner, repo: repo)
     else
       @members = @project.members
     end
@@ -35,6 +38,9 @@ class IssuesController < ApplicationController
   def edit
     if @issue.github
       @members = @issue.project.github_members(current_user.github.oauth_token)
+      github = Github.new(token: current_user.github.oauth_token)
+      owner, repo = @issue.project.github_full_name.split("/")
+      @labels = github.issues.labels.list(user: owner, repo: repo)
     else
       @members = @issue.project.members
     end
@@ -95,7 +101,7 @@ class IssuesController < ApplicationController
         end
         if @issue.project.github && @issue.github
           issue = @issue.github.modify(
-            current_user.github.oauth_token, issue_params
+            current_user.github.oauth_token, params[:issue]
           )
           unless issue
             flash[:alert] = 'Update a new issue to Github failed.' + @issue.errors.full_messages.join("\n")

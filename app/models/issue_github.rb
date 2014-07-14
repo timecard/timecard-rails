@@ -4,6 +4,7 @@ class IssueGithub < Provider
     html_url
     number
     assignee_avatar_url 
+    labels
   end
 
   def issue
@@ -35,6 +36,12 @@ class IssueGithub < Provider
       options["assignee"] = user.github.username
     else
       options["assignee"] = nil
+    end
+    options["labels"] = []
+    if params[:github_labels].present?
+      params[:github_labels].each do |key, value|
+        options["labels"] << value
+      end
     end
     fn = self.issue.project.github.full_name.split("/")
     issue = Provider.github(token).issues.edit(
