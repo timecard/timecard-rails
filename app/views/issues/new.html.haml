@@ -22,13 +22,14 @@
           = f.label :assignee_id
           #js-assignee-select-box
             = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
-        .form-group#add-will-start-at
-          = link_to "Add will start at", "#", class: "js-add-will-start-at"
-        .form-group.hidden#will-start-at
-          = f.label :will_start_at
-          .form-datetime-select
-            = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
-            %button.close.js-close-will-start-at{ type: "button", aria: { hidden: "true" } } &times;
+        .form-group
+          .issue__will-start-at__link--add
+            = link_to "Add will start at", "#", class: "js-add-will-start-at"
+          .hidden.issue__will-start-at__field
+            = f.label :will_start_at
+            .form-datetime-select
+              = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
+              %button.close.issue__will-start-at__link--close{ type: "button", aria: { hidden: "true" } } &times;
         - if current_user.github && @issue.project.github
           %hr
           .form-group.checkbox
