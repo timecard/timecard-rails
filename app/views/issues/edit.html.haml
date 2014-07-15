@@ -1,48 +1,60 @@
-.back-to-issue
-  = link_to "Back to issue", @issue
-%hr
 .row
-  .col-md-6
+  .col-sm-offset-2.col-sm-8.col-md-offset-2.col-md-8
+    .issue__back
+      = link_to @issue.project, class: "issue__back__link" do
+        = fa_icon "chevron-left"
+      = @issue.project.name
+    %hr
     = form_for @issue, data: { "project-id" => @issue.project.id } do |f|
       - if @issue.errors.any?
-        #error_explanationpnnel
-          #h2= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
+        #error_explanationpnnel.panel.panel-danger
+          .panel-heading
+            #h2= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
 
-          %ul
-          - @issue.errors.full_messages.each do |msg|
-            %li= msg
+          .panel-body
+            %ul
+            - @issue.errors.full_messages.each do |msg|
+              %li= msg
       = f.hidden_field :author_id, value: @issue.author.id
-      .input-area
+      .form-group
+        = f.text_field :subject, class: "form-control", placeholder: "Subject"
+      .form-group
+        = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+      .form-group
+        = f.label :assignee_id
+        #js-assignee-select-box
+          = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+      - if current_user.github && @issue.github
         .form-group
-          = f.text_field :subject, class: "form-control", placeholder: "Subject"
+          %ul.issue__labels
+            - @labels.each_with_index do |github_label, index|
+              %li.issue__labels__item
+                .checkbox
+                  = label_tag nil do
+                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, @issue.github.labels.any? { |label| label["name"] == github_label.name }
+                    %span.label{ style: calc_label_color(github_label.color) }
+                      = github_label.name
+      - if @issue.will_start_at.blank?
         .form-group
-          = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
-        .form-group
-          = f.label :assignee_id
-          #js-assignee-select-box
-            = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
-        - if @issue.will_start_at.blank?
-          .form-group
-            .issue__will-start-at__link--add
-              = link_to "Add will start at", "#", class: "js-add-will-start-at"
-            .hidden.issue__will-start-at__field
-              = f.label :will_start_at
-              .form-datetime-select
-                = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
-                %button.close.issue__will-start-at__link--close{ type: "button", aria: { hidden: "true" } } &times;
-        - else
-          .form-group#will-start-at
-            = f.label :will_start_at
-            %br
-            = f.datetime_select :will_start_at, {}, class: "form-control"
-        - if current_user.github && @issue.project.github && @issue.github.blank?
-          %hr
-          .form-group.checkbox
-            = label_tag "github" do
-              = check_box_tag 'github', 1, @issue.github, checked: !@issue.github.blank?, id: "js-add-github-checkbox"
-            Github
-            %br
-            %span.text-muted If checked add this issue to github.
+          .issue__will-start-at__link--add
+            = link_to "When will you start this issue?", "#", class: "js-add-will-start-at"
+          .hidden.issue__will-start-at__field
+            .form-datetime-select
+              = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
+              %button.close.issue__will-start-at__link--close{ type: "button", aria: { hidden: "true" } } &times;
+      - else
+        .form-group#will-start-at
+          = f.label :will_start_at
+          %br
+          = f.datetime_select :will_start_at, {}, class: "form-control"
+      - if current_user.github && @issue.project.github && @issue.github.blank?
         %hr
+        .form-group.checkbox
+          = label_tag "github" do
+            = check_box_tag 'github', 1, @issue.github, checked: !@issue.github.blank?, id: "js-add-github-checkbox"
+          Github
+          %br
+          %span.text-muted If checked add this issue to github.
+      %hr
       .actions.pull-right
         = f.submit "Update", class: "btn btn-success"

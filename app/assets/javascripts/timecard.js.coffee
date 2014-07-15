@@ -52,6 +52,10 @@ ready = ->
         @viewAssigneeSelectBox =
           new Timecard.Views.IssuesAssigneeSelectBox(collection: collection)
         @viewAssigneeSelectBox.render()
+    if checked is '1'
+      $('.issue__labels').show()
+    else
+      $('.issue__labels').hide()
 
   # .dashboards
   $('.dashboards').on 'click', '.js-workloads-on-day-link', (e) ->

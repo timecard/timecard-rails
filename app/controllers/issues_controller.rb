@@ -1,6 +1,8 @@
 class IssuesController < ApplicationController
   load_and_authorize_resource :project, only: [:index, :new, :create]
   load_and_authorize_resource :issue, except: [:index, :new, :create]
+  before_action :load_members, except: [:index, :show, :destroy]
+  before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
     status = params[:status] || "open"
@@ -24,20 +26,10 @@ class IssuesController < ApplicationController
 
   def new
     @issue = @project.issues.build
-    if @issue.project.github
-      @members = @project.github_members(current_user.github.oauth_token)
-    else
-      @members = @project.members
-    end
     authorize! :create, @issue
   end
 
   def edit
-    if @issue.github
-      @members = @issue.project.github_members(current_user.github.oauth_token)
-    else
-      @members = @issue.project.members
-    end
   end
 
   def create
@@ -52,7 +44,11 @@ class IssuesController < ApplicationController
         end
 
         if params[:github].present?
-          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @project.github.full_name
+          )
+          issue = mediator.create_issue(params[:issue])
           if issue
             @issue.add_github(issue)
           else
@@ -84,7 +80,11 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if @issue.update(issue_params)
         if params[:github].present?
-          issue = @issue.project.github.add_issue(current_user.github.oauth_token , params[:issue])
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
+          )
+          issue = mediator.create_issue(params[:issue])
           if issue
             @issue.add_github(issue)
           else
@@ -94,12 +94,17 @@ class IssuesController < ApplicationController
           end
         end
         if @issue.project.github && @issue.github
-          issue = @issue.github.modify(
-            current_user.github.oauth_token, issue_params
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
           )
-          unless issue
+          issue = mediator.edit_issue(params[:issue], @issue.github.number)
+          if issue
+            @issue.add_github(issue)
+          else
             flash[:alert] = 'Update a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
             format.html { render action: 'edit' }
+            return false
           end
         end
 
@@ -129,7 +134,11 @@ class IssuesController < ApplicationController
 
     if @issue.close
       if @issue.github
-        @issue.github.close(current_user.github.oauth_token)
+        mediator = GithubMediator.new(
+          current_user.github.oauth_token,
+          @issue.project.github.full_name
+        )
+        issue = mediator.edit_issue({status: 9}, @issue.github.number)
       end
       if @issue.ruffnote
         @issue.ruffnote.close(current_user.ruffnote.oauth_token)
@@ -144,7 +153,11 @@ class IssuesController < ApplicationController
   def reopen
     if @issue.reopen
       if @issue.github
-        @issue.github.reopen(current_user.github.oauth_token)
+        mediator = GithubMediator.new(
+          current_user.github.oauth_token,
+          @issue.project.github.full_name
+        )
+        issue = mediator.edit_issue({status: 1}, @issue.github.number)
       end
       if @issue.ruffnote
         @issue.ruffnote.reopen(current_user.ruffnote.oauth_token)
@@ -178,5 +191,40 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status)
+  end
+
+  def load_members
+    if params[:project_id]
+      # new, create
+      if @project.github
+        @members = @project.github_members(current_user.github.oauth_token)
+      else
+        @members = @project.members
+      end
+    else
+      # edit, update
+      if @issue.github
+        @members = @issue.project.github_members(current_user.github.oauth_token)
+      else
+        @members = @issue.project.members
+      end
+    end
+  end
+
+  def load_labels
+    github = Github.new(token: current_user.github.oauth_token)
+    if params[:project_id]
+      # new, create
+      if @project.github
+        owner, repo = @project.github_full_name.split("/")
+        @labels = github.issues.labels.list(user: owner, repo: repo)
+      end
+    else
+      # edit, update
+      if @issue.github
+        owner, repo = @issue.project.github_full_name.split("/")
+        @labels = github.issues.labels.list(user: owner, repo: repo)
+      end
+    end
   end
 end

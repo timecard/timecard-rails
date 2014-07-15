@@ -1,8 +1,10 @@
-.back-to-project
-  = link_to "Back to project", @project
-%hr
 .row
-  .col-md-6
+  .col-sm-offset-2.col-sm-8.col-md-offset-2.col-md-8
+    .issue__back
+      = link_to @project, class: "issue__back__link" do
+        = fa_icon "chevron-left"
+      = @project.name
+    %hr
     = form_for [@project, @issue], data: { "project-id" => @project.id } do |f|
       - if @issue.errors.any?
         #error_explanation.panel.panel-danger
@@ -13,31 +15,40 @@
               - @issue.errors.full_messages.each do |msg|
                 %li= msg
       = f.hidden_field :author_id, value: current_user.id
-      .input-area
+      .form-group
+        = f.text_field :subject, class: "form-control", placeholder: "Subject"
+      .form-group
+        = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+      .form-group
+        #js-assignee-select-box
+          = f.select :assignee_id, @members.collect { |m| [ "#{m.user.name} will be assigned", m.user.id ] }, { prompt: "No one is assigned" }, class: "form-control"
+      
+      - if current_user.github && @issue.project.github
         .form-group
-          = f.text_field :subject, class: "form-control", placeholder: "Subject"
-        .form-group
-          = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
-        .form-group
-          = f.label :assignee_id
-          #js-assignee-select-box
-            = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
-        .form-group
-          .issue__will-start-at__link--add
-            = link_to "Add will start at", "#", class: "js-add-will-start-at"
-          .hidden.issue__will-start-at__field
-            = f.label :will_start_at
-            .form-datetime-select
-              = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
-              %button.close.issue__will-start-at__link--close{ type: "button", aria: { hidden: "true" } } &times;
-        - if current_user.github && @issue.project.github
-          %hr
-          .form-group.checkbox
-            = label_tag "github" do
-              = check_box_tag 'github', 1, @issue.github, checked: true, id: "js-add-github-checkbox"
-              Github
-              %br
-              %span.text-muted If checked add this issue to github.
-          %hr
+          %ul.issue__labels
+            - @labels.each_with_index do |github_label, index|
+              %li.issue__labels__item
+                .checkbox
+                  = label_tag nil do
+                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, false
+                    %span.label{ style: calc_label_color(github_label.color) }
+                      = github_label.name
+
+      .form-group
+        .issue__will-start-at__link--add
+          = link_to "When will you start this issue?", "#", class: "js-add-will-start-at"
+        .hidden.issue__will-start-at__field
+          .form-datetime-select
+            = f.datetime_select :will_start_at, {}, class: "form-control", disabled: true
+            %button.close.issue__will-start-at__link--close{ type: "button", aria: { hidden: "true" } } &times;
+      - if current_user.github && @issue.project.github
+        %hr
+        .form-group.checkbox
+          = label_tag nil do
+            = check_box_tag 'github', 1, @issue.github, checked: true, id: "js-add-github-checkbox"
+            Github
+            %br
+            %span.text-muted If checked add this issue to github.
+      %hr
       .actions.pull-right
         = f.submit "Create a new issue", class: "btn btn-success"
