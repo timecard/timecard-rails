@@ -1,8 +1,9 @@
 <select class="form-control" id="issue_assignee_id" name="issue[assignee_id]">
-  <option value=""></option>
+  <option value>No one is assigned</option>
   <% for member in @members: %>
     <option value="<%= member.get('user_id') %>">
       <%= member.get('name') %>
+      will be assigned
     </option>
   <% end %>
 </select>

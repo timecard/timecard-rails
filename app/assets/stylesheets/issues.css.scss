@@ -35,35 +35,57 @@
     }
   }
 
-  form {
-    #issue_will_start_at_1i {
-      display: inline-block;
-      width: 20%;
+  .issue__back {
+    margin: 0 0 0 -30px;
+    font-size: 32px;
+    font-weight: bold;
+
+    .issue__back__link {
+      text-decoration: none;
     }
-    #issue_will_start_at_2i {
-      display: inline-block;
-      width: 20%;
+  }
+
+  @media screen and (max-width: 480px) {
+    .issue__back {
+      margin: 0;
     }
-    #issue_will_start_at_3i {
-      display: inline-block;
-      width: 15%;
-    }
-    #issue_will_start_at_4i {
-      display: inline-block;
-      width: 15%;
-    }
-    #issue_will_start_at_5i {
-      display: inline-block;
-      width: 15%;
-    }
-    .close {
-      line-height: 34px;
-    }
+  }
+
+  .new_issue, .edit_issue {
     .panel-body {
       ul {
         margin: 0;
         padding: 0 0 0 18px;
       }
+    }
+
+    .issue__labels {
+      margin: 0 5px;
+      padding: 0;
+      list-style-type: none;
+
+      .issue__labels__item {
+        display: inline-block;
+        margin: 0 10px 0 0;
+        font-size: 18px;
+      }
+    }
+
+    #issue_will_start_at_1i,
+    #issue_will_start_at_2i {
+      display: inline-block;
+      width: 20%;
+    }
+
+    #issue_will_start_at_3i,
+    #issue_will_start_at_4i,
+    #issue_will_start_at_5i {
+      display: inline-block;
+      width: 15%;
+    }
+
+    .issue__will-start-at__link--close {
+      line-height: 34px;
     }
   }
 }

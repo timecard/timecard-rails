@@ -47,4 +47,13 @@ module ApplicationHelper
   def gravatar_url(email, size=50)
     "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{size}"
   end
+
+  def calc_label_color(color)
+    rbg = color.scan(/.{1,2}/)
+    if rbg.inject(0) { |sum,i| sum += i.hex } < 382
+      "color:#ffffff;background-color:##{color}"
+    else
+      "color:#333333;background-color:##{color}"
+    end
+  end
 end
