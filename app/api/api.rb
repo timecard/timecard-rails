@@ -27,7 +27,8 @@ class API < Grape::API
       desc "Return all my projects"
       get "", jbuilder: "projects" do
         authenticated!
-        @projects = Project.visible(current_user)
+        @user = current_user
+        @projects = Project.visible(@user)
       end
 
       route_param :id do
