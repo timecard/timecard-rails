@@ -1,18 +1,20 @@
 .row
   .col-sm-offset-2.col-sm-8.col-md-offset-2.col-md-8
     .issue__back
-      = link_to @issue, class: "issue__back__link" do
+      = link_to @issue.project, class: "issue__back__link" do
         = fa_icon "chevron-left"
-      = @issue.subject
+      = @issue.project.name
     %hr
     = form_for @issue, data: { "project-id" => @issue.project.id } do |f|
       - if @issue.errors.any?
-        #error_explanationpnnel
-          #h2= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
+        #error_explanationpnnel.panel.panel-danger
+          .panel-heading
+            #h2= "#{pluralize(@issue.errors.count, "error")} prohibited this issue from being saved:"
 
-          %ul
-          - @issue.errors.full_messages.each do |msg|
-            %li= msg
+          .panel-body
+            %ul
+            - @issue.errors.full_messages.each do |msg|
+              %li= msg
       = f.hidden_field :author_id, value: @issue.author.id
       .form-group
         = f.text_field :subject, class: "form-control", placeholder: "Subject"

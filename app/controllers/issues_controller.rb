@@ -1,6 +1,8 @@
 class IssuesController < ApplicationController
   load_and_authorize_resource :project, only: [:index, :new, :create]
   load_and_authorize_resource :issue, except: [:index, :new, :create]
+  before_action :load_members, except: [:index, :show, :destroy]
+  before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
     status = params[:status] || "open"
@@ -24,26 +26,10 @@ class IssuesController < ApplicationController
 
   def new
     @issue = @project.issues.build
-    if @issue.project.github
-      @members = @project.github_members(current_user.github.oauth_token)
-      github = Github.new(token: current_user.github.oauth_token)
-      owner, repo = @project.github_full_name.split("/")
-      @labels = github.issues.labels.list(user: owner, repo: repo)
-    else
-      @members = @project.members
-    end
     authorize! :create, @issue
   end
 
   def edit
-    if @issue.github
-      @members = @issue.project.github_members(current_user.github.oauth_token)
-      github = Github.new(token: current_user.github.oauth_token)
-      owner, repo = @issue.project.github_full_name.split("/")
-      @labels = github.issues.labels.list(user: owner, repo: repo)
-    else
-      @members = @issue.project.members
-    end
   end
 
   def create
@@ -205,5 +191,40 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status)
+  end
+
+  def load_members
+    if params[:project_id]
+      # new, create
+      if @project.github
+        @members = @project.github_members(current_user.github.oauth_token)
+      else
+        @members = @project.members
+      end
+    else
+      # edit, update
+      if @issue.github
+        @members = @issue.project.github_members(current_user.github.oauth_token)
+      else
+        @members = @issue.project.members
+      end
+    end
+  end
+
+  def load_labels
+    github = Github.new(token: current_user.github.oauth_token)
+    if params[:project_id]
+      # new, create
+      if @project.github
+        owner, repo = @project.github_full_name.split("/")
+        @labels = github.issues.labels.list(user: owner, repo: repo)
+      end
+    else
+      # edit, update
+      if @issue.github
+        owner, repo = @issue.project.github_full_name.split("/")
+        @labels = github.issues.labels.list(user: owner, repo: repo)
+      end
+    end
   end
 end
