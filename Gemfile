@@ -30,6 +30,7 @@ gem 'public_activity'
 group :development do
   gem 'guard-livereload', '~> 2.2.0'
   gem 'guard-rspec', '4.0.3'
+  gem 'guard-konacha', '~> 1.0.5'
   gem 'quiet_assets', '1.0.2'
   gem 'erb2haml'
   gem 'spring'
