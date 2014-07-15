@@ -212,10 +212,10 @@ class IssuesController < ApplicationController
   end
 
   def load_labels
-    github = Github.new(token: current_user.github.oauth_token)
     if params[:project_id]
       # new, create
       if @project.github
+        github = Github.new(token: current_user.github.oauth_token)
         owner, repo = @project.github_full_name.split("/")
         @labels = github.issues.labels.list(user: owner, repo: repo)
       end
