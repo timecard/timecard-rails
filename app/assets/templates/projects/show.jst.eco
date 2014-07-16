@@ -8,10 +8,7 @@
     </span>
   </li>
   <li class="projects-show__meta__item">
-    <i class="fa fa-exclamation-circle"></i>
-    Issues <span class="badge">
-      <%= @project.get('open_issues_count') %>
-    </span>
+    <%= @project.issuesCountLabel() %>
   </li>
 </ul>
 <div class="projects-show__desc">
