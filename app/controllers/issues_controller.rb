@@ -222,6 +222,7 @@ class IssuesController < ApplicationController
     else
       # edit, update
       if @issue.github
+        github = Github.new(token: current_user.github.oauth_token)
         owner, repo = @issue.project.github_full_name.split("/")
         @labels = github.issues.labels.list(user: owner, repo: repo)
       end
