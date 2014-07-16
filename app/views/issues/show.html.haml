@@ -21,7 +21,7 @@
         - if can?(:update, @issue)
           = link_to "Edit", edit_issue_path(@issue)
 
-        - if @issue.github
+        - if @issue.github && @issue.github.labels
           .issue__labels
             - @issue.github.labels.each do |github_label|
               %span.label.issue__label{ style: "background-color:##{github_label["color"]}" }
