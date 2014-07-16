@@ -11,7 +11,11 @@ class CommentsController < ApplicationController
       if @comment.save
         WebsocketRails[:streaming].trigger "create", @comment
         if @comment.issue.github && current_user.github
-          comment = @comment.issue.github.add_comment(current_user.github.oauth_token , comment_params)
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
+          )
+          comment = mediator.create_comment(comment_params, @issue.github.number)
           if comment
             @comment.add_github(comment.id)
           else
@@ -43,12 +47,15 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.update(comment_params)
         if @comment.github && @comment.github.comment_id && current_user.github
-          comment = @comment.github.modify(
-            current_user.github.oauth_token, comment_params
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @comment.issue.project.github.full_name
           )
-          unless comment
+          comment = mediator.edit_comment(comment_params, @comment.github.comment_id)
+          if comment
+            @comment.add_github(comment.id)
+          else
             flash[:alert] = 'Update a new comment to Github failed.' + @comment.errors.full_messages.join("\n")
-            format.html { redirect_to @comment, notice: 'Issue was successfully updated.' }
           end
         end
         format.html { redirect_to @comment.issue, notice: 'Comment was successfully updated.' }
@@ -62,9 +69,11 @@ class CommentsController < ApplicationController
 
   def destroy
     if @comment.github && @comment.github.comment_id && current_user.github
-      comment = @comment.github.destroy(
-        current_user.github.oauth_token
+      mediator = GithubMediator.new(
+        current_user.github.oauth_token,
+        @comment.issue.project.github.full_name
       )
+      mediator.destroy_comment(@comment.github.comment_id)
     end
     if @comment.ruffnote && @comment.ruffnote.comment_id && current_user.ruffnote
       comment = @comment.ruffnote.destroy(
