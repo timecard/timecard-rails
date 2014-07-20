@@ -35,6 +35,7 @@ group :development do
   gem 'erb2haml'
   gem 'spring'
   gem 'spring-commands-rspec', require: false
+  gem 'rack-mini-profiler', '~> 0.9.2'
 end
 
 group :test do
