@@ -36,10 +36,14 @@ class API < Grape::API
           optional :status, type: String, default: "open"
         end
 
+        # /api/my/projects/:id/issues
         get "issues", jbuilder: "issues" do
           authenticated!
           project = Project.find(params[:id])
-          @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
+          @issues = project.issues
+            .with_status(params[:status])
+            .where(assignee: current_user)
+            .includes(:github, :ruffnote, :comments)
         end
       end
 
@@ -57,6 +61,7 @@ class API < Grape::API
       end
     end
 
+    # /api/my/issues
     resource :issues do
       params do
         optional :status, type: String, default: "open"
@@ -65,7 +70,9 @@ class API < Grape::API
       get "", jbuilder: "issues" do
         authenticated!
         @current_user = current_user
-        @issues = current_user.issues.with_status(params[:status])
+        @issues = current_user.issues
+          .with_status(params[:status])
+          .includes(:github, :ruffnote, :comments)
       end
     end
 
