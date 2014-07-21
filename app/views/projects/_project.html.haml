@@ -1,0 +1,13 @@
+%section.project
+  %h2.project__title
+    = link_to project.name, project
+  .project__meta
+    - if project.is_public
+      %span.label.label-info Public
+    - else
+      %span.label.label-default Private
+    - if project.github
+      %span.label.label-default
+        = project.github.full_name
+  .project__description.text-muted
+    = markdown(project.description)
