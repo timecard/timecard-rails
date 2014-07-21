@@ -36,10 +36,14 @@ class API < Grape::API
           optional :status, type: String, default: "open"
         end
 
+        # /api/my/projects/:id/issues
         get "issues", jbuilder: "issues" do
           authenticated!
           project = Project.find(params[:id])
-          @issues = project.issues.with_status(params[:status]).where("assignee_id = ?", current_user.id)
+          @issues = project.issues
+            .with_status(params[:status])
+            .where(assignee: current_user)
+            .includes(:github, :ruffnote, :comments)
         end
       end
 
