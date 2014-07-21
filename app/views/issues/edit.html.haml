@@ -31,7 +31,7 @@
               %li.issue__labels__item
                 .checkbox
                   = label_tag nil do
-                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, @issue.github.labels.any? { |label| label["name"] == github_label.name }
+                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, @issue.labels.any? { |label| label["name"] == github_label.name }
                     %span.label{ style: calc_label_color(github_label.color) }
                       = github_label.name
       - if @issue.will_start_at.blank?
