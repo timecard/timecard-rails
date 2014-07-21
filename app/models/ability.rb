@@ -32,20 +32,19 @@ class Ability
       issue.project.visible?(user)
     end
     can [:create, :update, :reopen, :close], Issue do |issue|
-      issue.project.member?(user)
+      issue.project.member?(user) && issue.project.active?
     end
   end
 
   def authorize_comment(user)
-    can :update, Comment do |comment|
-      comment.issue.project.member?(user)
+    can [:update, :destroy], Comment do |comment|
+      user == comment.user
     end
   end
 
   def authorize_workload(user)
     can [:read, :create, :update, :destroy, :stop], Workload do |workload|
-      workload.issue.project.admin?(user) ||
-        (workload.issue.project.member?(user) && workload.user_id == user.id)
+      user == workload.user && workload.issue.project.active?
     end
   end
 end

@@ -68,7 +68,7 @@
                 .clearfix
                   = f.submit class: "btn btn-primary pull-right"
                   = link_to "Cancel", "#", class: "btn btn-default pull-left comment__cancel-button"
-      - if can?(:update, @issue) && @issue.project.active?
+      - if can?(:create, @issue)
         = form_for [@issue, Comment.new] do |f|
           .form-group
             = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
@@ -91,7 +91,7 @@
                   = link_to workload.user.name, workload.user
                   %span.text-muted
                     worked #{formatted_time_distance(workload.start_at, workload.end_at)}
-                  - if workload.issue.project.active? && can?(:update, workload)
+                  - if can?(:update, workload)
                     = link_to "Edit", edit_workload_path(workload)
                 .workload__time
                   #{l(workload.start_at, format: :short)} - #{l(workload.end_at, format: :short)}
