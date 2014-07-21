@@ -57,6 +57,7 @@ class API < Grape::API
       end
     end
 
+    # /api/my/issues
     resource :issues do
       params do
         optional :status, type: String, default: "open"
@@ -65,7 +66,9 @@ class API < Grape::API
       get "", jbuilder: "issues" do
         authenticated!
         @current_user = current_user
-        @issues = current_user.issues.with_status(params[:status])
+        @issues = current_user.issues
+          .with_status(params[:status])
+          .includes(:github, :ruffnote, :comments)
       end
     end
 

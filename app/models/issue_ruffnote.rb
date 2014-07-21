@@ -1,11 +1,9 @@
 class IssueRuffnote < Provider
+  belongs_to :issue, foreign_key: :foreign_id
+
   store_into :info do |a|
     number
     html_url
-  end
-
-  def issue
-    Issue.find(self.foreign_id)
   end
 
   def reopen(token)

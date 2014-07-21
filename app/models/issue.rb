@@ -11,6 +11,9 @@ class Issue < ActiveRecord::Base
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
   belongs_to :assignee, class_name: "User", foreign_key: :assignee_id
+  has_one :github, ->{ where(name: "github", provided_type: "Issue") }, foreign_key: :foreign_id, class_name: "IssueGithub"
+  has_one :ruffnote, ->{ where(name: "ruffnote", provided_type: "Issue") }, foreign_key: :foreign_id, class_name: "IssueRuffnote"
+
   has_many :comments
   has_many :workloads
 
@@ -18,14 +21,6 @@ class Issue < ActiveRecord::Base
 
   after_create :track_create_activity
   before_update :track_update_status_activity
-
-  def github
-    IssueGithub.find_by(
-      name: "github",
-      provided_type: "Issue",
-      foreign_id: self.id
-    )
-  end
 
   def add_github(issue)
     issue_github = IssueGithub.find_or_create_by(
@@ -37,14 +32,6 @@ class Issue < ActiveRecord::Base
     issue_github.html_url = issue.html_url
     issue_github.labels = issue.labels
     issue_github.save
-  end
-
-  def ruffnote
-    IssueRuffnote.find_by(
-      name: "ruffnote",
-      provided_type: "Issue",
-      foreign_id: self.id
-    )
   end
 
   def add_ruffnote(number) #index
