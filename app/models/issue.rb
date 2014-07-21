@@ -89,6 +89,12 @@ class Issue < ActiveRecord::Base
     false
   end
 
+  def labels
+    return [] if github.blank?
+    return [] if github.labels.blank?
+    github.labels
+  end
+
   private
 
   def track_create_activity

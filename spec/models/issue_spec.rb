@@ -123,4 +123,31 @@ describe Issue do
       expect(issue.status).to eq(1)
     end
   end
+
+  describe "#labels" do
+    context "with github and github labels" do
+      it "returns labels" do
+        issue = create(:issue)
+        labels = ["bug", "feature"]
+        create(:issue_github, foreign_id: issue.id, info: { labels: labels })
+        expect(issue.labels).to eq(labels)
+      end
+    end
+
+    context "with github and github labels" do
+      it "returns empty array" do
+        issue = create(:issue)
+        labels = []
+        create(:issue_github, foreign_id: issue.id, info: { labels: labels })
+        expect(issue.labels).to eq([])
+      end
+    end
+
+    context "doesn't have Github Object" do
+      it "returns empty" do
+        issue = create(:issue)
+        expect(issue.labels).to eq([])
+      end
+    end
+  end
 end

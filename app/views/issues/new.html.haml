@@ -22,7 +22,7 @@
       .form-group
         #js-assignee-select-box
           = f.select :assignee_id, @members.collect { |m| [ "#{m.user.name} will be assigned", m.user.id ] }, { prompt: "No one is assigned" }, class: "form-control"
-      
+
       - if current_user.github && @issue.project.github
         .form-group
           %ul.issue__labels
