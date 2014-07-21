@@ -1,10 +1,9 @@
 .row
   .col-lg-6
-    .issue
-      .issue__header
-        %h1.issue__subject
-          = link_to_provider(@issue)
-          = @issue.subject
+    %section.issue
+      %h1.issue__subject
+        = link_to_provider(@issue)
+        = @issue.subject
       .issue__meta
         .issue__status
           - if @issue.status == 1
@@ -35,28 +34,64 @@
           - else
             No one is assigned
           will start at #{@issue.will_start_at || "today"}
-
       .issue__description
         = @issue.description.present? ? markdown(@issue.description) : "No description given."
+      %hr
       = render 'actions'
-    %hr
 
   .col-lg-6
-    %h2
-      = link_to @issue.project.name, @issue.project
-    = markdown(@issue.project.description)
+    = render "projects/project", project: @issue.project
 .row
   .col-lg-6
-    %ul.media-list
-      = render partial: 'comments/comment', collection: @issue.comments.order("id ASC")
-    - if can?(:update, @issue) && @issue.project.active?
-      = form_for [@issue, Comment.new] do |f|
-        .form-group
-          = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
-        .actions.text-right
-          = f.submit "Comment", class: "btn btn-success"
+    %section
+      %ul.media-list.comment-list
+        - @issue.comments.order("id ASC").each do |comment|
+          %li.media.comment-list__item
+            .pull-left
+              = link_to comment.user do
+                = image_tag gravatar_url(comment.user.email), class: "img-circle"
+            .media-body.comment
+              - if can?(:destroy, comment)
+                = link_to comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
+                  &times;
+              .comment__user
+                = link_to comment.user.name, comment.user
+                %span.text-muted
+                  commented #{time_ago_in_words(comment.created_at)} ago
+                - if can?(:update, comment)
+                  = link_to "Edit", "#", class: "comment__edit-button"
+              .comment__body
+                = comment.body
+              = form_for comment, html: { style: "display:none;" } do |f|
+                .form-group
+                  = f.text_area :body, class: "form-control", rows: "5"
+                .clearfix
+                  = f.submit class: "btn btn-primary pull-right"
+                  = link_to "Cancel", "#", class: "btn btn-default pull-left comment__cancel-button"
+      - if can?(:update, @issue) && @issue.project.active?
+        = form_for [@issue, Comment.new] do |f|
+          .form-group
+            = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
+          .actions.text-right
+            = f.submit "Comment", class: "btn btn-success"
   .col-lg-6
-    .section
-      %h3 Workloads
-      %ul.media-list
-        = render @issue.workloads.complete.order("updated_at DESC")
+    %section
+      %ul.media-list.workload-list
+        - @issue.workloads.complete.order("updated_at DESC").each do |workload|
+          %li.media.workload-list__item
+            .pull-left
+              = link_to workload.user do
+                = image_tag gravatar_url(workload.user.email), class: "img-circle"
+            .media-body
+              .workload
+                - if can? :destroy, workload
+                  = link_to workload, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
+                    &times;
+                .workload__duration
+                  = link_to workload.user.name, workload.user
+                  %span.text-muted
+                    worked #{formatted_time_distance(workload.start_at, workload.end_at)}
+                  - if workload.issue.project.active? && can?(:update, workload)
+                    = link_to "Edit", edit_workload_path(workload)
+                .workload__time
+                  #{l(workload.start_at, format: :short)} - #{l(workload.end_at, format: :short)}

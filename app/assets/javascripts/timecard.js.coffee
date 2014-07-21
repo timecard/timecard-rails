@@ -36,8 +36,20 @@ ready = ->
     Workload.stop()
 
   # .issues
-  $('.issues').on 'click', '.js-edit-comment-button', Issue.showEditCommentForm
-  $('.issues').on 'click', '.js-cancel-edit-comment-button', Issue.hideEditComment
+  $('.issues').on 'click', '.comment__edit-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('.comment').find('form')
+    $comment = $(e.target).closest('.comment').find('.comment__body')
+    $form.show().find('textarea').focus()
+    $comment.hide()
+
+  $('.issues').on 'click', '.comment__cancel-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('.comment').find('form')
+    $comment = $(e.target).closest('.comment').find('.comment__body')
+    $form.hide()
+    $comment.show()
+
   $('.issues').on 'click', '.issue__will-start-at__link--add, .issue__will-start-at__link--close', issue.toggleWillStartAt
   $('.issues').on 'change', '#js-add-github-checkbox', ->
     $('#js-assignee-select-box').html('<img src="/assets/loading_mini.gif" alt="loading..." />')

@@ -1,13 +1,21 @@
 .issues {
+  background-color: #f5f5f5;
+
+  .navbar-default {
+    background-color: #ffffff;
+  }
+
   .issue {
     margin: 0 0 20px 0;
+    padding: 20px;
+    background-color: #ffffff;
 
     .issue__subject {
+      margin: 0 0 15px 0;
       font-size: 30px;
     }
 
     .issue__meta {
-      margin: 0 0 15px 0;
       .issue__status {
         display: inline-block;
         font-size: 18px;
@@ -48,6 +56,47 @@
   @media screen and (max-width: 480px) {
     .issue__back {
       margin: 0;
+    }
+  }
+
+  .project {
+    padding: 20px;
+    background-color: #ffffff;
+
+    .project__title {
+      margin: 0 0 15px 0;
+    }
+
+    .project__meta {
+      margin: 0 0 10px 0;
+      padding: 10px;
+      background-color: #fcfcfc;
+    }
+  }
+
+  .workload-list {
+    .workload-list__item {
+      .workload {
+        padding: 20px;
+        background-color: #ffffff;
+
+        .workload__duration {
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+  }
+
+  .comment-list {
+    .comment-list__item {
+      .comment {
+        padding: 20px;
+        background-color: #ffffff;
+
+        .comment__user {
+          margin: 0 0 10px 0;
+        }
+      }
     }
   }
 
