@@ -71,6 +71,19 @@
     }
   }
 
+  .comment-list {
+    .comment-list__item {
+      .comment {
+        padding: 20px;
+        background-color: #ffffff;
+
+        .comment__user {
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+  }
+
   .workload-list {
     .workload-list__item {
       .workload {
