@@ -25,16 +25,6 @@ ready = ->
         viewCommentsList = new Timecard.Views.CommentsList(collection: collection)
         viewCommentsList.render()
 
-  # .projects
-  $('.projects').on 'click', '.js-hide-issue', Issue.hide
-
-  $('.projects').on 'click', '.js-start-workload-button', ->
-    Workload.stop() unless @timerId?
-  $('.projects').on 'click', '.js-stop-workload-button', ->
-    Workload.stop()
-  $('.projects').on 'click', '.js-stop-workload-password-button', ->
-    Workload.stop()
-
   # .issues
   $('.issues').on 'click', '.comment__edit-button', (e) ->
     e.preventDefault()

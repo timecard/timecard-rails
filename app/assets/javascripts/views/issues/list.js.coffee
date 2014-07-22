@@ -18,6 +18,6 @@ class Timecard.Views.IssuesList extends Backbone.View
       @viewWorkloadsCrowdworksModal = new Timecard.Views.WorkloadsCrowdworksModal(issues: @collection, workloads: @options.workloads)
       @viewWorkloadsCrowdworksModal.render()
     @
-  
+
   addIssueView: (issue) ->
     @$('.issue-list').append(new Timecard.Views.IssuesItem(model: issue, workloads: @options.workloads).render().el)

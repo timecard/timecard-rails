@@ -47,10 +47,14 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
       @updateWorkload(attrs)
 
   updateWorkload: (attrs) ->
-    model = @collection.findWhere(end_at: null)
-    model.save attrs,
-      success: (model) =>
-        Workload.stop()
-        @issue.set('is_running', false)
-        $('.timer').removeClass('timer--on')
-        $('.timer').addClass('timer--off')
+    @collection.fetch
+      url: '/api/my/workloads/latest'
+      success: (collection) =>
+        model = collection.findWhere(end_at: null)
+        model.save attrs,
+          patch: true
+          success: (model) =>
+            Workload.stop()
+            @issue.set('is_running', false)
+            $('.timer').removeClass('timer--on')
+            $('.timer').addClass('timer--off')
