@@ -36,8 +36,9 @@
           will start at #{@issue.will_start_at || "today"}
       .issue__description
         = @issue.description.present? ? markdown(@issue.description) : "No description given."
-      %hr
-      = render 'actions'
+      - if can?(:update, @issue)
+        %hr
+        = render 'actions'
 
   .col-lg-6
     = render "projects/project", project: @issue.project

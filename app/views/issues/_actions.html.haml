@@ -1,14 +1,13 @@
-- if can?(:update, @issue) && @issue.project.active?
-  .issue__actions
-    - if @issue.status == 1
-      = link_to "Close", close_issue_path(@issue), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :patch
-    - else
-      = link_to "Reopen", reopen_issue_path(@issue), class: "btn btn-default", method: :patch
-    - if @issue.will_start_at.present? && @issue.will_start_at >= Time.now.utc
-      = link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
-    - else
-      = link_to "Don't do today", postpone_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
-    - if current_user.work_in_progress?(@issue)
-      = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch
-    - else
-      = link_to "Start", issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post
+.issue__actions
+  - if @issue.status == 1
+    = link_to "Close", close_issue_path(@issue), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :patch
+  - else
+    = link_to "Reopen", reopen_issue_path(@issue), class: "btn btn-default", method: :patch
+  - if @issue.will_start_at.present? && @issue.will_start_at >= Time.now.utc
+    = link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
+  - else
+    = link_to "Don't do today", postpone_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
+  - if current_user.work_in_progress?(@issue)
+    = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch
+  - else
+    = link_to "Start", issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post

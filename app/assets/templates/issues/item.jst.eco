@@ -33,21 +33,23 @@
       </div>
     </div>
 
-    <div class="pull-right issue__buttons hidden">
-      <% if @issue.get('status') is 1: %>
-        <a href="#" class="btn btn-danger js-btn-close-issue">Close</a>
-      <% if @issue.get('is_do_today') is true: %>
-        <a href="#" class="btn btn-default js-btn-postpone-issue">Don't do today</a>
-      <% else: %>
-        <a href="#" class="btn btn-default js-btn-do-today-issue">Do today</a>
-      <% end %>
-      <% else: %>
-        <a href="#" class="btn btn-default js-btn-reopen-issue">Reopen</a>
-      <% end %>
+    <% if $('.login').hasClass('true'): %>
+      <div class="pull-right issue__buttons hidden">
+        <% if @issue.get('status') is 1: %>
+          <a href="#" class="btn btn-danger js-btn-close-issue">Close</a>
+        <% if @issue.get('is_do_today') is true: %>
+          <a href="#" class="btn btn-default js-btn-postpone-issue">Don't do today</a>
+        <% else: %>
+          <a href="#" class="btn btn-default js-btn-do-today-issue">Do today</a>
+        <% end %>
+        <% else: %>
+          <a href="#" class="btn btn-default js-btn-reopen-issue">Reopen</a>
+        <% end %>
 
-      <div class="timer-button__container">
+        <div class="timer-button__container">
+        </div>
       </div>
-    </div>
+    <% end %>
 
   </div>
 </div>
