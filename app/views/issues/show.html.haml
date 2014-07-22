@@ -46,28 +46,7 @@
     %section
       %ul.media-list.comment-list
         - @issue.comments.order("id ASC").each do |comment|
-          %li.media.comment-list__item
-            .pull-left
-              = link_to comment.user do
-                = image_tag gravatar_url(comment.user.email), class: "img-circle"
-            .media-body.comment
-              - if can?(:destroy, comment)
-                = link_to comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
-                  &times;
-              .comment__user
-                = link_to comment.user.name, comment.user
-                %span.text-muted
-                  commented #{time_ago_in_words(comment.created_at)} ago
-                - if can?(:update, comment)
-                  = link_to "Edit", "#", class: "comment__edit-button"
-              .comment__body
-                = comment.body
-              = form_for comment, html: { style: "display:none;" } do |f|
-                .form-group
-                  = f.text_area :body, class: "form-control", rows: "5"
-                .clearfix
-                  = f.submit class: "btn btn-primary pull-right"
-                  = link_to "Cancel", "#", class: "btn btn-default pull-left comment__cancel-button"
+          = render "comments/list_item", comment: comment
       - if can?(:create, @issue)
         = form_for [@issue, Comment.new] do |f|
           .form-group
@@ -78,20 +57,4 @@
     %section
       %ul.media-list.workload-list
         - @issue.workloads.complete.order("updated_at DESC").each do |workload|
-          %li.media.workload-list__item
-            .pull-left
-              = link_to workload.user do
-                = image_tag gravatar_url(workload.user.email), class: "img-circle"
-            .media-body
-              .workload
-                - if can? :destroy, workload
-                  = link_to workload, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
-                    &times;
-                .workload__duration
-                  = link_to workload.user.name, workload.user
-                  %span.text-muted
-                    worked #{formatted_time_distance(workload.start_at, workload.end_at)}
-                  - if can?(:update, workload)
-                    = link_to "Edit", edit_workload_path(workload)
-                .workload__time
-                  #{l(workload.start_at, format: :short)} - #{l(workload.end_at, format: :short)}
+          = render "workloads/list_item", workload: workload
