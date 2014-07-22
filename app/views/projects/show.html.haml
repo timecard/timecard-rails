@@ -56,9 +56,25 @@
     %h2.workloads__caption
       = fa_icon "clock-o"
       WorkLoads
-    #work-logs
-      %ul.media-list
-        = render @workloads
+    %ul.media-list.workload-list
+      - @workloads.complete.order("updated_at DESC").each do |workload|
+        %li.media.workload-list__item
+          .pull-left
+            = link_to workload.user do
+              = image_tag gravatar_url(workload.user.email), class: "img-circle"
+          .media-body
+            .workload
+              - if can? :destroy, workload
+                = link_to workload, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
+                  &times;
+              .workload__duration
+                = link_to workload.user.name, workload.user
+                %span.text-muted
+                  worked #{formatted_time_distance(workload.start_at, workload.end_at)}
+                - if can?(:update, workload)
+                  = link_to "Edit", edit_workload_path(workload)
+              .workload__time
+                #{l(workload.start_at, format: :short)} - #{l(workload.end_at, format: :short)}
 
   .col-lg-4
     .activities.project-activities

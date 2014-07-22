@@ -71,6 +71,19 @@
     }
   }
 
+  .workload-list {
+    .workload-list__item {
+      .workload {
+        padding: 20px;
+        background-color: #ffffff;
+
+        .workload__duration {
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+  }
+
   form {
     margin-bottom: 15px;
   }
