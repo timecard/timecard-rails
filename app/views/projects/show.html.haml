@@ -18,7 +18,7 @@
                     = link_to "Close", close_project_path(@project), method: :patch
                 - else
                   %li
-                    = link_to "Active", active_project_path(@project)
+                    = link_to "Active", active_project_path(@project), method: :patch
                 %li
                   = link_to "Export", datum_path(@project, format: :json)
 
