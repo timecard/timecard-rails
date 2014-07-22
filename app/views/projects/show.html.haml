@@ -1,9 +1,28 @@
 .row
   .col-lg-8
-    .project
-      %h1.project__name
-        = @project.name
-      .project__description
+    %section.project
+      .clearfix
+        %h1.project__name
+          = @project.name
+          .pull-right.dropdown
+            = link_to "#", class: "btn btn-default", "data-toggle" => "dropdown" do
+              = fa_icon "cog"
+            %ul.dropdown-menu{ role: "menu", "aria-labelledby" => "dLabel" }
+              - if can? :update, @project
+                - if @project.active?
+                  %li
+                    = link_to "Edit", edit_project_path(@project)
+                  %li
+                    = link_to "Add member", project_members_path(@project)
+                  %li
+                    = link_to "Close", close_project_path(@project)
+                - else
+                  %li
+                    = link_to "Active", active_project_path(@project)
+                %li
+                  = link_to "Export", datum_path(@project, format: :json)
+
+      .project__description.text-muted
         = markdown(@project.description)
       .project__meta
         - if @project.is_public
@@ -13,48 +32,43 @@
         - if @project.github
           %span.label.label-default= @project.github.full_name
 
-      - if can? :update, @project
-        .project__actions
-          - if @project.active?
-            = link_to "Add a member", project_members_path(@project), class: "btn btn-default"
-            = link_to "Edit", edit_project_path(@project), class: "btn btn-default"
-            = link_to "Close", close_project_path(@project), class: "btn btn-default", method: :patch
+      - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
+        .crowdworks-contract
+          - if @cwcontract
+            Crowdworks Contract ID:
+            = link_to "#{@cwcontract.contract_id}", "https://crowdworks.jp/contracts/#{@cwcontract.contract_id}"
+            = link_to "Edit", edit_crowdworks_contract_path(@project.crowdworks_contracts.find_by(user_id: current_user.id))
+            = link_to "Destroy", @cwcontract, method: :delete, "data-confirm" => "Are you sure?"
           - else
-            = link_to "Active", active_project_path(@project), class: "btn btn-default", method: :patch
-          = link_to "Export", datum_path(@project, format: :json), class: "btn btn-default"
+            = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project)
 
-        - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
-          .crowdworks-contract
-            - if @cwcontract
-              Crowdworks Contract ID:
-              = link_to "#{@cwcontract.contract_id}", "https://crowdworks.jp/contracts/#{@cwcontract.contract_id}"
-              = link_to "Edit", edit_crowdworks_contract_path(@project.crowdworks_contracts.find_by(user_id: current_user.id))
-              = link_to "Destroy", @cwcontract, method: :delete, "data-confirm" => "Are you sure?"
-            - else
-              = link_to "Connect Crowdworks Timesheet", new_project_crowdworks_contract_path(@project), class: "btn"
-    %hr
+    %section
+      %h2.issues__caption
+        = fa_icon "exclamation-circle"
+        Issues
+      .issues-index
 
-    %h2.issues__caption
-      = fa_icon "exclamation-circle"
-      Issues
-    .issues-index
+    %section
+      %h2.comments__caption
+        = fa_icon "comments"
+        Comments
+      %ul.media-list.comment-list
+        - @comments.order("id ASC").each do |comment|
+          = render "comments/list_item", comment: comment
 
-    %h2.comments__caption
-      = fa_icon "comments"
-      Comments
-    %ul.media-list.comment-list
-      - @comments.order("id ASC").each do |comment|
-        = render "comments/list_item", comment: comment
-
-    %h2.workloads__caption
-      = fa_icon "clock-o"
-      WorkLoads
-    %ul.media-list.workload-list
-      - @workloads.complete.order("updated_at DESC").each do |workload|
-        = render "workloads/list_item", workload: workload
+    %section
+      %h2.workloads__caption
+        = fa_icon "clock-o"
+        WorkLoads
+      %ul.media-list.workload-list
+        - @workloads.each do |workload|
+          = render "workloads/list_item", workload: workload
 
   .col-lg-4
-    .activities.project-activities
+    %section
+      %h2.activities__caption
+        = fa_icon "history"
+        Activities
       %ul.activities-list.media-list
         = render_activities(@activities, layout: :activity)
 

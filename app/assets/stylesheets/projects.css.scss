@@ -1,4 +1,10 @@
 .projects {
+  background-color: #f5f5f5;
+
+  .navbar-default {
+    background-color: #ffffff;
+  }
+
   .project__status {
     margin: 0 0 20px 0;
   }
@@ -9,6 +15,7 @@
       height: 370px;
       margin: 0 0 30px 0;
       padding: 15px 20px;
+      background-color: #ffffff;
     }
 
     .project__new {
@@ -46,25 +53,30 @@
   }
 
   .project {
-    .project__name {
-    }
+    padding: 20px;
+    background-color: #ffffff;
 
-    .project__description {
+    .project__name {
+      margin: 0 0 10px 0;
     }
 
     .project__meta {
-      margin: 0 0 10px 0;
+      margin: 0 0 20px 0;
     }
+  }
 
-    .project__actions {
+  .issues-index {
+    .issue-list__item {
       margin: 0 0 10px 0;
+      border-bottom: none;
+      background-color: #ffffff;
     }
   }
 
   .activities-list__item {
     padding: 15px;
-    margin: 0;
-    border-bottom: 1px solid #eeeeee;
+    margin: 0 0 10px 0;
+    background-color: #ffffff;
     .fa {
       font-size: 32px;
       color: #999999;
@@ -73,11 +85,5 @@
 
   form {
     margin-bottom: 15px;
-  }
-}
-
-#project {
-  #actions {
-    margin: 15px 0;
   }
 }

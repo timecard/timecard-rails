@@ -10,7 +10,9 @@ class IssuesController < ApplicationController
       if params[:user_id].present?
         @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id])
       else
-        @issues = @project.issues.with_status(status)
+        @issues = @project.issues
+          .with_status(status)
+          .includes(:github, :ruffnote, :comments)
       end
     end
 

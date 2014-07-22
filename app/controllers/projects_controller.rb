@@ -17,8 +17,9 @@ class ProjectsController < ApplicationController
   def show
     @title = @project.name
     @issues = @project.issues.with_status("open")
-    @comments = Comment.where(issue_id: @project.issues.pluck(:id)).order("updated_at DESC").limit(10)
-    @workloads = Workload.where(issue_id: @project.issues.pluck(:id)).complete.order("updated_at DESC").limit(10)
+    issue_ids = @project.issues.pluck(:id)
+    @comments = Comment.where(issue_id: issue_ids).order("updated_at DESC").limit(10)
+    @workloads = Workload.where(issue_id: issue_ids).complete.order("updated_at DESC").limit(10)
     if user_signed_in?
       @cwcontract = @project.crowdworks_contracts.find_by(user: current_user)
     end
