@@ -14,8 +14,8 @@ class Timecard.Models.Workload extends Backbone.Model
     response.formatted_duration = Util.formatWorkHours(Date.parse(response.start_at), Date.parse(response.end_at))
     response
 
-  duration: ->
-    duration = new Date() - Date.parse(@get('start_at'))
+  duration: (end_time = new Date()) ->
+    duration = end_time - @start_at()
     hour = Math.floor(duration/(60*60*1000))
     duration = duration-(hour*60*60*1000)
     min = Math.floor(duration/(60*1000))
@@ -25,3 +25,9 @@ class Timecard.Models.Workload extends Backbone.Model
     min = "0" + min if min < 10
     sec = "0" + sec if sec < 10
     "#{hour}:#{min}:#{sec}"
+
+  start_at: ->
+    Date.parse(@get('start_at'))
+
+  end_at: ->
+    Date.parse(@get('end_at'))

@@ -14,6 +14,11 @@
           = link_to projects_path do
             = fa_icon "folder"
             Projects
+        - if user_signed_in?
+          %li
+            = link_to reports_path do
+              = fa_icon "bar-chart-o"
+              My Reports
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.timer{ class: "timer--#{user_work_in_progress? ? 'on' : 'off'}" }
