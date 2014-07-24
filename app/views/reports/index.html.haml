@@ -1,7 +1,10 @@
 %h1 Reports
 
 %section
-  %h2 Weekly Reports
+  %h2
+    Weekly Reports
+    %small
+      = current_user.workloads.weekly.total_duration
   %ul.nav.nav-tabs
     - (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
       %li{ class: "#{date == Date.today ? 'active' : '' }" }
