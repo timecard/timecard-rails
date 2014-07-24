@@ -1,9 +1,12 @@
 %h1 Reports
 
 %section
-  %h2 Weekly Reports
+  %h2
+    Weekly Reports
+    %small
+      = current_user.workloads.weekly.total_duration
   %ul.nav.nav-tabs
-    - (Date.today.beginning_of_week..Date.today.end_of_week).each do |date|
+    - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
       %li{ class: "#{date == Date.today ? 'active' : '' }" }
         = link_to date, "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
   %table.table
