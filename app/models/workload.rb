@@ -29,6 +29,15 @@ class Workload < ActiveRecord::Base
     "#{sprintf('%02d', hour)}:#{sprintf('%02d', min)}:#{sprintf('%02d', sec)}"
   end
 
+  def self.total_duration
+    duration = sum {|w| w.end_at - w.start_at }
+    hour = (duration / (60 * 60)).floor
+    duration = duration - (hour * 60 * 60)
+    min = (duration / 60).floor
+    sec = duration - (min * 60)
+    "#{sprintf('%02d', hour)}:#{sprintf('%02d', min)}:#{sprintf('%02d', sec)}"
+  end
+
   private
 
   def track_start_activity

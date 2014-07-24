@@ -5,16 +5,37 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "Timecard", root_path, class: "navbar-brand", "data-no-turbolink" => 1
+      = link_to root_path, class: "navbar-brand", "data-no-turbolink" => 1 do
+        = fa_icon "clock-o"
+        Timecard
     .collapse.navbar-collapse.navbar-ex1-collapse
       %ul.nav.navbar-nav.login{class: user_signed_in? ? "true" : "false"}
-        %li= link_to "Projects", projects_path
+        %li
+          = link_to projects_path do
+            = fa_icon "folder"
+            Projects
         - if user_signed_in?
-          %li= link_to "Me", dashboard_path
+          %li
+            = link_to reports_path do
+              = fa_icon "bar-chart-o"
+              My Reports
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.timer{ class: "timer--#{user_work_in_progress? ? 'on' : 'off'}" }
-          %li= link_to "Account settings", edit_user_registration_path
-          %li= link_to "Logout", destroy_user_session_path, method: :delete
+          %li
+            = link_to user_path(current_user) do
+              = image_tag gravatar_url(current_user.email, 16)
+              = current_user.name
+          %li
+            = link_to edit_user_registration_path do
+              = fa_icon "cog"
+              Account settings
+          %li
+            = link_to destroy_user_session_path, method: :delete do
+              = fa_icon "sign-out"
+              Logout
         - else
-          %li= link_to "Login", new_user_session_path
+          %li
+            = link_to new_user_session_path do
+              = fa_icon "sign-in"
+              Login

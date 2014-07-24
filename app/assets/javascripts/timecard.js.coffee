@@ -60,7 +60,7 @@ ready = ->
       $('.issue__labels').hide()
 
   # .dashboards
-  $('.dashboards').on 'click', '.js-workloads-on-day-link', (e) ->
+  $('.reports').on 'click', '.js-workloads-on-day-link', (e) ->
     e.preventDefault()
     user_id = $('#user-name').data('user-id')
     year = $(@).data('year')
