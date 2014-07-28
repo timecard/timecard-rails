@@ -37,7 +37,6 @@ class WorkloadsController < ApplicationController
       end
       respond_to do |format|
         format.html { redirect_to @issue, notice: 'Work log was successfully started.' }
-        format.js
         format.json { render action: 'workload' }
       end
     end
