@@ -39,6 +39,25 @@
     }
   }
 
+  .issue-form {
+    padding: 20px 50px;
+    background-color: #ffffff;
+
+    .tab-content {
+      .issue__description--write {
+        padding: 10px;
+        border: solid 1px #dddddd;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+      }
+
+      .issue__description--preview {
+        padding: 10px;
+        border-bottom: solid 1px #dddddd;
+      }
+    }
+  }
+
   .issue__back {
     margin: 0 0 0 -30px;
     font-size: 32px;
