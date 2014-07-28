@@ -33,7 +33,7 @@ class Workload < ActiveRecord::Base
   end
 
   def self.total_duration
-    duration = sum {|w| w.end_at - w.start_at }
+    duration = complete.inject(0) {|sum, w| sum = w.end_at - w.start_at }
     hour = (duration / (60 * 60)).floor
     duration = duration - (hour * 60 * 60)
     min = (duration / 60).floor
