@@ -59,6 +59,17 @@ ready = ->
     else
       $('.issue__labels').hide()
 
+  $('.issues').on 'show.bs.tab', (e) ->
+    if $(e.target).hasClass('issue__preview-button')
+      body = $('#issue_description').val()
+      $preview = $('.issue__description--preview')
+      markdown = marked(body)
+      if markdown
+        $preview.html(markdown)
+      else
+        $preview.html('<p>Nothing to preview</p>')
+
+
   # .dashboards
   $('.reports').on 'click', '.js-workloads-on-day-link', (e) ->
     e.preventDefault()

@@ -1,5 +1,5 @@
 .row
-  .col-sm-offset-2.col-sm-8.col-md-offset-2.col-md-8
+  .col-sm-offset-2.col-sm-8.col-md-offset-2.col-md-8.issue-form
     .issue__back
       = link_to @project, class: "issue__back__link" do
         = fa_icon "chevron-left"
@@ -18,7 +18,17 @@
       .form-group
         = f.text_field :subject, class: "form-control", placeholder: "Subject"
       .form-group
-        = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+        %ul.nav.nav-tabs{ role: "tablist" }
+          %li.active
+            = link_to "Write", ".issue__description--write", role: "tab", "data-toggle" => "tab"
+          %li
+            = link_to "Preview", ".issue__description--preview", role: "tab", "data-toggle" => "tab", class: "issue__preview-button"
+        .tab-content
+          .tab-pane.active.issue__description--write
+            = f.text_area :description, class: "form-control", placeholder: "Leave a comment", rows: "5"
+          .tab-pane.issue__description--preview.markdown-body
+            %p
+              Loading content ...
       .form-group
         #js-assignee-select-box
           = f.select :assignee_id, @members.collect { |m| [ "#{m.user.name} will be assigned", m.user.id ] }, { prompt: "No one is assigned" }, class: "form-control"
@@ -50,5 +60,6 @@
             %br
             %span.text-muted If checked add this issue to github.
       %hr
-      .actions.pull-right
-        = f.submit "Create a new issue", class: "btn btn-success"
+      .clearfix
+        .pull-right
+          = f.submit "Create a new issue", class: "btn btn-success"

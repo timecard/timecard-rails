@@ -3,6 +3,7 @@
 //= require turbolinks
 //= require md5.min
 //= require moment-with-langs
+//= require marked
 //= require bootstrap.min
 //= require underscore
 //= require backbone
