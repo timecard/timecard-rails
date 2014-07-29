@@ -1,7 +1,11 @@
 <select class="form-control" id="issue_assignee_id" name="issue[assignee_id]">
-  <option value>No one is assigned</option>
+  <option value=""></option>
   <% for member in @members: %>
-    <option value="<%= member.get('user_id') %>">
+    <% if member.get('user_id') is @current_user_id: %>
+      <option value="<%= member.get('user_id') %>" selected="selected">
+    <% else: %>
+      <option value="<%= member.get('user_id') %>">
+    <% end %>
       <%= member.get('name') %>
       will be assigned
     </option>

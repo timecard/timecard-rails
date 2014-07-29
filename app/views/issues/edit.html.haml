@@ -31,9 +31,8 @@
             %p
               Loading content ...
       .form-group
-        = f.label :assignee_id
         #js-assignee-select-box
-          = f.select :assignee_id, @members.collect { |m| [ m.user.name, m.user.id ] }, { include_blank: true }, class: "form-control"
+          = f.select :assignee_id, @members.collect { |m| [ "#{m.user.name} will be assigned", m.user.id ] }, { include_blank: true }, class: "form-control"
       - if current_user.github && @issue.github
         .form-group
           %ul.issue__labels
