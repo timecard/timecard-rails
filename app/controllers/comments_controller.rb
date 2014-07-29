@@ -4,12 +4,45 @@ class CommentsController < ApplicationController
   before_action :require_member
 
   def create
+    if params[:close]
+      if @issue.close
+        if @issue.github
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
+          )
+          issue = mediator.edit_issue({status: 9}, @issue.github.number)
+        end
+        if comment_params[:body].blank?
+          redirect_to @issue, notice: "Issue was successfully updated."
+          return
+        end
+      end
+    end
+
+    if params[:reopen]
+      if @issue.reopen
+        if @issue.github
+          mediator = GithubMediator.new(
+            current_user.github.oauth_token,
+            @issue.project.github.full_name
+          )
+          issue = mediator.edit_issue({status: 1}, @issue.github.number)
+        end
+        if comment_params[:body].blank?
+          redirect_to @issue, notice: "Issue was successfully updated."
+          return
+        end
+      end
+    end
+
     @comment = @issue.comments.build(comment_params)
     @comment.user_id = current_user.id
 
     respond_to do |format|
       if @comment.save
         WebsocketRails[:streaming].trigger "create", @comment
+
         if @comment.issue.github && current_user.github
           mediator = GithubMediator.new(
             current_user.github.oauth_token,

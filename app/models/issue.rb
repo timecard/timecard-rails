@@ -76,6 +76,10 @@ class Issue < ActiveRecord::Base
     false
   end
 
+  def close?
+    status == 9 ? true : false
+  end
+
   def labels
     return [] if github.blank?
     return [] if github.labels.blank?

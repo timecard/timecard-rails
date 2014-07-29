@@ -33,15 +33,15 @@ ready = ->
     $form.show().find('textarea').focus()
     $comment.hide()
 
-  $('.issues').on 'click', '.comment__cancel-button', (e) ->
+  .on 'click', '.comment__cancel-button', (e) ->
     e.preventDefault()
     $form = $(e.target).closest('.comment').find('form')
     $comment = $(e.target).closest('.comment').find('.comment__body')
     $form.hide()
     $comment.show()
 
-  $('.issues').on 'click', '.issue__will-start-at__link--add, .issue__will-start-at__link--close', issue.toggleWillStartAt
-  $('.issues').on 'change', '#js-add-github-checkbox', ->
+  .on 'click', '.issue__will-start-at__link--add, .issue__will-start-at__link--close', issue.toggleWillStartAt
+  .on 'change', '#js-add-github-checkbox', ->
     $('#js-assignee-select-box').html('<img src="/assets/loading_mini.gif" alt="loading..." />')
     project_id = $('#new_issue, .edit_issue').data('project-id')
     checked = if $(@).prop('checked') then '1' else ''
@@ -59,7 +59,7 @@ ready = ->
     else
       $('.issue__labels').hide()
 
-  $('.issues').on 'show.bs.tab', (e) ->
+  .on 'show.bs.tab', (e) ->
     if $(e.target).hasClass('issue__preview-button')
       body = $('#issue_description').val()
       $preview = $('.issue__description--preview')
@@ -69,6 +69,26 @@ ready = ->
       else
         $preview.html('<p>Nothing to preview</p>')
 
+  .on 'click', '.issue__close-and-comment-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('form')
+    hidden_el = "<input type='hidden', name='close', value='1' />"
+    $form.append(hidden_el)
+    $form.submit()
+
+  .on 'click', '.issue__reopen-and-comment-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('form')
+    hidden_el = "<input type='hidden', name='reopen', value='1' />"
+    $form.append(hidden_el)
+    $form.submit()
+
+  .on 'keyup', '#comment_body', (e) ->
+    $button = $('.issue__comment-and-button')
+    if $(e.target).val() is ''
+      $button.text($button.data('original-text'))
+    else
+      $button.text($button.data('comment-text'))
 
   # .dashboards
   $('.reports').on 'click', '.js-workloads-on-day-link', (e) ->
