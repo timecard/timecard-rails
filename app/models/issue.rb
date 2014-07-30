@@ -19,7 +19,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  attr_accessor :labels, :continue
+  attr_accessor :labels, :continue, :enabled_github
 
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id

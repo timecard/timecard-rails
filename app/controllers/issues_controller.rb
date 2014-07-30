@@ -44,7 +44,7 @@ class IssuesController < ApplicationController
           Chatwork.post(body)
         end
 
-        if params[:github].present?
+        if issue_params[:enabled_github]
           mediator = GithubMediator.new(
             current_user.github.oauth_token,
             @project.github.full_name
@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
-        if params[:github].present?
+        if issue_params[:enabled_github]
           mediator = GithubMediator.new(
             current_user.github.oauth_token,
             @issue.project.github.full_name
@@ -195,7 +195,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, :continue, labels: [])
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, :continue, :enabled_github, labels: [])
   end
 
   def load_members

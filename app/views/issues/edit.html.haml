@@ -60,7 +60,7 @@
         %hr
         .form-group.checkbox
           = label_tag "github" do
-            = check_box_tag 'github', 1, @issue.github, checked: !@issue.github.blank?, id: "js-add-github-checkbox"
+            = check_box_tag "issue[enabled_github]", 1, @issue.github, checked: !@issue.github.blank?, id: "js-add-github-checkbox"
           Github
           %br
           %span.text-muted If checked add this issue to github.
