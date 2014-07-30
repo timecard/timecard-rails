@@ -40,7 +40,7 @@
               %li.issue__labels__item
                 .checkbox
                   = label_tag nil do
-                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, false
+                    = check_box_tag "issue[labels][]", github_label.name, false
                     %span.label{ style: calc_label_color(github_label.color) }
                       = github_label.name
 
@@ -55,11 +55,12 @@
         %hr
         .form-group.checkbox
           = label_tag nil do
-            = check_box_tag 'github', 1, @issue.github, checked: true, id: "js-add-github-checkbox"
+            = check_box_tag "issue[enabled_github]", 1, @issue.github, checked: true, id: "js-add-github-checkbox"
             Github
             %br
             %span.text-muted If checked add this issue to github.
       %hr
       .clearfix
         .pull-right
+          = f.submit "Continue to create issue", class: "btn btn-primary issue__continue-button"
           = f.submit "Create a new issue", class: "btn btn-success"

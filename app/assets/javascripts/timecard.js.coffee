@@ -86,7 +86,7 @@ ready = ->
   .on 'click', '.issue__reopen-and-comment-button', (e) ->
     e.preventDefault()
     $form = $(e.target).closest('form')
-    hidden_el = "<input type='hidden', name='reopen', value='1' />"
+    hidden_el = "<input type='hidden' name='reopen' value='1' />"
     $form.append(hidden_el)
     $form.submit()
 
@@ -96,6 +96,13 @@ ready = ->
       $button.text($button.data('original-text'))
     else
       $button.text($button.data('comment-text'))
+
+  .on 'click', '.issue__continue-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('form')
+    hidden_el = "<input type='hidden' name='issue[continue]' value= '1' />"
+    $form.append(hidden_el)
+    $form.submit()
 
   # .dashboards
   $('.reports').on 'click', '.js-workloads-on-day-link', (e) ->

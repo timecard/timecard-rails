@@ -7,6 +7,19 @@ class Issue < ActiveRecord::Base
   scope :closed, -> { where("status = ?", 9) }
   scope :do_today, -> { open.where("will_start_at is null OR will_start_at < ?", Time.now) }
   scope :not_do_today, -> { open.where("will_start_at >= ?", Time.now) }
+  scope :with_status, ->(status = "open") do
+    status = "open" if status.blank?
+    case status
+    when "open"
+      do_today
+    when "closed"
+      closed
+    when "not_do_today"
+      not_do_today
+    end
+  end
+
+  attr_accessor :labels, :continue, :enabled_github
 
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
@@ -52,17 +65,6 @@ class Issue < ActiveRecord::Base
     nil
   end
 
-  def self.with_status(status)
-    case status
-    when "open"
-      do_today
-    when "closed"
-      closed
-    when "not_do_today"
-      not_do_today
-    end
-  end
-
   def close
     update(status: 9, closed_on: Time.now.utc)
   end
@@ -76,7 +78,7 @@ class Issue < ActiveRecord::Base
     false
   end
 
-  def close?
+  def closed?
     status == 9 ? true : false
   end
 

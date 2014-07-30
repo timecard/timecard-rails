@@ -5,13 +5,12 @@ class IssuesController < ApplicationController
   before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
-    status = params[:status] || "open"
     if @project.present?
       if params[:user_id].present?
-        @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id])
+        @issues = @project.issues.with_status(params[:status]).where("assignee_id = ?", params[:user_id])
       else
         @issues = @project.issues
-          .with_status(status)
+          .with_status(params[:status])
           .includes(:github, :ruffnote, :comments)
       end
     end
@@ -45,12 +44,12 @@ class IssuesController < ApplicationController
           Chatwork.post(body)
         end
 
-        if params[:github].present?
+        if issue_params[:enabled_github]
           mediator = GithubMediator.new(
             current_user.github.oauth_token,
             @project.github.full_name
           )
-          issue = mediator.create_issue(params[:issue])
+          issue = mediator.create_issue(issue_params)
           if issue
             @issue.add_github(issue)
           else
@@ -69,7 +68,11 @@ class IssuesController < ApplicationController
           end
         end
 
-        format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
+        if issue_params[:continue]
+          format.html { redirect_to new_project_issue_path(@project), notice: "Issue was successfully created." }
+        else
+          format.html { redirect_to @issue, notice: "Issue was successfully created." }
+        end
         format.json { render action: 'show', status: :created, location: @issue }
       else
         format.html { render action: 'new' }
@@ -81,12 +84,12 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
-        if params[:github].present?
+        if issue_params[:enabled_github]
           mediator = GithubMediator.new(
             current_user.github.oauth_token,
             @issue.project.github.full_name
           )
-          issue = mediator.create_issue(params[:issue])
+          issue = mediator.create_issue(issue_params)
           if issue
             @issue.add_github(issue)
           else
@@ -100,7 +103,7 @@ class IssuesController < ApplicationController
             current_user.github.oauth_token,
             @issue.project.github.full_name
           )
-          issue = mediator.edit_issue(params[:issue], @issue.github.number)
+          issue = mediator.edit_issue(issue_params, @issue.github.number)
           if issue
             @issue.add_github(issue)
           else
@@ -192,7 +195,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status)
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, :continue, :enabled_github, labels: [])
   end
 
   def load_members
