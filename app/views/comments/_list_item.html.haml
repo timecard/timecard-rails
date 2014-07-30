@@ -4,16 +4,17 @@
       = image_tag gravatar_url(comment.user.email), class: "img-circle"
   .media-body.comment
     - if can?(:destroy, comment)
-      = link_to comment, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
+      = link_to comment, class: "close", title: "Delete comment", data: { confirm: "Are you sure?" }, method: :delete do
         &times;
+    - if can?(:update, comment)
+      = link_to "#", class: "comment__edit-button pull-right", title: "Edit comment" do
+        = fa_icon "pencil"
     .comment__user
       = link_to comment.user.name, comment.user
       %span.text-muted
         commented #{time_ago_in_words(comment.created_at)} ago
-      - if can?(:update, comment)
-        = link_to "Edit", "#", class: "comment__edit-button"
     .comment__body
-      = comment.body
+      = markdown(comment.body)
     = form_for comment, html: { style: "display:none;" } do |f|
       .form-group
         = f.text_area :body, class: "form-control", rows: "5"
