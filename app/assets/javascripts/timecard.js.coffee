@@ -97,6 +97,13 @@ ready = ->
     else
       $button.text($button.data('comment-text'))
 
+  .on 'click', '.issue__continue-button', (e) ->
+    e.preventDefault()
+    $form = $(e.target).closest('form')
+    hidden_el = "<input type='hidden' name='issue[continue]' value= '1' />"
+    $form.append(hidden_el)
+    $form.submit()
+
   # .dashboards
   $('.reports').on 'click', '.js-workloads-on-day-link', (e) ->
     e.preventDefault()

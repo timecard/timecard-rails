@@ -68,7 +68,11 @@ class IssuesController < ApplicationController
           end
         end
 
-        format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
+        if issue_params[:continue]
+          format.html { redirect_to new_project_issue_path(@project), notice: "Issue was successfully created." }
+        else
+          format.html { redirect_to @issue, notice: "Issue was successfully created." }
+        end
         format.json { render action: 'show', status: :created, location: @issue }
       else
         format.html { render action: 'new' }
@@ -191,7 +195,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, labels: [])
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, :continue, labels: [])
   end
 
   def load_members

@@ -19,7 +19,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  attr_accessor :labels
+  attr_accessor :labels, :continue
 
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
