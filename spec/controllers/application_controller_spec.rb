@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe ApplicationController do
   controller do
@@ -29,7 +29,7 @@ describe ApplicationController do
   describe "#user_work_in_progress" do
     it "returns false unless user signed in" do
       get :index
-      expect(@controller.send(:user_work_in_progress?)).to be_false
+      expect(@controller.send(:user_work_in_progress?)).to be_falsey
     end
 
     context "when user signed in" do
@@ -39,13 +39,13 @@ describe ApplicationController do
 
       it "returns false if current user isn't working" do
         get :index
-        expect(@controller.send(:user_work_in_progress?)).to be_false
+        expect(@controller.send(:user_work_in_progress?)).to be_falsey
       end
 
       it "returns true if current user is working" do
         create(:work_in_progress, user: @controller.current_user)
         get :index
-        expect(@controller.send(:user_work_in_progress?)).to be_true
+        expect(@controller.send(:user_work_in_progress?)).to be_truthy
       end
     end
   end

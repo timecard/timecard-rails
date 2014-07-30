@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def full_name
   "provider/repo"
@@ -14,11 +14,11 @@ describe Project do
     it "should return true" do
       m = Member.new(user: @user, is_admin: true)
       @project.members << m
-      expect(@project.admin?(@user)).to be_true
+      expect(@project.admin?(@user)).to be_truthy
     end
 
     it "should return false" do
-      expect(@project.admin?(@user)).to be_false
+      expect(@project.admin?(@user)).to be_falsey
     end
   end
 
@@ -26,11 +26,11 @@ describe Project do
     it "should return true" do
       m = Member.new(user: @user)
       @project.members << m
-      expect(@project.member?(@user)).to be_true
+      expect(@project.member?(@user)).to be_truthy
     end
 
     it "should return false" do
-      expect(@project.member?(@user)).to be_false
+      expect(@project.member?(@user)).to be_falsey
     end
   end
 
@@ -85,7 +85,7 @@ describe Project do
     describe "with valid params" do
       it "should be return true" do
         project = create(:project)
-        expect(project.add_github(full_name, validate = false)).to be_true
+        expect(project.add_github(full_name, validate = false)).to be_truthy
       end
     end
 
@@ -142,7 +142,7 @@ describe Project do
     describe "with valid params" do
       it "should be return true" do
         project = create(:project)
-        expect(project.add_ruffnote(full_name)).to be_true
+        expect(project.add_ruffnote(full_name)).to be_truthy
       end
     end
   end
