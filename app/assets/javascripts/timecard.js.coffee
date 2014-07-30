@@ -86,7 +86,7 @@ ready = ->
   .on 'click', '.issue__reopen-and-comment-button', (e) ->
     e.preventDefault()
     $form = $(e.target).closest('form')
-    hidden_el = "<input type='hidden', name='reopen', value='1' />"
+    hidden_el = "<input type='hidden' name='reopen' value='1' />"
     $form.append(hidden_el)
     $form.submit()
 
