@@ -8,6 +8,8 @@ class Issue < ActiveRecord::Base
   scope :do_today, -> { open.where("will_start_at is null OR will_start_at < ?", Time.now) }
   scope :not_do_today, -> { open.where("will_start_at >= ?", Time.now) }
 
+  attr_accessor :labels
+
   belongs_to :project
   belongs_to :author, class_name: "User", foreign_key: :author_id
   belongs_to :assignee, class_name: "User", foreign_key: :assignee_id

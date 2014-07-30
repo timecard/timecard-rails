@@ -4,7 +4,9 @@ describe GithubMediator do
   before do
     @user = create(:user)
     @github = create(:github, user: @user)
-    @issue_params = ActionController::Parameters.new(attributes_for(:issue, author_id: @user.id, assignee_id: @user.id, github_labels: { "0" => "bug", "1" => "enchanced"}))
+    @issue_params = ActionController::Parameters.new(
+      attributes_for(:issue, author_id: @user.id, assignee_id: @user.id, labels: ["bug", "enchanced"])
+    )
     full_name = "rails/rails"
     @mediator = GithubMediator.new(@github.oauth_token, full_name)
   end
@@ -18,8 +20,8 @@ describe GithubMediator do
   context "private method" do
     describe "#issue_options_from_params" do
       it "should returns github issue options" do
-        labels = @issue_params[:github_labels].map do |key, value|
-          value
+        labels = @issue_params[:labels].each do |label|
+          label
         end
         options = @mediator.send(:issue_options_from_params, @issue_params)
         expect(options["title"]).to eq(@issue_params["subject"])

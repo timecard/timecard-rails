@@ -50,7 +50,7 @@ class IssuesController < ApplicationController
             current_user.github.oauth_token,
             @project.github.full_name
           )
-          issue = mediator.create_issue(params[:issue])
+          issue = mediator.create_issue(issue_params)
           if issue
             @issue.add_github(issue)
           else
@@ -86,7 +86,7 @@ class IssuesController < ApplicationController
             current_user.github.oauth_token,
             @issue.project.github.full_name
           )
-          issue = mediator.create_issue(params[:issue])
+          issue = mediator.create_issue(issue_params)
           if issue
             @issue.add_github(issue)
           else
@@ -100,7 +100,7 @@ class IssuesController < ApplicationController
             current_user.github.oauth_token,
             @issue.project.github.full_name
           )
-          issue = mediator.edit_issue(params[:issue], @issue.github.number)
+          issue = mediator.edit_issue(issue_params, @issue.github.number)
           if issue
             @issue.add_github(issue)
           else
@@ -192,7 +192,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status)
+    params.require(:issue).permit(:subject, :description, :author_id, :assignee_id, :will_start_at, :status, labels: [])
   end
 
   def load_members

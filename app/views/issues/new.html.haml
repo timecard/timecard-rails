@@ -40,7 +40,7 @@
               %li.issue__labels__item
                 .checkbox
                   = label_tag nil do
-                    = check_box_tag "issue[github_labels][#{index}]", github_label.name, false
+                    = check_box_tag "issue[labels][]", github_label.name, false
                     %span.label{ style: calc_label_color(github_label.color) }
                       = github_label.name
 

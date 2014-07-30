@@ -96,10 +96,10 @@ class GithubMediator
       user = User.find(params[:assignee_id])
       options["assignee"] = user.github.username
     end
-    if params[:github_labels].present?
+    if params[:labels].present?
       options["labels"] = []
-      params[:github_labels].each do |key, value|
-        options["labels"] << value
+      params[:labels].each do |label|
+        options["labels"] << label
       end
     end
     options
