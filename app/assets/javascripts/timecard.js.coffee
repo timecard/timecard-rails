@@ -68,6 +68,13 @@ ready = ->
         $preview.html(markdown)
       else
         $preview.html('<p>Nothing to preview</p>')
+    if $(e.target).hasClass('comment__preview-button')
+      body = marked($('#comment_body', '#new_comment').val())
+      $preview = $('#comment__body--preview')
+      if body
+        $preview.html(body)
+      else
+        $preview.html('<p>Nothing to preview</p>')
 
   .on 'click', '.issue__close-and-comment-button', (e) ->
     e.preventDefault()

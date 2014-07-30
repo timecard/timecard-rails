@@ -42,6 +42,7 @@
 
   .col-lg-6
     = render "projects/project", project: @issue.project
+
 .row
   .col-lg-6
     %section
@@ -49,15 +50,25 @@
         - @issue.comments.order("id ASC").each do |comment|
           = render "comments/list_item", comment: comment
       - if can?(:create, @issue)
-        = form_for [@issue, Comment.new] do |f|
-          .form-group
-            = f.text_area :body, class: "form-control", placeholder: "Leave a comment"
-          .actions.text-right
-            - if @issue.close?
-              = button_tag "Reopen", class: "btn btn-default issue__reopen-and-comment-button issue__comment-and-button", "data-comment-text" => "Reopen and comment", "data-original-text" => "Reopen"
-            - else
-              = button_tag "Close", class: "btn btn-danger issue__close-and-comment-button issue__comment-and-button", "data-comment-text" => "Close and comment", "data-original-text" => "Close"
-            = f.submit "Comment", class: "btn btn-success"
+        .comment-form
+          = form_for [@issue, Comment.new] do |f|
+            .form-group
+              %ul.nav.nav-tabs{ role: "tablist" }
+                %li.active
+                  = link_to "Write", "#comment__body--write", role: "tab", "data-toggle" => "tab"
+                %li
+                  = link_to "Preview", "#comment__body--preview", role: "tab", "data-toggle" => "tab", class: "comment__preview-button"
+              .tab-content
+                .tab-pane.active#comment__body--write
+                  = f.text_area :body, class: "form-control", placeholder: "Leave a comment", rows: "5"
+                .tab-pane#comment__body--preview.markdown-body
+            .actions.text-right
+              - if @issue.close?
+                = button_tag "Reopen", class: "btn btn-default issue__reopen-and-comment-button issue__comment-and-button", "data-comment-text" => "Reopen and comment", "data-original-text" => "Reopen"
+              - else
+                = button_tag "Close", class: "btn btn-danger issue__close-and-comment-button issue__comment-and-button", "data-comment-text" => "Close and comment", "data-original-text" => "Close"
+              = f.submit "Comment", class: "btn btn-success"
+
   .col-lg-6
     %section
       %ul.media-list.workload-list

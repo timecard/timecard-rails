@@ -76,6 +76,7 @@
 
   .project {
     padding: 20px;
+    margin: 0 0 20px 0;
     background-color: #ffffff;
 
     .project__title {
@@ -124,6 +125,37 @@
 
     .issue__will-start-at__link--close {
       line-height: 34px;
+    }
+  }
+
+  .comment-list {
+    margin: 0 0 20px 0;
+
+    .comment {
+      .comment__edit-button {
+        margin: 0 15px 0 0;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .comment-form {
+    margin: 0 0 20px 0;
+    .tab-content {
+      background-color: #ffffff;
+    }
+
+    #comment__body--write {
+      padding: 5px;
+      border: solid 1px #dddddd;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+
+    #comment__body--preview {
+      padding: 10px;
+      border: solid 1px #dddddd;
+      border-top: none;
     }
   }
 }
