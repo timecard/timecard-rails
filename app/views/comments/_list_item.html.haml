@@ -14,7 +14,7 @@
       %span.text-muted
         commented #{time_ago_in_words(comment.created_at)} ago
     .comment__body
-      = comment.body
+      = markdown(comment.body)
     = form_for comment, html: { style: "display:none;" } do |f|
       .form-group
         = f.text_area :body, class: "form-control", rows: "5"
