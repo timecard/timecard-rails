@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe WorkloadsController do
   before do
@@ -10,7 +10,7 @@ describe WorkloadsController do
     @previous_issue = create(:issue, project: @project)
     sign_in @user
 
-    Chatwork.stub(:post)
+    allow(Chatwork).to receive(:post)
   end
 
   describe "GET 'index'" do

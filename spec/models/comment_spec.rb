@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Comment do
   before do
@@ -18,7 +18,7 @@ describe Comment do
     describe "with valid params" do
       it "should be return true" do
         comment = create(:comment, issue: @issue)
-        expect(comment.add_github(1)).to be_true
+        expect(comment.add_github(1)).to be_truthy
       end
     end
   end

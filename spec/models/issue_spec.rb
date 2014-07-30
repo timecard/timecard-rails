@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def github_repo
   "github/repo"
@@ -51,7 +51,7 @@ describe Issue do
 
     describe "#add_github" do
       it "creates a IssueGithub" do
-        expect(@issue.add_github(github_issue)).to be_true
+        expect(@issue.add_github(github_issue)).to be_truthy
         expect(@issue.github.number).to eq(github_issue.number)
         expect(@issue.github.html_url).to eq(github_issue.html_url)
       end
@@ -74,7 +74,7 @@ describe Issue do
         project = create(:project)
         project.add_ruffnote("ruffnote/repo")
         issue = create(:issue, project: project)
-        expect(issue.add_ruffnote(1)).to be_true
+        expect(issue.add_ruffnote(1)).to be_truthy
       end
     end
   end
