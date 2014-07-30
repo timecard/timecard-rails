@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 def github_repo
   "github/repo"
@@ -86,24 +86,49 @@ describe Issue do
       @not_do_today_issue = create(:issue, status: 1, will_start_at: 1.day.since(Time.now))
     end
 
+    describe "no args" do
+      it "should return open issues" do
+        issues = Issue.with_status
+        expect(issues).to include(@open_issue)
+        expect(issues).not_to include(@closed_issue, @not_do_today_issue)
+      end
+    end
+
+    describe "with nil or empty" do
+      it "should return open issues" do
+        issues = Issue.with_status(nil)
+        expect(issues).to include(@open_issue)
+        expect(issues).not_to include(@closed_issue, @not_do_today_issue)
+      end
+
+      it "should return open issues" do
+        issues = Issue.with_status("")
+        expect(issues).to eq([@open_issue])
+        expect(issues).not_to include(@closed_issue, @not_do_today_issue)
+      end
+    end
+
     describe "with 'open'" do
       it "should return open issues" do
         issues = Issue.with_status('open')
-        expect(issues).to eq([@open_issue])
+        expect(issues).to include(@open_issue)
+        expect(issues).not_to include(@closed_issue, @not_do_today_issue)
       end
     end
 
     describe "with 'closed'" do
       it "should return closed issues" do
         issues = Issue.with_status('closed')
-        expect(issues).to eq([@closed_issue])
+        expect(issues).to include(@closed_issue)
+        expect(issues).not_to include(@open_issue, @not_do_today_issue)
       end
     end
 
     describe "with 'not_do_today'" do
       it "should return don't do today issues" do
         issues = Issue.with_status('not_do_today')
-        expect(issues).to eq([@not_do_today_issue])
+        expect(issues).to include(@not_do_today_issue)
+        expect(issues).not_to include(@open_issue, @closed_issue)
       end
     end
   end

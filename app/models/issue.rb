@@ -7,6 +7,17 @@ class Issue < ActiveRecord::Base
   scope :closed, -> { where("status = ?", 9) }
   scope :do_today, -> { open.where("will_start_at is null OR will_start_at < ?", Time.now) }
   scope :not_do_today, -> { open.where("will_start_at >= ?", Time.now) }
+  scope :with_status, ->(status = "open") do
+    status = "open" if status.blank?
+    case status
+    when "open"
+      do_today
+    when "closed"
+      closed
+    when "not_do_today"
+      not_do_today
+    end
+  end
 
   attr_accessor :labels
 
@@ -52,17 +63,6 @@ class Issue < ActiveRecord::Base
     return github if github
     return ruffnote if ruffnote
     nil
-  end
-
-  def self.with_status(status)
-    case status
-    when "open"
-      do_today
-    when "closed"
-      closed
-    when "not_do_today"
-      not_do_today
-    end
   end
 
   def close

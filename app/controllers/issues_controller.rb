@@ -5,13 +5,12 @@ class IssuesController < ApplicationController
   before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
-    status = params[:status] || "open"
     if @project.present?
       if params[:user_id].present?
-        @issues = @project.issues.with_status(status).where("assignee_id = ?", params[:user_id])
+        @issues = @project.issues.with_status(params[:status]).where("assignee_id = ?", params[:user_id])
       else
         @issues = @project.issues
-          .with_status(status)
+          .with_status(params[:status])
           .includes(:github, :ruffnote, :comments)
       end
     end
