@@ -63,7 +63,7 @@
                   = f.text_area :body, class: "form-control", placeholder: "Leave a comment", rows: "5"
                 .tab-pane#comment__body--preview.markdown-body
             .actions.text-right
-              - if @issue.close?
+              - if @issue.closed?
                 = button_tag "Reopen", class: "btn btn-default issue__reopen-and-comment-button issue__comment-and-button", "data-comment-text" => "Reopen and comment", "data-original-text" => "Reopen"
               - else
                 = button_tag "Close", class: "btn btn-danger issue__close-and-comment-button issue__comment-and-button", "data-comment-text" => "Close and comment", "data-original-text" => "Close"

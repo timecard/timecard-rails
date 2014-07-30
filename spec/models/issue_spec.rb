@@ -137,7 +137,17 @@ describe Issue do
     it "changes status to close" do
       issue = create(:issue, status: 1)
       issue.close
-      expect(issue.status).to eq(9)
+      expect(issue).to be_closed
+    end
+  end
+
+  describe "#closed?" do
+    context FactoryGirl.create(:issue, status: 9) do
+      it { is_expected.to be_closed }
+    end
+
+    context FactoryGirl.create(:issue, status: 1) do
+      it { is_expected.not_to be_closed }
     end
   end
 

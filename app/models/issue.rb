@@ -78,7 +78,7 @@ class Issue < ActiveRecord::Base
     false
   end
 
-  def close?
+  def closed?
     status == 9 ? true : false
   end
 
