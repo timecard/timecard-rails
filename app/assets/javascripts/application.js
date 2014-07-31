@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.blockUI
 //= require turbolinks
 //= require md5.min
 //= require moment-with-langs

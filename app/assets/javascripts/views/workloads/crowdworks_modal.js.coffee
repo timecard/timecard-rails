@@ -22,6 +22,7 @@ class Timecard.Views.WorkloadsCrowdworksModal extends Backbone.View
     @updateWorkload(attrs)
 
   updateWorkload: (attrs) ->
+    $.blockUI()
     model = @options.workloads.findWhere(end_at: null)
     model.save attrs,
       success: (model) =>
@@ -30,3 +31,4 @@ class Timecard.Views.WorkloadsCrowdworksModal extends Backbone.View
         Workload.stop()
         $('.timer').removeClass('timer--on')
         $('.timer').addClass('timer--off')
+        $.unblockUI()
