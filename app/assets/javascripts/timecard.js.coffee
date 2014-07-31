@@ -8,6 +8,20 @@ window.Timecard =
     routerProjects = new Timecard.Routers.Projects()
     Backbone.history.start()
 
+# jquery.blockUI settings
+$.blockUI.defaults.css =
+  padding:        '0 0 10px 0'
+  margin:         0
+  width:          '30%'
+  top:            '40%'
+  left:           '35%'
+  textAlign:      'center'
+  color:          '#000'
+  backgroundColor:'#ffffff'
+  cursor:         'wait'
+  opacity:        .5
+  'border-radius': '10px'
+
 ready = ->
   host = window.document.location.host
   if host.match(/dev$/)
