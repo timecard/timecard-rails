@@ -16,8 +16,11 @@ class Timecard.Views.IssuesIndex extends Backbone.View
 
     @viewIssuesStatusButton.render()
     new Timecard.Views.IssuesLoading
-    @issues.fetch
+    @issues.getFirstPage
+      fetch: true
       success: (collection) =>
         @viewIssuesList = new Timecard.Views.IssuesList(collection: collection, workloads: @options.workloads)
         @viewIssuesList.render()
+        @viewIssueListPagination = new Timecard.Views.IssuesListPagination(collection: collection, workloads: @options.workloads)
+        @viewIssueListPagination.render()
     @

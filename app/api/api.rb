@@ -44,6 +44,8 @@ class API < Grape::API
             .with_status(params[:status])
             .where(assignee: current_user)
             .includes(:github, :ruffnote, :comments)
+            .page(params[:page])
+            .per(params[:per_page])
         end
       end
 
@@ -61,11 +63,12 @@ class API < Grape::API
       end
     end
 
-    # /api/my/issues
     resource :issues do
       params do
         optional :status, type: String, default: "open"
       end
+
+      # /api/my/issues
       desc "Return all my issues"
       get "", jbuilder: "issues" do
         authenticated!
@@ -73,6 +76,8 @@ class API < Grape::API
         @issues = current_user.issues
           .with_status(params[:status])
           .includes(:github, :ruffnote, :comments)
+          .page(params[:page])
+          .per(params[:per_page])
       end
     end
 

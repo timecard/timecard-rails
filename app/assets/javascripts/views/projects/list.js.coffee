@@ -24,6 +24,7 @@ class Timecard.Views.ProjectsList extends Backbone.View
     $('.project-list__item').removeClass('project-list__item--current')
     $(e.target).closest('li').addClass('project-list__item--current')
     $('.projects-show').empty()
+    @options.issues.url = '/api/my/issues'
     @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: @options.issues, workloads: @options.workloads)
     @viewIssuesIndex.render()
     @options.router.navigate('/my/projects', trigger: false)

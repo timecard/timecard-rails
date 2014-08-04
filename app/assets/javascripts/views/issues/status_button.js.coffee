@@ -19,15 +19,16 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('open')
+    @collection.status = 'open'
 
     if @options?.project_id?
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         data:
           project_id: @options.project_id
           status: 'open'
     else
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         url: '/api/my/issues'
         data:
@@ -37,15 +38,16 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('closed')
+    @collection.status = 'closed'
 
     if @options?.project_id?
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         data:
           project_id: @options.project_id
           status: 'closed'
     else
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         url: '/api/my/issues'
         data:
@@ -55,15 +57,16 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
     e.preventDefault()
     new Timecard.Views.IssuesLoading
     @toggle('deferred')
+    @collection.status = 'not_do_today'
 
     if @options?.project_id?
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         data:
           project_id: @options.project_id
           status: 'not_do_today'
     else
-      @collection.fetch
+      @collection.getFirstPage
         reset: true
         url: '/api/my/issues'
         data:

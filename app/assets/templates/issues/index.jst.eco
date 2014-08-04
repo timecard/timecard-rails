@@ -9,5 +9,9 @@
   <div class="issue__status-button__container">
   </div>
 </div>
+<div class="issue-list-pagination">
+</div>
 <div class="issue-list__container">
+</div>
+<div class="issue-list-pagination">
 </div>
