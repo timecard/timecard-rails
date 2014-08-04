@@ -10,6 +10,10 @@ class MembersController < ApplicationController
     else
       @members = @project.github_members(current_user.github.oauth_token)
     end
+
+    respond_to do |format|
+      format.json
+    end
   end
 
   def create
