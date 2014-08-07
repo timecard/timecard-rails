@@ -67,6 +67,10 @@
       border-bottom: none;
       background-color: #ffffff;
     }
+
+    .issue-list__item:first-child {
+      border-top: none;
+    }
   }
 
   .activities-list__item {

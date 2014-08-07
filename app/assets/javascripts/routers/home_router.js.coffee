@@ -7,27 +7,48 @@ class Timecard.Routers.Home extends Backbone.Router
   initialize: ->
     @projects = new Timecard.Collections.Projects
     @issues = new Timecard.Collections.Issues
+    @comments = new Timecard.Collections.Comments
     @workloads = new Timecard.Collections.Workloads
 
   index: ->
     return if $('.login').hasClass('false')
     return if $('.home').length is 0
-    @viewHomeSidebar = new Timecard.Views.HomeSidebar(issues: @issues, workloads: @workloads, router: @)
+    @issues.project_id = null
+    @issues.url = '/api/my/issues'
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(
+      projects: @projects
+      issues: @issues
+      comments: @comments
+      workloads: @workloads
+      router: @
+    )
     @viewHomeSidebar.render()
-    @viewHomeMain = new Timecard.Views.HomeMain(issues: @issues, workloads: @workloads)
+    @viewHomeMain = new Timecard.Views.HomeMain(
+      projects: @projects
+      issues: @issues
+      workloads: @workloads
+    )
     @viewHomeMain.render()
     @renderGlobalTimer()
 
   show: (id) ->
     return if $('.home').length is 0
-    @projects.fetch
-      url: '/api/my/projects'
-      success: (projects) =>
-        project = projects.get(id)
-        @viewHomeSidebar = new Timecard.Views.HomeSidebar(project_id: id, issues: @issues, workloads: @workloads, router: @)
-        @viewHomeSidebar.render()
-        @viewHomeMain = new Timecard.Views.HomeMain(project: project, issues: @issues, workloads: @workloads)
-        @viewHomeMain.render()
+    @issues.project_id = id
+    @issues.url = '/api/my/projects/'+id+'/issues'
+    @viewHomeSidebar = new Timecard.Views.HomeSidebar(
+      projects: @projects
+      issues: @issues
+      comments: @comments
+      workloads: @workloads
+      router: @
+    )
+    @viewHomeSidebar.render()
+    @viewHomeMain = new Timecard.Views.HomeMain(
+      projects: @projects
+      issues: @issues
+      workloads: @workloads
+    )
+    @viewHomeMain.render()
     @renderGlobalTimer()
 
   renderGlobalTimer: ->

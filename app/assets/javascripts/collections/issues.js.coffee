@@ -3,6 +3,8 @@ class Timecard.Collections.Issues extends Backbone.PageableCollection
 
   model: Timecard.Models.Issue
 
+  status: 'open'
+
   parse: (response) ->
     @state.totalPages = response.total_pages
     @state.lastPage = response.total_pages

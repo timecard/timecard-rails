@@ -5,7 +5,6 @@ class Timecard.Views.IssuesList extends Backbone.View
   el: '.issue-list__container'
 
   initialize: (@options) ->
-    @listenTo(@collection, 'reset', @render)
 
   render: ->
     @$el.html(@template())

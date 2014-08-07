@@ -10,7 +10,6 @@ class Timecard.Views.IssuesListPagination extends Backbone.View
 
   initialize: (@options) ->
     @listenTo(@collection, 'reset', @unblockPage)
-    @listenTo(@collection, 'reset', @render)
 
   render: ->
     @$el.html(@template(issues: @collection))
