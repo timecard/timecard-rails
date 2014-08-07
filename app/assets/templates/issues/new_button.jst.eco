@@ -1,0 +1,3 @@
+<a class="btn btn-primary" href="/projects/<%= @project_id %>/issues/new">
+  <i class="fa fa-plus"></i>
+</a>

@@ -5,16 +5,31 @@ class Timecard.Views.HomeMain extends Backbone.View
   el: '.contents'
 
   initialize: (@options) ->
-
+    @projects = @options.projects
+    @issues = @options.issues
+    @workloads = @options.workloads
+    @listenTo(Timecard.mediator, 'projects:show', @renderProjectShow)
   render: ->
     @$el.html(@template())
-    if @options?.project?
-      @options.issues.url = '/api/my/projects/'+@options.project.id+'/issues'
-      @viewProjectsShow = new Timecard.Views.ProjectsShow(model: @options.project)
-      @viewProjectsShow.render()
-      @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @options.project.id, issues: @options.issues, workloads: @options.workloads)
-    else
-      @options.issues.url = '/api/my/issues'
-      @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: @options.issues, workloads: @options.workloads)
-    @viewIssuesIndex.render()
+    if @issues.project_id?
+      @projects.fetch
+        url: '/api/my/projects'
+        success: (collection) =>
+          project = collection.get(@issues.project_id)
+          @renderProjectShow(project)
+
+    @issues.getFirstPage
+      fetch: true
+      success: (collection) =>
+        @viewIssuesIndex = new Timecard.Views.IssuesIndex(
+          collection: collection
+          workloads: @workloads
+        )
+        @viewIssuesIndex.render()
     @
+
+  renderProjectShow: (model) ->
+    @viewProjectsShow = new Timecard.Views.ProjectsShow(
+      model: model
+    )
+    @viewProjectsShow.render()

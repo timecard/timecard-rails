@@ -7,68 +7,45 @@ class Timecard.Views.IssuesStatusButton extends Backbone.View
   events:
     'click .issue__status-button--open': 'open'
     'click .issue__status-button--closed': 'closed'
-    'click .issue__status-button--deferred': 'deferred'
+    'click .issue__status-button--not_do_today': 'notDoToday'
 
   initialize: (@options) ->
 
   render: ->
     @$el.html(@template())
+    @select(@collection.status)
     @
 
   open: (e) ->
     e.preventDefault()
-    new Timecard.Views.IssuesLoading
-    @toggle('open')
-
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'open'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'open'
+    @collection.status = 'open'
+    @loading()
+    @collection.getFirstPage
+      reset: true
+      data:
+        status: 'open'
 
   closed: (e) ->
     e.preventDefault()
-    new Timecard.Views.IssuesLoading
-    @toggle('closed')
+    @collection.status = 'closed'
+    @loading()
+    @collection.getFirstPage
+      reset: true
+      data:
+        status: 'closed'
 
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'closed'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'closed'
-
-  deferred: (e) ->
+  notDoToday: (e) ->
     e.preventDefault()
-    new Timecard.Views.IssuesLoading
-    @toggle('deferred')
+    @collection.status = 'not_do_today'
+    @loading()
+    @collection.getFirstPage
+      reset: true
+      data:
+        status: 'not_do_today'
 
-    if @options?.project_id?
-      @collection.fetch
-        reset: true
-        data:
-          project_id: @options.project_id
-          status: 'not_do_today'
-    else
-      @collection.fetch
-        reset: true
-        url: '/api/my/issues'
-        data:
-          status: 'not_do_today'
-
-  toggle: (status) ->
+  select: (status) ->
     @$('.issue__status-button').removeClass('active')
     @$(".issue__status-button--#{status}").addClass('active')
+
+  loading: ->
+    new Timecard.Views.HomeLoading(el: '.issue-list')

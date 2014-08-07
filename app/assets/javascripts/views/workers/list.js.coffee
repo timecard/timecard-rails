@@ -22,7 +22,7 @@ class Timecard.Views.WorkersList extends Backbone.View
 
   reloadWorkersList: (e) ->
     e.preventDefault()
-    new Timecard.Views.IssuesLoading(el: @$('.workers-list'))
+    new Timecard.Views.HomeLoading(el: @$('.workers-list'))
     @collection.fetch
       url: '/api/my/projects/workloads/running'
       reset: true

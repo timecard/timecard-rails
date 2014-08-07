@@ -8,6 +8,9 @@ class Timecard.Views.ProjectsList extends Backbone.View
     'click .project-all--link': 'show'
 
   initialize: (@options) ->
+    @issues = @options.issues
+    @workloads = @options.workloads
+    @router = @options.router
 
   render: ->
     @$el.html(@template())
@@ -16,7 +19,11 @@ class Timecard.Views.ProjectsList extends Backbone.View
     @
 
   addProjectsListItem: (project) ->
-    @viewProjectsListItem = new Timecard.Views.ProjectsListItem(model: project, issues: @options.issues, workloads: @options.workloads, router: @options.router)
+    @viewProjectsListItem = new Timecard.Views.ProjectsListItem(
+      model: project
+      issues: @issues
+      router: @router
+    )
     @$('.project-list').append(@viewProjectsListItem.render().el)
 
   show: (e) ->
@@ -24,6 +31,9 @@ class Timecard.Views.ProjectsList extends Backbone.View
     $('.project-list__item').removeClass('project-list__item--current')
     $(e.target).closest('li').addClass('project-list__item--current')
     $('.projects-show').empty()
-    @viewIssuesIndex = new Timecard.Views.IssuesIndex(issues: @options.issues, workloads: @options.workloads)
-    @viewIssuesIndex.render()
-    @options.router.navigate('/my/projects', trigger: false)
+    @issues.url = '/api/my/issues'
+    @issues.status = 'open'
+    new Timecard.Views.HomeLoading(el: '.issues-index')
+    @issues.getFirstPage
+      reset: true
+    @router.navigate('/my/projects', trigger: false)

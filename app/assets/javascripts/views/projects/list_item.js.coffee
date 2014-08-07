@@ -10,6 +10,8 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
   className: 'project-list__item'
 
   initialize: (@options) ->
+    @issues = @options.issues
+    @router = @options.router
 
   render: ->
     @$el.html(@template(project: @model))
@@ -19,9 +21,11 @@ class Timecard.Views.ProjectsListItem extends Backbone.View
     e.preventDefault()
     $('.project-list__item').removeClass('project-list__item--current')
     @$el.addClass('project-list__item--current')
-    @viewProjectsShow = new Timecard.Views.ProjectsShow(model: @model)
-    @viewProjectsShow.render()
-    @options.issues.url = '/api/my/projects/'+@model.id+'/issues'
-    @viewIssuesIndex = new Timecard.Views.IssuesIndex(project_id: @model.id, issues: @options.issues, workloads: @options.workloads)
-    @viewIssuesIndex.render()
-    @options.router.navigate('/my/projects/'+@model.id, trigger: false)
+    Timecard.mediator.trigger('projects:show', @model)
+    @issues.project_id = @model.id
+    @issues.url = '/api/my/projects/'+@model.id+'/issues'
+    @issues.status = 'open'
+    new Timecard.Views.HomeLoading(el: '.issues-index')
+    @issues.getFirstPage
+      reset: true
+    @router.navigate('/my/projects/'+@model.id, trigger: false)

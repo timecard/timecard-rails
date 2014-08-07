@@ -4,11 +4,15 @@ describe 'Timecard.Views.ProjectsListItem', ->
   describe '#show', ->
     beforeEach ->
       @page.html("<div class='sidebar'></div>")
-      @router = new Timecard.Routers.Home
+      @projects = new Timecard.Collections.Projects
       @issues = new Timecard.Collections.Issues
+      @comments = new Timecard.Collections.Comments
       @workloads = new Timecard.Collections.Workloads
+      @router = new Timecard.Routers.Home
       @view = new Timecard.Views.HomeSidebar(
+        projects: @projects
         issues: @issues
+        comments: @comments
         workloads: @workloads
         router: @router
       )

@@ -75,12 +75,16 @@
 :javascript
   (function() {
     var issues = new Timecard.Collections.Issues();
+    issues.project_id = "#{@project.id}"
     issues.url = '/projects/'+#{@project.id}+'/issues'
     var workloads = new Timecard.Collections.Workloads();
-    var viewIssuesIndex = new Timecard.Views.IssuesIndex({
-      project_id: #{@project.id},
-      issues: issues,
-      workloads: workloads
-    })
-    viewIssuesIndex.render();
+    issues.fetch({
+      success: function(collection) {
+        var viewIssuesIndex = new Timecard.Views.IssuesIndex({
+          collection: collection,
+          workloads: workloads
+        });
+        viewIssuesIndex.render();
+      }
+    });
   })();

@@ -8,6 +8,7 @@
 //= require bootstrap.min
 //= require underscore
 //= require backbone
+//= require backbone.paginator.min
 //= require timecard
 //= require util
 //= require_tree ../templates

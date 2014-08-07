@@ -1,5 +1,5 @@
 <div class="btn-group">
   <a href="#" class="btn btn-default active issue__status-button issue__status-button--open">Open</a>
   <a href="#" class="btn btn-default issue__status-button issue__status-button--closed">Closed</a>
-  <a href="#" class="btn btn-default issue__status-button issue__status-button--deferred">Don't do today</a>
+  <a href="#" class="btn btn-default issue__status-button issue__status-button--not_do_today">Don't do today</a>
 </div>
