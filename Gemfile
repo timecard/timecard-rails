@@ -27,6 +27,7 @@ gem 'grape-jbuilder'
 gem 'websocket-rails'
 gem 'public_activity'
 gem 'chartkick', '~> 1.3.2'
+gem 'time_diff', '~> 0.3.0'
 
 group :development do
   gem 'guard-livereload'

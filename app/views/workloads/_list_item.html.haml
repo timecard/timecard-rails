@@ -7,11 +7,12 @@
       - if can? :destroy, workload
         = link_to workload, class: "close", data: { confirm: "Are you sure?" }, method: :delete do
           &times;
+        - if can?(:update, workload)
+          = link_to edit_workload_path(workload), class: "workload__edit-button pull-right", title: "Edit workload" do
+            = fa_icon "pencil"
       .workload__duration
         = link_to workload.user.name, workload.user
         %span.text-muted
-          worked #{formatted_time_distance(workload.start_at, workload.end_at)}
-        - if can?(:update, workload)
-          = link_to "Edit", edit_workload_path(workload)
+          worked #{workload.formatted_duration}
       .workload__time
         #{l(workload.start_at, format: :short)} - #{l(workload.end_at, format: :short)}

@@ -22,7 +22,7 @@
           %td= link_to workload.issue.project.name, workload.issue.project
           %td= link_to workload.issue.subject, workload.issue
           %td #{workload.start_at.to_s(:time)} - #{workload.end_at.to_s(:time)}
-          %td= workload.duration
+          %td= workload.formatted_duration
       %tr
         %td Total
         %td

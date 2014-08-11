@@ -23,8 +23,11 @@ class Workload < ActiveRecord::Base
   end
 
   def duration
-    return "" if self.end_at.nil?
-    duration = self.end_at - self.start_at
+    end_at_or_now - start_at
+  end
+
+  def self.total_duration
+    duration = complete.inject(0) {|sum, w| sum += w.duration }
     hour = (duration / (60 * 60)).floor
     duration = duration - (hour * 60 * 60)
     min = (duration / 60).floor
@@ -32,13 +35,8 @@ class Workload < ActiveRecord::Base
     "#{sprintf('%02d', hour)}:#{sprintf('%02d', min)}:#{sprintf('%02d', sec)}"
   end
 
-  def self.total_duration
-    duration = complete.inject(0) {|sum, w| sum += w.end_at - w.start_at }
-    hour = (duration / (60 * 60)).floor
-    duration = duration - (hour * 60 * 60)
-    min = (duration / 60).floor
-    sec = duration - (min * 60)
-    "#{sprintf('%02d', hour)}:#{sprintf('%02d', min)}:#{sprintf('%02d', sec)}"
+  def formatted_duration(format = '%h:%m:%s')
+    Time.diff(start_at, end_at_or_now, format)[:diff]
   end
 
   private
@@ -51,5 +49,9 @@ class Workload < ActiveRecord::Base
     if self.changes.has_key?("end_at") && self.changes["end_at"][0] == nil
       self.create_activity(:stop, owner: self.user, recipient: self.issue.project)
     end
+  end
+
+  def end_at_or_now
+    (end_at.presence || Time.zone.now)
   end
 end
