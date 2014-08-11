@@ -1,21 +1,4 @@
 module ApplicationHelper
-  def formatted_time_distance(start_time, end_time)
-    sec = end_time - start_time
-    hour = (sec / (60 * 60)).floor
-    sec = sec - (hour * 60 * 60)
-    min = (sec / 60).floor
-    sec = sec - (min * 60)
-    "#{sprintf('%02d', hour)} hour #{sprintf('%02d', min)} min #{sprintf('%02d', sec)} sec"
-  end
-
-  def formatted_time(sec)
-    hour = (sec / (60 * 60)).floor
-    sec = sec - (hour * 60 * 60)
-    min = (sec / 60).floor
-    sec = sec - (min * 60)
-    "#{sprintf('%02d', hour)} hour #{sprintf('%02d', min)} min #{sprintf('%02d', sec)} sec"
-  end
-
   def link_to_provider(issue)
     if issue.github
       link_to "##{issue.github.number}", issue.github.html_url, target: "_blank"
