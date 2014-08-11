@@ -88,6 +88,10 @@ class Issue < ActiveRecord::Base
     github.labels
   end
 
+  def time_tracker
+    workloads.complete.map { |wk| wk.user }
+  end
+
   private
 
   def track_create_activity

@@ -158,4 +158,34 @@
       border-top: none;
     }
   }
+
+  .time-entries {
+    .time-entries__head {
+      margin: 0;
+      padding: 15px 0 5px 0;
+
+      h2 {
+        margin: 0 0 10px 0;
+        color: #3366cc;
+      }
+    }
+  }
+
+  .time-entries__overview {
+    margin: 0 0 15px 0;
+    padding: 20px;
+    background-color: #ffffff;
+
+    h3 {
+      margin: 0 0 10px 0;
+    }
+
+    .time-entries__user {
+      margin: 0 0 10px 0;
+
+      .time-entries__user__image {
+        margin: 0 10px 0 0;
+      }
+    }
+  }
 }
