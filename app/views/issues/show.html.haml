@@ -40,8 +40,6 @@
         %hr
         = render 'actions'
 
-.row
-  .col-lg-6
     %section
       %ul.media-list.comment-list
         - @issue.comments.order("id ASC").each do |comment|
@@ -67,7 +65,10 @@
               = f.submit "Comment", class: "btn btn-success"
 
   .col-lg-6
-    %section
+    %section.time-entries
+      %h2
+        Time Entries
+        %small= @issue.workloads.total_duration
       %ul.media-list.workload-list
         - @issue.workloads.complete.order("updated_at DESC").each do |workload|
           = render "workloads/list_item", workload: workload
