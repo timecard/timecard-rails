@@ -1,30 +1,5 @@
 %h1 Reports
 
 %section
-  %h2
-    Weekly Reports
-    %small
-      = current_user.workloads.weekly.total_duration
-  %ul.nav.nav-tabs
-    - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
-      %li{ class: "#{date == Date.today ? 'active' : '' }" }
-        = link_to date, "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
-  %table.table
-    %thead
-      %th Project
-      %th Issue
-      %th Work Hours
-      %th Time
-
-    %tbody#workloads-table
-      - @workloads.each do |workload|
-        %tr
-          %td= link_to workload.issue.project.name, workload.issue.project
-          %td= link_to workload.issue.subject, workload.issue
-          %td #{workload.start_at.to_s(:time)} - #{workload.end_at.to_s(:time)}
-          %td= workload.formatted_duration
-      %tr
-        %td Total
-        %td
-        %td
-        %td= @workloads.total_duration
+  %h2 My Reports
+  = link_to "View my reports", user_reports_path(current_user), class: "btn btn-primary"
