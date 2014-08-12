@@ -6,6 +6,7 @@ Timecard::Application.routes.draw do
       get '/:year/:month/:day', on: :collection, to: 'workloads#index', as: :daily
     end
     resources :authentications
+    resources :reports, only: :index
   end
 
   resources :members, only: [:destroy]
