@@ -35,7 +35,7 @@ Timecard::Application.routes.draw do
 
   resources :crowdworks_contracts, only: [:edit, :update, :destroy]
 
-  get "/reports", to: "reports#index", as: :reports
+  resources :reports, only: :index
 
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
   root :to => "home#index"
