@@ -3,3 +3,10 @@
 %section
   %h2 My Reports
   = link_to "View my reports", user_reports_path(current_user), class: "btn btn-primary"
+
+%section
+  %h2 Project Reports
+  %ul
+    - current_user.admin_projects.each do |project|
+      %li
+        = link_to project.name, project_reports_path(project)
