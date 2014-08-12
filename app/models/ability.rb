@@ -11,6 +11,7 @@ class Ability
       authorize_issue(user)
       authorize_comment(user)
       authorize_workload(user)
+      authorize_user(user)
     end
   end
 
@@ -21,7 +22,7 @@ class Ability
     can :create, Project do |project|
       user.persisted? # logged in user
     end
-    can [:update, :close, :active], Project do |project|
+    can [:update, :close, :active, :report], Project do |project|
       project.admin?(user)
     end
     cannot :destroy, Project
@@ -45,6 +46,12 @@ class Ability
   def authorize_workload(user)
     can [:read, :create, :update, :destroy, :stop], Workload do |workload|
       user == workload.user && workload.issue.project.active?
+    end
+  end
+
+  def authorize_user(current_user)
+    can :report, User do |user|
+      current_user == user
     end
   end
 end
