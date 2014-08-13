@@ -3,7 +3,7 @@
   Back
 .reports__head
   %h1.caption
-    = @project.name
+    = link_to @project.name, @project
     %small
       TOTAL TIME
       = @project.time_entries.total_duration
@@ -20,30 +20,36 @@
     = @project.members.count
     members
 
-.reports__time-entries
-  %h2
-    = Time.zone.today
-    %small
-      TOTAL TIME
-      = @project.time_entries.daily.total_duration
-  %table.table.table-bordered
-    %thead
-      %tr
-        %th User
-        %th Total Duration
-        %th Time Entries
-    - @project.users.each do |user|
-      %tr
-        %td
-          = image_tag gravatar_url(user.email), class: "img-circle"
-          = link_to user.name, user
-        %td
-          = user.workloads.where(issue_id: @project.issues.ids).daily.total_duration
-        %td.time-entries
-          %ul.time-entries-list
-            - user.workloads.where(issue_id: @project.issues.ids).daily.each do |workload|
-              %li.time-entries-list__item
-                #{workload.start_at.hour}:#{workload.start_at.min}-#{workload.end_at.hour}:#{workload.end_at.min}
-                %span.text-muted
-                  (#{workload.duration})
-                = link_to workload.issue.subject, workload.issue
+%ul.nav.nav-tabs{ role: "tablist" }
+  - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
+    %li{ class: "#{Time.zone.today == date ? 'active' : ''}" }
+      = link_to date, "##{date}", role: "tab", "data-toggle" => "tab"
+.tab-content.time-sheet
+  - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
+    .tab-pane{ class: "fade #{Time.zone.today == date ? 'active in' : ''}", id: "#{date}" }
+      %h2.caption
+        = date
+        %small
+          TOTAL TIME
+          = @project.time_entries.daily(date).complete.total_duration
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th User
+            %th Total Duration
+            %th Time Entries
+        - @project.users.each do |user|
+          %tr
+            %td
+              = image_tag gravatar_url(user.email), class: "img-circle"
+              = link_to user.name, user
+            %td
+              = user.workloads.where(issue_id: @project.issues.ids).daily(date).complete.total_duration
+            %td.time-entries
+              %ul.time-entries-list
+                - user.workloads.where(issue_id: @project.issues.ids).daily(date).complete.each do |workload|
+                  %li.time-entries-list__item
+                    = workload.formatted_distance_of_time
+                    %span.text-muted
+                      (#{workload.formatted_duration})
+                    = link_to workload.issue.subject, workload.issue
