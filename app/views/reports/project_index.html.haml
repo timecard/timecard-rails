@@ -21,11 +21,17 @@
     members
 
 %ul.nav.nav-tabs{ role: "tablist" }
-  - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
+  %li
+    = link_to "#", title: "Prev week" do
+      = fa_icon "caret-left"
+  - @week.each do |date|
     %li{ class: "#{Time.zone.today == date ? 'active' : ''}" }
       = link_to date, "##{date}", role: "tab", "data-toggle" => "tab"
+  %li
+    = link_to "#", title: "Next week" do
+      = fa_icon "caret-right"
 .tab-content.time-sheet
-  - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
+  - @week.each do |date|
     .tab-pane{ class: "fade #{Time.zone.today == date ? 'active in' : ''}", id: "#{date}" }
       %h2.caption
         = date

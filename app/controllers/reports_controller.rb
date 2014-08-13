@@ -19,7 +19,13 @@ class ReportsController < ApplicationController
 
   def project_index
     @project = Project.find(params[:project_id])
+    today = params[:date].present? ? Date.parse(params[:date]) : Time.zone.today
+    @week = today.beginning_of_week..today.end_of_week
     authorize! :report, @project
-    render "project_index"
+
+    respond_to do |format|
+      format.html { render "project_index" }
+      format.json
+    end
   end
 end
