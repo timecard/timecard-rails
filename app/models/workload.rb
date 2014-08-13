@@ -40,7 +40,9 @@ class Workload < ActiveRecord::Base
   end
 
   def formatted_distance_of_time
-    "#{start_at.hour}:#{start_at.min}-#{end_at_or_now.hour}:#{end_at_or_now.min}"
+    started_at = "#{sprintf('%02d', start_at.hour)}:#{sprintf('%02d', start_at.min)}"
+    stopped_at = "#{sprintf('%02d', end_at.hour)}:#{sprintf('%02d', end_at.min)}"
+    "#{started_at}-#{stopped_at}"
   end
 
   private

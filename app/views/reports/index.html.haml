@@ -1,12 +1,25 @@
 %h1 Reports
 
-%section
-  %h2 My Reports
-  = link_to "View my reports", user_reports_path(current_user), class: "btn btn-primary"
+.row
+  .col-lg-4
+    .panel.panel-info
+      .panel-heading
+        %h2.caption
+          = fa_icon "user"
+          My Reports
+      .panel-body
+        = link_to user_reports_path(current_user) do
+          = fa_icon "angle-double-right"
+          Check my time entries
 
-%section
-  %h2 Project Reports
-  %ul
-    - current_user.admin_projects.each do |project|
-      %li
-        = link_to project.name, project_reports_path(project)
+  .col-lg-4
+    .panel.panel-info
+      .panel-heading
+        %h2.caption
+          = fa_icon "folder"
+          Project Reports
+      .panel-body
+        %ul
+          - current_user.admin_projects.each do |project|
+            %li
+              = link_to project.name, project_reports_path(project)
