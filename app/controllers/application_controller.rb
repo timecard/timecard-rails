@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_current_user, if: :user_signed_in?
-  helper_method :user_work_in_progress?
+  helper_method :current_user_time_tracking?
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -28,10 +28,9 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def user_work_in_progress?
+  def current_user_time_tracking?
     return false unless user_signed_in?
-    return false unless current_user.workloads.exists?(["start_at is not NULL and end_at is NULL"])
-    true
+    current_user.time_tracking?
   end
 
   def set_current_user

@@ -7,7 +7,7 @@
     = link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
   - else
     = link_to "Don't do today", postpone_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
-  - if current_user.work_in_progress?(@issue)
-    = link_to "Stop", stop_workload_path(current_user.running_workload), class: "btn btn-warning", method: :patch
+  - if current_user.time_tracking?(@issue)
+    = link_to "Stop", stop_workload_path(current_user.current_entry), class: "btn btn-warning", method: :patch
   - else
     = link_to "Start", issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post

@@ -45,6 +45,10 @@ class Workload < ActiveRecord::Base
     "#{started_at}-#{stopped_at}"
   end
 
+  def stop
+    update!(end_at: Time.now)
+  end
+
   private
 
   def track_start_activity

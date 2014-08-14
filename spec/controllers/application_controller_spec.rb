@@ -26,26 +26,28 @@ describe ApplicationController do
     end
   end
 
-  describe "#user_work_in_progress" do
-    it "returns false unless user signed in" do
-      get :index
-      expect(@controller.send(:user_work_in_progress?)).to be_falsey
+  describe "#current_user_time_tracking" do
+    context "not sign in user" do
+      it "returns false" do
+        get :index
+        expect(@controller.send(:current_user_time_tracking?)).to eq(false)
+      end
     end
 
-    context "when user signed in" do
+    context "sign in user" do
       before do
         sign_in alice
       end
 
-      it "returns false if current user isn't working" do
+      it "returns false if current user isn't time tracking" do
         get :index
-        expect(@controller.send(:user_work_in_progress?)).to be_falsey
+        expect(@controller.send(:current_user_time_tracking?)).to eq(false)
       end
 
-      it "returns true if current user is working" do
+      it "returns true if current user is time tracking" do
         create(:work_in_progress, user: @controller.current_user)
         get :index
-        expect(@controller.send(:user_work_in_progress?)).to be_truthy
+        expect(@controller.send(:current_user_time_tracking?)).to eq(true)
       end
     end
   end

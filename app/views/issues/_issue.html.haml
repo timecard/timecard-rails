@@ -25,7 +25,7 @@
           = link_to "Don't do today", postpone_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
         - else
           = link_to "Do today", do_today_issue_path(issue, format: :json), remote: true, method: :patch, class: "btn btn-default js-hide-issue"
-        - if current_user.work_in_progress?(issue)
-          = link_to "Stop", stop_workload_path(current_user.running_workload.id), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
+        - if current_user.time_tracking?(issue)
+          = link_to "Stop", stop_workload_path(current_user.current_entry), remote: true, method: :patch, class: "btn btn-warning js-stop-workload-button"
         - else
           = link_to "Start", issue_workloads_path(issue_id: issue.id), remote: true, method: :post, class: "btn btn-primary js-start-workload-button"
