@@ -63,14 +63,6 @@ class User < ActiveRecord::Base
     authentications.where(provider: provider).exists?
   end
 
-  def working_issue
-    if workloads.running?
-      workloads.find_by("start_at IS NOT NULL AND end_at IS NULL").issue
-    else
-      nil
-    end
-  end
-
   def selectable_providers
     Authentication.selectable_providers(self)
   end
