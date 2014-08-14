@@ -24,24 +24,6 @@ describe User do
     end
   end
 
-  describe "#working_issue" do
-    context "work in progress" do
-      it "returns working the issue" do
-        issue = create(:issue, author: @user, assignee: @user)
-        workload = create(:workload, user: @user, issue: issue, end_at: nil)
-        expect(@user.working_issue).to eq(issue)
-      end
-    end
-
-    context "not work" do
-      it "returns nil" do
-        issue = create(:issue, author: @user, assignee: @user)
-        workload = create(:workload, user: @user, issue: issue, end_at: Time.now.utc)
-        expect(@user.working_issue).to be_nil
-      end
-    end
-  end
-
   describe "#current_entry" do
     context "time tracking" do
       it "returns running workload" do
