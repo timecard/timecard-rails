@@ -16,7 +16,7 @@
         .media-body
           = link_to activity.owner.name, activity.owner
           was working for
-          = activity.trackable.duration
+          = activity.trackable.formatted_duration
     - else
       %p.text-muted
         This workload was removed.

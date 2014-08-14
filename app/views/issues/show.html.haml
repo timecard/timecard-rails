@@ -40,8 +40,6 @@
         %hr
         = render 'actions'
 
-.row
-  .col-lg-6
     %section
       %ul.media-list.comment-list
         - @issue.comments.order("id ASC").each do |comment|
@@ -67,7 +65,27 @@
               = f.submit "Comment", class: "btn btn-success"
 
   .col-lg-6
-    %section
+    %section.time-entries
+      .time-entries__head
+        %h2
+          = fa_icon "clock-o"
+          Time Entries
+          %small= @issue.workloads.total_duration
+      .time-entries__overview
+        .row
+          .col-lg-12
+            %h3.text-muted Overview of each user
+          - @issue.time_tracker.uniq.each do |user|
+            .col-lg-6
+              .time-entries__user
+                .pull-left
+                  .time-entries__user__image
+                    = image_tag gravatar_url(user.email, 32), class: "img-circle"
+                .time-entries__user__name
+                  = user.name
+                .time-entries__user__total-duration.text-muted
+                  = @issue.workloads.where(user: user).total_duration
+
       %ul.media-list.workload-list
         - @issue.workloads.complete.order("updated_at DESC").each do |workload|
           = render "workloads/list_item", workload: workload
