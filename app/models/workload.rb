@@ -39,6 +39,10 @@ class Workload < ActiveRecord::Base
     Time.diff(start_at, end_at_or_now, format)[:diff]
   end
 
+  def stop
+    update!(end_at: Time.now)
+  end
+
   private
 
   def track_start_activity
