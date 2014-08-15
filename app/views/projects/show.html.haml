@@ -20,6 +20,8 @@
                   %li
                     = link_to "Active", active_project_path(@project), method: :patch
                 %li
+                  = link_to "Report", project_reports_path(@project)
+                %li
                   = link_to "Export", datum_path(@project, format: :json)
 
       .project__description.text-muted

@@ -39,6 +39,12 @@ class Workload < ActiveRecord::Base
     Time.diff(start_at, end_at_or_now, format)[:diff]
   end
 
+  def formatted_distance_of_time
+    started_at = "#{sprintf('%02d', start_at.hour)}:#{sprintf('%02d', start_at.min)}"
+    stopped_at = "#{sprintf('%02d', end_at.hour)}:#{sprintf('%02d', end_at.min)}"
+    "#{started_at}-#{stopped_at}"
+  end
+
   private
 
   def track_start_activity

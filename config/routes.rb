@@ -6,6 +6,7 @@ Timecard::Application.routes.draw do
       get '/:year/:month/:day', on: :collection, to: 'workloads#index', as: :daily
     end
     resources :authentications
+    resources :reports, only: :index
   end
 
   resources :members, only: [:destroy]
@@ -31,11 +32,12 @@ Timecard::Application.routes.draw do
     resources :issues, only: [:index, :new, :create]
     resources :members, only: [:index, :create]
     resources :crowdworks_contracts, only: [:new, :create]
+    resources :reports, only: :index
   end
 
   resources :crowdworks_contracts, only: [:edit, :update, :destroy]
 
-  get "/reports", to: "reports#index", as: :reports
+  resources :reports, only: :index
 
   delete "users/disconnect/:provider", to: "users#disconnect", as: :disconnect_provider
   root :to => "home#index"

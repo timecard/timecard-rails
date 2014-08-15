@@ -151,4 +151,16 @@ class Project < ActiveRecord::Base
   rescue => e
     logger.debug e.message
   end
+
+  def users
+    members.map { |m| m.user }
+  end
+
+  def time_entries
+    Workload.where(issue_id: issues.ids)
+  end
+
+  def comments
+    Comment.where(issue_id: issues.ids)
+  end
 end

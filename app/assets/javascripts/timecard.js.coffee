@@ -141,6 +141,8 @@ ready = ->
   $('.members').on 'mouseleave', 'li.member', ->
     $(this).removeClass('select')
 
+  $('a[data-toggle="tab"]').tab()
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 

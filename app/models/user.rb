@@ -89,4 +89,8 @@ class User < ActiveRecord::Base
   def self.current=(user)
     Thread.current[:user] = user
   end
+
+  def admin_projects
+    members.where(is_admin: true).map { |m| m.project }
+  end
 end
