@@ -56,6 +56,7 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
           patch: true
           success: (model) =>
             Workload.stop()
+            Timecard.timer.stop()
             @issue.set('is_running', false)
             $('.timer').removeClass('timer--on')
             $('.timer').addClass('timer--off')

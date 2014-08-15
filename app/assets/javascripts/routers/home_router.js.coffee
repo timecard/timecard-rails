@@ -9,9 +9,12 @@ class Timecard.Routers.Home extends Backbone.Router
     @issues = new Timecard.Collections.Issues
     @comments = new Timecard.Collections.Comments
     @workloads = new Timecard.Collections.Workloads
+    @time_entries = new Timecard.Collections.TimeEntries
+    @time_entries.current_user = true
 
   index: ->
     return if $('.login').hasClass('false')
+    @renderGlobalTimer()
     return if $('.home').length is 0
     @issues.project_id = null
     @issues.url = '/api/my/issues'
@@ -29,9 +32,10 @@ class Timecard.Routers.Home extends Backbone.Router
       workloads: @workloads
     )
     @viewHomeMain.render()
-    @renderGlobalTimer()
 
   show: (id) ->
+    return if $('.login').hasClass('false')
+    @renderGlobalTimer()
     return if $('.home').length is 0
     @issues.project_id = id
     @issues.url = '/api/my/projects/'+id+'/issues'
@@ -49,13 +53,11 @@ class Timecard.Routers.Home extends Backbone.Router
       workloads: @workloads
     )
     @viewHomeMain.render()
-    @renderGlobalTimer()
 
   renderGlobalTimer: ->
-    @workloads.fetch
-      url: '/api/my/workloads/latest'
-      success: (workloads) =>
-        workload = workloads.findWhere(end_at: null)
-        if workload?
-          @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: workload, issues: @issues)
-          @viewWorkloadsTimer.render()
+    if $('.timer').hasClass('timer--on')
+      @time_entries.fetch
+        success: (collection) ->
+          time_entry = collection.at(0)
+          @viewTimerContainer = new Timecard.Views.TimerContainer(model: time_entry)
+          @viewTimerContainer.render()

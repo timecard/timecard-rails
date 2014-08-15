@@ -4,6 +4,19 @@ window.Timecard =
   Views: {}
   Routers: {}
   mediator: _.extend({}, Backbone.Events)
+  timer: _.extend
+    id: null
+    start: ->
+      @stop() if !@id?
+      i = 0
+      @id = setInterval ->
+        i++
+        Timecard.timer.trigger('notify', i)
+      , 1000
+    , Backbone.Events
+    stop: ->
+      clearInterval(@id)
+
   initialize: ->
     routerHome = new Timecard.Routers.Home()
     routerProjects = new Timecard.Routers.Projects()
