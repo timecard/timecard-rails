@@ -63,21 +63,6 @@ class User < ActiveRecord::Base
     authentications.where(provider: provider).exists?
   end
 
-  def work_in_progress?(issue)
-    working_issue == issue
-  end
-
-  def working_issue
-    if workloads.running?
-      workloads.find_by("start_at IS NOT NULL AND end_at IS NULL").issue
-    else
-      nil
-    end
-  end
-
-  def running_workload
-    workloads.find_by("start_at IS NOT NULL AND end_at IS NULL")
-  end
   def selectable_providers
     Authentication.selectable_providers(self)
   end
@@ -92,5 +77,28 @@ class User < ActiveRecord::Base
 
   def admin_projects
     members.where(is_admin: true).map { |m| m.project }
+  end
+
+  def start_time_track(issue)
+    stop_time_track
+    workloads.create!(issue: issue, start_at: Time.now)
+  end
+
+  def stop_time_track
+    current_entry.try(:stop)
+  end
+
+  def time_tracking?(issue = nil)
+    entry = current_entry
+    has_entry = entry.present?
+    if issue.nil?
+      has_entry
+    else
+      has_entry && entry.issue == issue
+    end
+  end
+
+  def current_entry
+    workloads.uncomplete.first
   end
 end

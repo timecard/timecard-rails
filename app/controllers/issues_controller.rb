@@ -137,9 +137,7 @@ class IssuesController < ApplicationController
   end
 
   def close
-    if current_user.work_in_progress?(@issue)
-      current_user.running_workload.update(end_at: Time.now.utc)
-    end
+    current_user.stop_time_track
 
     if @issue.close
       if @issue.github

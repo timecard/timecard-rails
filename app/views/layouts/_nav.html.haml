@@ -21,7 +21,7 @@
               Reports
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          %li.timer{ class: "timer--#{user_work_in_progress? ? 'on' : 'off'}" }
+          %li.timer{ class: "timer--#{current_user_time_tracking? ? 'on' : 'off'}" }
           %li.current-user{ "data-id" => current_user.id }
             = link_to user_path(current_user) do
               = image_tag gravatar_url(current_user.email, 16)

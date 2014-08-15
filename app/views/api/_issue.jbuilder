@@ -6,9 +6,9 @@ json.provider issue.provider if issue.provider
 json.comments issue.comments
 
 json.is_do_today issue.do_today?
-json.is_running (current_user.work_in_progress?(issue))
-if current_user.work_in_progress?(issue)
-  json.running_workload_id current_user.running_workload.id
+json.is_running current_user.time_tracking?(issue)
+if current_user.time_tracking?(issue)
+  json.running_workload_id current_user.current_entry.id
 end
 
 if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
