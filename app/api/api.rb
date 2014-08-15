@@ -89,4 +89,6 @@ class API < Grape::API
       end
     end
   end
+
+  mount TimeEntries
 end

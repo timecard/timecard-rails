@@ -1,6 +1,8 @@
 class Workload < ActiveRecord::Base
   include PublicActivity::Model
 
+  default_scope -> { order("updated_at DESC") }
+
   scope :complete, -> { where("end_at is not ?", nil) }
   scope :uncomplete, -> { where("end_at IS NULL") }
   scope :daily, ->(date = Time.zone.today) do
