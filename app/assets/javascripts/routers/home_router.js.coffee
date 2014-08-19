@@ -58,5 +58,8 @@ class Timecard.Routers.Home extends Backbone.Router
         workloads.current_user = false
         workload = workloads.findWhere(end_at: null)
         if workload?
-          @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: workload, issues: @issues)
-          @viewWorkloadsTimer.render()
+          @viewTimerContainer = new Timecard.Views.TimerContainer(
+            model: workload
+            issues: @issues
+          )
+          @viewTimerContainer.render()

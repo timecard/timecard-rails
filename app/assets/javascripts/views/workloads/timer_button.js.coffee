@@ -23,12 +23,12 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
       issue = @issue.collection.get(model.get('issue').id)
       if issue?
         issue.set('is_running', false)
-      Workload.stop()
+      Timecard.timer.stop()
     @collection.create {start_at: new Date()},
       url: '/issues/'+@issue.id+'/workloads'
       success: (model) =>
-        @viewWorkloadsTimer = new Timecard.Views.WorkloadsTimer(model: model, issues: @issue.collection)
-        @viewWorkloadsTimer.render()
+        @viewTimerContainer = new Timecard.Views.TimerContainer(model: model, issues: @issue.collection)
+        @viewTimerContainer.render()
         @issue.set('is_running', true)
         $('.timer').removeClass('timer--off')
         $('.timer').addClass('timer--on')
@@ -56,7 +56,7 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
         model.save attrs,
           patch: true
           success: (model) =>
-            Workload.stop()
+            Timecard.timer.stop()
             @issue.set('is_running', false)
             $('.timer').removeClass('timer--on')
             $('.timer').addClass('timer--off')

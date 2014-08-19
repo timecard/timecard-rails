@@ -1,0 +1,4 @@
+<div class="navbar-text">
+  <span class="timer__time"></span>
+  <span class="timer__stop-button"></span>
+</div>

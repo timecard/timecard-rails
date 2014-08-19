@@ -19,16 +19,13 @@ class Timecard.Views.WorkloadsCrowdworksModal extends Backbone.View
     attrs = {end_at: new Date(), password: password}
     if remember_me
       sessionStorage.setItem('crowdworks_password', password)
-    @updateWorkload(attrs)
-
-  updateWorkload: (attrs) ->
     $.blockUI()
     model = @options.workloads.findWhere(end_at: null)
     model.save attrs,
       success: (model) =>
         issue = @options.issues.findWhere(id: model.get('issue').id)
         issue.set('is_running', false)
-        Workload.stop()
+        Timecard.timer.stop()
         $('.timer').removeClass('timer--on')
         $('.timer').addClass('timer--off')
         $.unblockUI()
