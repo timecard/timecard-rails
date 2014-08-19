@@ -80,13 +80,7 @@ class API < Grape::API
           .per(params[:per_page])
       end
     end
-
-    resource :workloads do
-      desc "Return latest my workloads"
-      get "latest", jbuilder: "workloads" do
-        authenticated!
-        @workloads = current_user.workloads.order("updated_at DESC").limit(10)
-      end
-    end
   end
+
+  mount TimeEntries
 end

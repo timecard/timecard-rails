@@ -48,9 +48,10 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
 
   updateWorkload: (attrs) ->
     $.blockUI()
+    @collection.current_user = true
     @collection.fetch
-      url: '/api/my/workloads/latest'
       success: (collection) =>
+        collection.current_user = false
         model = collection.findWhere(end_at: null)
         model.save attrs,
           patch: true
