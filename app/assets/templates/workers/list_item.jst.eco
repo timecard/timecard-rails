@@ -12,6 +12,6 @@
   </span>
   <br>
   <span class="worker-duration">
-    <%= @workload.duration() %>
+    <%= @workload.formatted_duration() %>
   </span>
 </div>
