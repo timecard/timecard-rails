@@ -10,8 +10,9 @@ class Timecard.Views.IssuesIndex extends Backbone.View
 
   render: ->
     @$el.html(@template())
-    @viewIssuesNewButton = new Timecard.Views.IssuesNewButton(project_id: @collection.project_id)
-    @viewIssuesNewButton.render()
+    if @collection.project_id?
+      @viewIssuesNewButton = new Timecard.Views.IssuesNewButton(project_id: @collection.project_id)
+      @viewIssuesNewButton.render()
     @viewIssuesStatusButton = new Timecard.Views.IssuesStatusButton(collection: @collection)
     @viewIssuesStatusButton.render()
     @viewIssuesList = new Timecard.Views.IssuesList(
