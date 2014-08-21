@@ -40,6 +40,30 @@
         %hr
         = render 'actions'
 
+      <!-- Modal -->
+      .modal.fade.crowdworks-form__modal{ tabindex: "-1", role: "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true" }
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{ type: "button", "data-dismiss" => "modal" }
+                %span{ "aria-hidden" => "true" } &times;
+                %span.sr-only Close
+              %h4.modal-title#myModalLabel
+                CrowdWorks Password
+            .modal-body
+              %p Please input your crowdworks password.
+              .form-group
+                = password_field_tag :password, nil, class: "form-control crowdworks-form__password"
+              .checkbox
+                = label_tag nil do
+                  = check_box_tag :remember_me, nil, false, class: "crowdworks-form__remember-me"
+                  Remember me while browser open.
+            .modal-footer
+              %button.btn.btn-default{ type: "button", "data-dismiss" => "modal" }
+                Cancel
+              %button.btn.btn-primary.crowdworks-form__submit{ type: "button" }
+                OK
+
     %section
       %ul.media-list.comment-list
         - @issue.comments.order("id ASC").each do |comment|
@@ -89,3 +113,14 @@
       %ul.media-list.workload-list
         - @issue.workloads.complete.order("updated_at DESC").each do |workload|
           = render "workloads/list_item", workload: workload
+
+:javascript
+  $(function() {
+    var issue = new Timecard.Models.Issue(JSON.parse("#{j(@issue.to_json)}"));
+    var time_entries = new Timecard.Collections.Workloads(JSON.parse("#{j(@issue.workloads.where(user: current_user).order("updated_at DESC").to_json)}"));
+    issue.isCrowdworks = #{current_user.authentications.exists?(["provider = ?", "crowdworks"]) && @issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])};
+    var viewIssuesShow = new Timecard.Views.IssuesShow({
+      model: issue,
+      time_entries: time_entries
+    }).render();
+  });

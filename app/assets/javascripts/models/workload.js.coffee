@@ -1,6 +1,4 @@
 class Timecard.Models.Workload extends Backbone.Model
-  urlRoot: '/workloads'
-
   defaults:
     id: null
     start_at: new Date()
