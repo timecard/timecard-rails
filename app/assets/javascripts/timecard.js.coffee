@@ -6,7 +6,6 @@ window.Timecard =
   mediator: _.extend({}, Backbone.Events)
   initialize: ->
     routerHome = new Timecard.Routers.Home()
-    routerProjects = new Timecard.Routers.Projects()
     Backbone.history.start()
 
 # jquery.blockUI settings
