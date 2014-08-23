@@ -29,6 +29,8 @@ class GithubImporter
     author = generate_temporary_user(github_issue.user.id, github_issue.user.login)
     if github_issue.assignee
       assignee = generate_temporary_user(github_issue.assignee.id, github_issue.assignee.login)
+    else
+      assignee = nil
     end
     issue = @project.issues.create!(
       subject: github_issue.title,
