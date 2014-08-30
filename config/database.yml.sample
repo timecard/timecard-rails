@@ -16,5 +16,5 @@ test:
   adapter: mysql2
   database: timecard_test
   host: localhost
-  username: root
+  username: 
   password: 
