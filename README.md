@@ -11,7 +11,7 @@ Feature
 
 Setup
 -----
-    $ git clone git@github.com:mindia/timecard-rails.git
+    $ git clone git@github.com:ruffnote/timecard-rails.git
     $ cd timecard-rails/
     $ bundle install
     $ cp config/database.yml.sample config/database.yml
