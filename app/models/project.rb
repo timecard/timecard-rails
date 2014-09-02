@@ -163,4 +163,8 @@ class Project < ActiveRecord::Base
   def comments
     Comment.where(issue_id: issues.ids)
   end
+
+  def github_issues
+    IssueGithub.where(foreign_id: issues.ids)
+  end
 end
