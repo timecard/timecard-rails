@@ -1,0 +1,3 @@
+<a href="/issues/<%= @issue.id %>">
+  <%= @time_entry.formatted_duration() %>
+</a>

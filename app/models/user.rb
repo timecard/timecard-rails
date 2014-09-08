@@ -101,4 +101,9 @@ class User < ActiveRecord::Base
   def current_entry
     workloads.uncomplete.first
   end
+
+  # FIXME wrapped workloads for acts_as_time_trackable
+  def time_entries
+    workloads
+  end
 end
