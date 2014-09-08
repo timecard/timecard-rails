@@ -5,7 +5,7 @@ bundler_args: --without development
 cache: bundler
 rvm: 2.1.2
 before_script:
-  - mysql -e 'create database timecard_test;'
+  - psql -c 'create database timecard_test;' -U postgres
   - cp config/database.yml.sample config/database.yml
   - cp config/omniauth.yml.sample config/omniauth.yml
 script:
