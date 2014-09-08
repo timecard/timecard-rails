@@ -269,6 +269,7 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -449,6 +450,7 @@ DEPENDENCIES
   mysql2
   omniauth-github (~> 1.1.1)
   omniauth-ruffnote!
+  pg
   poltergeist
   public_activity
   quiet_assets (= 1.0.2)

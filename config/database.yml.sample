@@ -13,8 +13,8 @@ production:
   password: 
 
 test:
-  adapter: mysql2
+  adapter: postgresql
   database: timecard_test
   host: localhost
-  username: 
+  username: postgres
   password: 
