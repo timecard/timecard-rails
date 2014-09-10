@@ -10,6 +10,7 @@ RUN yum install -y \
   gcc \
   make \
   nodejs \
+  postgresql-devel \
   ruby-devel \
   rubygem-bcrypt \
   rubygem-eventmachine \
@@ -23,7 +24,9 @@ COPY . /myapp
 COPY config/database.yml.sample /myapp/config/database.yml
 COPY config/omniauth.yml.sample /myapp/config/omniauth.yml
 
-#ENV RAILS_ENV production
-RUN bundle exec rake assets:precompile RAILS_ENV=production
-
-CMD bundle exec rake db:setup
+ENV RAILS_ENV development
+EXPOSE 3000
+CMD \
+  bundle exec rake assets:precompile &&\
+  bundle exec rake db:setup &&\
+  RAILS_ENV=test bundle exec rspec

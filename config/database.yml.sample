@@ -1,20 +1,23 @@
 development:
-  adapter: mysql2
+  adapter: postgresql
   database: timecard_dev
-  host: localhost
-  username: root
+  host: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_ADDR') %>
+  port: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_PORT') %>
+  username: postgres
   password: 
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   database: timecard_prod
-  host: localhost
-  username: root
+  host: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_ADDR') %>
+  port: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_PORT') %>
+  username: postgres
   password: 
 
 test:
   adapter: postgresql
   database: timecard_test
-  host: localhost
+  host: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_ADDR') %>
+  port: <%= ENV.fetch('POSTGRES_PORT_5432_TCP_PORT') %>
   username: postgres
   password: 
