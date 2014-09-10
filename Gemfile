@@ -28,6 +28,7 @@ gem 'websocket-rails'
 gem 'public_activity'
 gem 'chartkick', '~> 1.3.2'
 gem 'time_diff', '~> 0.3.0'
+gem 'pg'
 
 group :development do
   gem 'guard-livereload'
@@ -43,6 +44,7 @@ end
 group :test do
   gem 'simplecov', '0.7.1', :require => false
   gem 'database_rewinder'
+  gem 'coveralls', '0.7.0', require: false
 end
 
 group :development, :test do

@@ -33,6 +33,7 @@ class Timecard.Views.ProjectsList extends Backbone.View
     $('.projects-show').empty()
     @issues.url = '/api/my/issues'
     @issues.status = 'open'
+    @issues.project_id = null
     new Timecard.Views.HomeLoading(el: '.issues-index')
     @issues.getFirstPage
       reset: true

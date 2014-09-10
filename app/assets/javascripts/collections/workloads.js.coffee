@@ -1,6 +1,11 @@
 class Timecard.Collections.Workloads extends Backbone.Collection
-  url: '/workloads'
   model: Timecard.Models.Workload
+
+  url: ->
+    if @current_user
+      '/api/user/time_entries'
+    else
+      '/workloads'
 
   total_duration: ->
     totalStartAt = _.reduce @models, (memo, model) ->

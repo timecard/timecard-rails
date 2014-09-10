@@ -89,7 +89,7 @@ class Timecard.Views.IssuesItem extends Backbone.View
     workload = @options.workloads.findWhere(end_at: null)
     workload.save attrs,
       success: (model) =>
-        Workload.stop()
+        Timecard.timer.stop()
         @model.set('is_running', false)
         $('.timer').removeClass('timer--on')
         $('.timer').addClass('timer--off')
