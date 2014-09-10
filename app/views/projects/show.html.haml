@@ -16,6 +16,9 @@
                     = link_to "Add member", project_members_path(@project)
                   %li
                     = link_to "Close", close_project_path(@project), method: :patch
+                  - if @project.github
+                    %li
+                      = link_to "Synchronize with the Github", project_github_imports_path(@project), method: :post
                 - else
                   %li
                     = link_to "Active", active_project_path(@project), method: :patch
@@ -33,7 +36,6 @@
           %span.label.label-default Private
         - if @project.github
           %span.label.label-default= @project.github.full_name
-
       - if user_signed_in? && @project.member?(current_user) && current_user.authentications.exists?(["provider = ?", "crowdworks"])
         .crowdworks-contract
           - if @cwcontract

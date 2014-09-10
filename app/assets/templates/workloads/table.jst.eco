@@ -3,7 +3,7 @@
     <td><a href="/projects/<%= workload.get('project').id %>"><%= workload.get('project').name %></a></td>
     <td><a href="/issues/<%= workload.get('issue').id %>"><%= workload.get('issue').get('subject') %></a></td>
     <td><%= workload.get('start_time') %> - <%= workload.get('end_time') %></td>
-    <td><%= workload.duration(workload.end_at()) %></td>
+    <td><%= workload.formatted_duration() %></td>
   </tr>
 <% end %>
 <tr>

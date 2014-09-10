@@ -9,6 +9,7 @@ class Timecard.Views.HomeMain extends Backbone.View
     @issues = @options.issues
     @workloads = @options.workloads
     @listenTo(Timecard.mediator, 'projects:show', @renderProjectShow)
+
   render: ->
     @$el.html(@template())
     if @issues.project_id?

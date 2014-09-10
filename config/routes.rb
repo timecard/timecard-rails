@@ -33,6 +33,7 @@ Timecard::Application.routes.draw do
     resources :members, only: [:index, :create]
     resources :crowdworks_contracts, only: [:new, :create]
     resources :reports, only: :index
+    resources :github_imports, only: :create
   end
 
   resources :crowdworks_contracts, only: [:edit, :update, :destroy]

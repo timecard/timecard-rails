@@ -1,4 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/ruffnote/timecard-rails.png?label=ready&title=Ready)](https://waffle.io/ruffnote/timecard-rails)
+[![Code Climate](https://codeclimate.com/github/ruffnote/timecard-rails/badges/gpa.svg)](https://codeclimate.com/github/ruffnote/timecard-rails)
+[![Build Status](https://travis-ci.org/ruffnote/timecard-rails.svg?branch=master)](https://travis-ci.org/ruffnote/timecard-rails)
+[![Coverage Status](https://coveralls.io/repos/ruffnote/timecard-rails/badge.png)](https://coveralls.io/r/ruffnote/timecard-rails)
 Timecard
 ========
 Timecardとはクリエイターが好きな時に好きなだけ働ける環境をサポートする仕組みです。
