@@ -25,8 +25,6 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @title = @issue.subject
-    @project = Project.find(@issue.project_id)
   end
 
   def new
