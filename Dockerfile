@@ -14,7 +14,6 @@ RUN yum install -y \
   ruby-devel \
   rubygem-bcrypt \
   rubygem-eventmachine \
-  rubygem-mysql2 \
   rubygem-nokogiri \
   rubygem-unf_ext \
   && yum clean all
