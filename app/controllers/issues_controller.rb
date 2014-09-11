@@ -5,18 +5,18 @@ class IssuesController < ApplicationController
   before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
-    if @project.present?
-      if params[:user_id].present?
-        @issues = @project.issues.with_status(params[:status]).where("assignee_id = ?", params[:user_id])
-          .page(params[:page])
-          .per(params[:per_page])
-      else
-        @issues = @project.issues
-          .with_status(params[:status])
-          .includes(:github, :ruffnote, :comments)
-          .page(params[:page])
-          .per(params[:per_page])
-      end
+    if params[:user_id].present?
+      @issues = @project.issues
+      .with_status(params[:status])
+      .where("assignee_id = ?", params[:user_id])
+      .page(params[:page])
+      .per(params[:per_page])
+    else
+      @issues = @project.issues
+      .with_status(params[:status])
+      .includes(:github, :ruffnote, :comments)
+      .page(params[:page])
+      .per(params[:per_page])
     end
 
     respond_to do |format|
