@@ -23,3 +23,25 @@ Setup
     $ cp config/omniauth.yml.sample config/omniauth.yml # setup Client ID and Client Secret of GitHub and Ruffnote
       (callback URL is project root ex: http:/yoursite.example.com/)  
       https://github.com/settings/applications, https://ruffnote.com/oauth/applications
+
+Docker
+------
+
+* Installing Fig: http://www.fig.sh/install.html
+
+    $ sudo pip install -U fig
+
+* deploy
+
+    $ fig up -d web
+    $ fig run --rm web bundle exec rake assets:precompile
+    $ fig run --rm web bundle exec rake db:setup
+
+* test
+
+    $ fig up --no-recreate test
+
+* shutdown
+
+    $ fig kill
+    $ fig rm
