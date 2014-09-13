@@ -27,5 +27,5 @@ COPY config/omniauth.yml.sample /myapp/config/omniauth.yml
 ENV RAILS_ENV development
 EXPOSE 3000
 CMD \
-  RAILS_ENV=test bundle exec rake db:migrate &&\
+  RAILS_ENV=test bundle exec rake db:test:prepare &&\
   RAILS_ENV=test bundle exec rspec
