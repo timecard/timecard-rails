@@ -34,7 +34,6 @@ Docker
 * deploy
 
     $ fig up -d web
-    $ fig run --rm web bundle exec rake assets:precompile
     $ fig run --rm web bundle exec rake db:setup
 
 * test
