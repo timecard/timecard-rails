@@ -12,7 +12,10 @@ class Crowdworks
     end
   end
 
-  def submit_timesheet(contract_id, workload)
+  def submit_timesheet(workload)
+    project = workload.issue.project
+    user = workload.user
+    contract_id = project.crowdworks_contract_id_by(user)
     @agent.get(timesheet_url(contract_id))
     @agent.page.form_with(method: "POST") do |form|
       form["fiscal_work[started_at(4i)]"] = workload.start_at.strftime("%H")

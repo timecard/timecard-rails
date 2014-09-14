@@ -1,5 +1,5 @@
 class Timecard.Models.Issue extends Backbone.Model
-  urlRoot: '/issues'
+  urlRoot: '/api/issues'
 
   defaults:
     id: null

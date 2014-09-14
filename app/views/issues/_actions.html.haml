@@ -7,7 +7,12 @@
     = link_to "Do today", do_today_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
   - else
     = link_to "Don't do today", postpone_issue_path(issue_id: @issue), class: "btn btn-default", method: :patch
-  - if current_user.time_tracking?(@issue)
-    = link_to "Stop", stop_workload_path(current_user.current_entry), class: "btn btn-warning", method: :patch
-  - else
-    = link_to "Start", issue_workloads_path(issue_id: @issue), class: "btn btn-primary", method: :post
+  .time-entries__buttons
+    %span{ class: "time-entries__start-button #{current_user.time_tracking?(@issue) ? 'hidden' : ''}" }
+      = link_to "#", class: "btn btn-primary" do
+        = fa_icon "play"
+        START
+    %span{ class: "time-entries__stop-button #{current_user.time_tracking?(@issue) ? '' : 'hidden'}" }
+      = link_to "#", class: "btn btn-warning" do
+        = fa_icon "pause"
+        STOP

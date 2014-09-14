@@ -87,15 +87,13 @@ class WorkloadsController < ApplicationController
   def workload_params
     params.require(:workload).permit(:id, :start_at, :end_at, :issue_id, :user_id, :created_at, :updated_at, :password)
   end
-  
+
   def logging_crowdworks
     begin
-      auth = current_user.authentications.where(provider: "crowdworks").first
-      project = @workload.issue.project
-      contract_id = project.crowdworks_contracts.find_by(user: current_user).contract_id
-
-      @crowdworks = Crowdworks.new(auth.username, params[:password])
-      @crowdworks.submit_timesheet(contract_id, @workload)
+      @crowdworks = Crowdworks.new(
+        current_user.crowdworks_username, params[:password]
+      )
+      @crowdworks.submit_timesheet(@workload)
     rescue => e
       logger.debug "#{e.class}: #{e.message}"
     end

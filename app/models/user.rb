@@ -59,6 +59,14 @@ class User < ActiveRecord::Base
     authentications.where(provider: "ruffnote").first
   end
 
+  def crowdworks_username
+    crowdworks.username
+  end
+
+  def crowdworks
+    authentications.find_by(provider: "crowdworks")
+  end
+
   def connected?(provider)
     authentications.where(provider: provider).exists?
   end
