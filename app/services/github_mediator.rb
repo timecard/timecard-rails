@@ -4,20 +4,6 @@ class GithubMediator
     @client = Github.new(oauth_token: token)
   end
 
-  def create_issue(params)
-    options = issue_options_from_params(params)
-    issue = @client.issues.create(
-      @owner, @repo, options
-    )
-    issue
-  rescue ArgumentError
-    Rails.logger.info "ArgumentError: #{@owner}, #{@repo}, #{options}"
-    nil
-  rescue => e
-    Rails.logger.info "#{e.class}: #{@owner}, #{@repo}, #{options}"
-    nil
-  end
-
   def edit_issue(params, number)
     options = issue_options_from_params(params)
     issue = @client.issues.edit(

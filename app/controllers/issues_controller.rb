@@ -48,20 +48,6 @@ class IssuesController < ApplicationController
           Chatwork.post(body)
         end
 
-        if issue_params[:enabled_github]
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @project.github.full_name
-          )
-          issue = mediator.create_issue(issue_params)
-          if issue
-            @issue.add_github(issue)
-          else
-            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
-            format.html { render action: 'new' }
-          end
-        end
-
         if @issue.project.ruffnote && current_user.ruffnote
           issue = @issue.project.ruffnote.add_issue(current_user.ruffnote.oauth_token , params[:issue])
           if issue
@@ -83,6 +69,13 @@ class IssuesController < ApplicationController
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @issue.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @issue.errors.add(:base, e.message)
+    end
+    render "new"
   end
 
   def update
