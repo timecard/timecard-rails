@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
     authentications.where(provider: "github").first
   end
 
+  def crowdworks
+    authentications.find_by(provider: "crowdworks")
+  end
+
   def apply_omniauth_with_ruffnote(omniauth)
     apply_omniauth(omniauth)
   end
