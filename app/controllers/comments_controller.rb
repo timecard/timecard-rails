@@ -15,20 +15,6 @@ class CommentsController < ApplicationController
       if @comment.save
         WebsocketRails[:streaming].trigger "create", @comment
 
-        if @comment.issue.github && current_user.github
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @issue.project.github.full_name
-          )
-          comment = mediator.create_comment(comment_params, @issue.github.number)
-          if comment
-            @comment.add_github(comment.id)
-          else
-            flash[:alert] = 'Create a new comment to Github failed.' + @comment.errors.full_messages.join("\n")
-            format.html { render action: 'new' }
-          end
-        end
-
         if @comment.issue.ruffnote && current_user.ruffnote
           comment = @comment.issue.ruffnote.add_comment(current_user.ruffnote.oauth_token , comment_params)
           if comment
@@ -38,7 +24,6 @@ class CommentsController < ApplicationController
             format.html { render action: 'new' }
           end
         end
-
         format.html { redirect_to @issue, notice: 'Comment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
@@ -46,23 +31,18 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @comment.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @comment.errors.add(:base, e.message)
+    end
+    redirect_to @issue
   end
 
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        if @comment.github && @comment.github.comment_id && current_user.github
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @comment.issue.project.github.full_name
-          )
-          comment = mediator.edit_comment(comment_params, @comment.github.comment_id)
-          if comment
-            @comment.add_github(comment.id)
-          else
-            flash[:alert] = 'Update a new comment to Github failed.' + @comment.errors.full_messages.join("\n")
-          end
-        end
         format.html { redirect_to @comment.issue, notice: 'Comment was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @comment }
       else
@@ -70,16 +50,16 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @comment.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @comment.errors.add(:base, e.message)
+    end
+    redirect_to @issue
   end
 
   def destroy
-    if @comment.github && @comment.github.comment_id && current_user.github
-      mediator = GithubMediator.new(
-        current_user.github.oauth_token,
-        @comment.issue.project.github.full_name
-      )
-      mediator.destroy_comment(@comment.github.comment_id)
-    end
     if @comment.ruffnote && @comment.ruffnote.comment_id && current_user.ruffnote
       comment = @comment.ruffnote.destroy(
         current_user.ruffnote.oauth_token
@@ -90,6 +70,13 @@ class CommentsController < ApplicationController
       format.html { redirect_to @comment.issue }
       format.json { head :no_content }
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @comment.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @comment.errors.add(:base, e.message)
+    end
+    redirect_to @issue
   end
 
   private
