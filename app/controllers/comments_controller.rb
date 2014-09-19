@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :set_issue, only: [:create]
-  before_action :set_comment, only: [:update, :destroy]
-  before_action :require_member
+  before_action :authenticate_user!
+  load_and_authorize_resource :issue, only: :create
+  load_and_authorize_resource :comment, only: [:update, :destroy]
 
   def create
     if params[:comment_and]
@@ -81,20 +81,7 @@ class CommentsController < ApplicationController
 
   private
 
-  def set_issue
-    @issue = Issue.find(params[:issue_id])
-  end
-
-  def set_comment
-    @comment = Comment.find(params[:id])
-  end
-
   def comment_params
     params.require(:comment).permit(:body)
-  end
-
-  def require_member
-    project = @issue ? @issue.project : @comment.issue.project
-    return redirect_to root_path, alert: "You are not project member." unless project.member?(current_user)
   end
 end
