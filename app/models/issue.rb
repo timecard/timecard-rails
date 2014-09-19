@@ -65,6 +65,10 @@ class Issue < ActiveRecord::Base
     nil
   end
 
+  def toggle_status
+    closed? ? reopen : close
+  end
+
   def close
     update(status: 9, closed_on: Time.now.utc)
   end

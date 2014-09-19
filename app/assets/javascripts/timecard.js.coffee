@@ -101,17 +101,10 @@ ready = ->
       else
         $preview.html('<p>Nothing to preview</p>')
 
-  .on 'click', '.issue__close-and-comment-button', (e) ->
+  .on 'click', '.issue__comment-and-button', (e) ->
     e.preventDefault()
     $form = $(e.target).closest('form')
-    hidden_el = "<input type='hidden', name='close', value='1' />"
-    $form.append(hidden_el)
-    $form.submit()
-
-  .on 'click', '.issue__reopen-and-comment-button', (e) ->
-    e.preventDefault()
-    $form = $(e.target).closest('form')
-    hidden_el = "<input type='hidden' name='reopen' value='1' />"
+    hidden_el = "<input type='hidden', name='comment_and', value='1' />"
     $form.append(hidden_el)
     $form.submit()
 

@@ -4,35 +4,18 @@ class CommentsController < ApplicationController
   before_action :require_member
 
   def create
-    if params[:close]
-      if @issue.close
-        if @issue.github
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @issue.project.github.full_name
-          )
-          issue = mediator.edit_issue({status: 9}, @issue.github.number)
-        end
-        if comment_params[:body].blank?
-          redirect_to @issue, notice: "Issue was successfully updated."
-          return
-        end
+    if params[:comment_and]
+      @issue.toggle_status
+      if @issue.github
+        mediator = GithubMediator.new(
+          current_user.github.oauth_token,
+          @issue.project.github.full_name
+        )
+        issue = mediator.edit_issue({status: @issue.status}, @issue.github.number)
       end
-    end
-
-    if params[:reopen]
-      if @issue.reopen
-        if @issue.github
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @issue.project.github.full_name
-          )
-          issue = mediator.edit_issue({status: 1}, @issue.github.number)
-        end
-        if comment_params[:body].blank?
-          redirect_to @issue, notice: "Issue was successfully updated."
-          return
-        end
+      if comment_params[:body].blank?
+        redirect_to @issue, notice: "Issue was successfully updated."
+        return
       end
     end
 
