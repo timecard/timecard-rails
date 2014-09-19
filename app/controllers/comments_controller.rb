@@ -6,17 +6,6 @@ class CommentsController < ApplicationController
   def create
     if params[:comment_and]
       @issue.toggle_status
-      if @issue.github
-        mediator = GithubMediator.new(
-          current_user.github.oauth_token,
-          @issue.project.github.full_name
-        )
-        issue = mediator.edit_issue({status: @issue.status}, @issue.github.number)
-      end
-      if comment_params[:body].blank?
-        redirect_to @issue, notice: "Issue was successfully updated."
-        return
-      end
     end
 
     @comment = @issue.comments.build(comment_params)

@@ -33,6 +33,7 @@ class Issue < ActiveRecord::Base
   validates :subject, presence: true
 
   after_create :track_create_activity, :create_github_issue
+  after_update :update_github_issue
   before_update :track_update_status_activity
 
   def add_github(issue)
@@ -125,17 +126,35 @@ class Issue < ActiveRecord::Base
     if enabled_github
       owner, repo = project.github.full_name.split("/")
       client = Github.new(oauth_token: author.github.oauth_token)
-      options = {}
-      options["title"] = subject.presence
-      options["body"] = description.presence
-      options["state"] = state_of_github
-      options["author"] = author.name
-      options["assignee"] = assignee.try(:name)
-      options["labels"] = labels
       issue = client.issues.create(
-        owner, repo, options
+        owner, repo, github_options
       )
       add_github(issue)
     end
+  end
+
+  def update_github_issue
+    if github
+      owner, repo = project.github.full_name.split("/")
+      client = Github.new(oauth_token: author.github.oauth_token)
+      issue = client.issues.edit(
+        owner, repo, github.number, github_options
+      )
+      add_github(issue)
+    end
+    if enabled_github
+      create_github_issue
+    end
+  end
+
+  def github_options
+    options = {}
+    options["title"] = subject.presence
+    options["body"] = description.presence
+    options["state"] = state_of_github
+    options["author"] = author.name
+    options["assignee"] = assignee.try(:name)
+    options["labels"] = labels
+    options
   end
 end
