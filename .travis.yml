@@ -7,7 +7,14 @@ rvm: 2.1.2
 before_script:
   - psql -c 'create database timecard_test;' -U postgres
   - cp config/database.yml.sample config/database.yml
-  - cp config/omniauth.yml.sample config/omniauth.yml
 script:
   - bundle exec rake db:setup
   - bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: QajVvnIARvobeqyL0yFkP/AtxEjJKWKtaYMJ3X+5gtn+R4jw8CDMbOlQeoS92TlNdCPOnxboliKIwUWAir3arN5YJGQcioGT7kDt2T6vgmRTXtDseGoW9rk3g1fHeoGvdV6yOuRd4qX8TJNNUjEHaaJ6jbI5SyHTfnBLuMIrBuw=
+  app: stormy-forest-6291
+  on:
+    repo: MiCHiLU/timecard-rails
+    branch: iss-447_ci_deploy
