@@ -1,5 +1,5 @@
 class Timecard.Collections.Issues extends Backbone.PageableCollection
-  url: "/issues"
+  url: '/api/issues'
 
   model: Timecard.Models.Issue
 

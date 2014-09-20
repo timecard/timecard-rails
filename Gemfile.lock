@@ -94,12 +94,14 @@ GEM
       execjs
     coffee-script-source (1.7.1)
     colorize (0.7.3)
-    coveralls (0.7.1)
+    coveralls (0.7.0)
       multi_json (~> 1.3)
       rest-client
       simplecov (>= 0.7)
       term-ansicolor
       thor
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     daemons (1.1.9)
     database_rewinder (0.2.0)
     descendants_tracker (0.0.4)
@@ -352,6 +354,7 @@ GEM
     rspec-support (3.0.3)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
+    safe_yaml (1.0.3)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -417,6 +420,9 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.3)
       rack (>= 1.0)
+    webmock (1.18.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
     webrobots (0.1.1)
     websocket-driver (0.3.4)
     websocket-rails (0.7.0)
@@ -480,4 +486,5 @@ DEPENDENCIES
   time_diff (~> 0.3.0)
   turbolinks
   uglifier (>= 1.3.0)
+  webmock
   websocket-rails
