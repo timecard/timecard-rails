@@ -41,4 +41,12 @@ describe User do
       end
     end
   end
+
+  describe "#crowdworks" do
+    it "returns auth of crowdworks" do
+      create(:authentication, user: @user, provider: "crowdworks")
+      expect(@user.crowdworks.class).to eq(Authentication)
+      expect(@user.crowdworks.provider).to eq("crowdworks")
+    end
+  end
 end

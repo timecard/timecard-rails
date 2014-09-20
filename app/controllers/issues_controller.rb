@@ -5,18 +5,18 @@ class IssuesController < ApplicationController
   before_action :load_labels, except: [:index, :show, :destroy]
 
   def index
-    if @project.present?
-      if params[:user_id].present?
-        @issues = @project.issues.with_status(params[:status]).where("assignee_id = ?", params[:user_id])
-          .page(params[:page])
-          .per(params[:per_page])
-      else
-        @issues = @project.issues
-          .with_status(params[:status])
-          .includes(:github, :ruffnote, :comments)
-          .page(params[:page])
-          .per(params[:per_page])
-      end
+    if params[:user_id].present?
+      @issues = @project.issues
+      .with_status(params[:status])
+      .where("assignee_id = ?", params[:user_id])
+      .page(params[:page])
+      .per(params[:per_page])
+    else
+      @issues = @project.issues
+      .with_status(params[:status])
+      .includes(:github, :ruffnote, :comments)
+      .page(params[:page])
+      .per(params[:per_page])
     end
 
     respond_to do |format|
@@ -25,8 +25,6 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @title = @issue.subject
-    @project = Project.find(@issue.project_id)
   end
 
   def new
@@ -46,20 +44,6 @@ class IssuesController < ApplicationController
           rails_host = env["HTTP_HOST"]
           body = "#{current_user.name}さんが「#{@issue.project.name}」に「#{@issue.subject}」を追加しました\nhttp://#{rails_host}/issues/#{@issue.id}"
           Chatwork.post(body)
-        end
-
-        if issue_params[:enabled_github]
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @project.github.full_name
-          )
-          issue = mediator.create_issue(issue_params)
-          if issue
-            @issue.add_github(issue)
-          else
-            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
-            format.html { render action: 'new' }
-          end
         end
 
         if @issue.project.ruffnote && current_user.ruffnote
@@ -83,6 +67,13 @@ class IssuesController < ApplicationController
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @issue.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @issue.errors.add(:base, e.message)
+    end
+    render "new"
   end
 
   def update

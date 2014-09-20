@@ -159,13 +159,13 @@ describe Issue do
     end
   end
 
-  describe "#labels" do
+  describe "#github_labels" do
     context "with github and github labels" do
       it "returns labels" do
         issue = create(:issue)
         labels = ["bug", "feature"]
         create(:issue_github, foreign_id: issue.id, info: { labels: labels })
-        expect(issue.labels).to eq(labels)
+        expect(issue.github_labels).to eq(labels)
       end
     end
 
@@ -174,14 +174,30 @@ describe Issue do
         issue = create(:issue)
         labels = []
         create(:issue_github, foreign_id: issue.id, info: { labels: labels })
-        expect(issue.labels).to eq([])
+        expect(issue.github_labels).to eq([])
       end
     end
 
     context "doesn't have Github Object" do
       it "returns empty" do
         issue = create(:issue)
-        expect(issue.labels).to eq([])
+        expect(issue.github_labels).to eq([])
+      end
+    end
+  end
+
+  describe "#state_of_github" do
+    context "status 1" do
+      it "returns 'open'" do
+        issue = create(:issue, status: 1)
+        expect(issue.send(:state_of_github)).to eq("open")
+      end
+    end
+
+    context "status 9" do
+      it "returns 'close'" do
+        issue = create(:issue, status: 9)
+        expect(issue.send(:state_of_github)).to eq("close")
       end
     end
   end

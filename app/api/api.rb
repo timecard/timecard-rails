@@ -20,6 +20,10 @@ class API < Grape::API
     def current_user
       warden.user
     end
+
+    def authorize!(*args)
+      ::Ability.new(current_user).authorize!(*args)
+    end
   end
 
   namespace :my do
@@ -82,5 +86,6 @@ class API < Grape::API
     end
   end
 
+  mount Issues
   mount TimeEntries
 end

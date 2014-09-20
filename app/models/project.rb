@@ -167,4 +167,8 @@ class Project < ActiveRecord::Base
   def github_issues
     IssueGithub.where(foreign_id: issues.ids)
   end
+
+  def crowdworks_contract_id_by(user)
+    crowdworks_contracts.find_by(user: user).contract_id
+  end
 end

@@ -45,7 +45,7 @@ class WorkloadsController < ApplicationController
   def update
     respond_to do |format|
       if @workload.update(workload_params)
-        if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
+        if current_user.crowdworks && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
           logging_crowdworks
         end
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully updated.' }
@@ -54,6 +54,11 @@ class WorkloadsController < ApplicationController
         format.html { render action: 'edit' }
         format.json { render json: @workload.errors, status: :unprocessable_entity }
       end
+    end
+  rescue Crowdworks::Error::PasswordNotFound, Crowdworks::Error::LoginFailed => e
+    respond_to do |format|
+      format.html { redirect_to @workload.issue, alert: "Login failed to Crowdworks. Please check your username or password." }
+      format.json { render json: @workload.errors, status: :unprocessable_entity }
     end
   end
 
@@ -66,15 +71,20 @@ class WorkloadsController < ApplicationController
   end
 
   def stop
-    if @workload.update_attribute(:end_at, Time.now.utc)
-      if current_user.authentications.exists?(["provider = ?", "crowdworks"]) && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
-        logging_crowdworks
-      end
-      respond_to do |format|
+    respond_to do |format|
+      if @workload.update_attribute(:end_at, Time.now.utc)
+        if current_user.crowdworks && @workload.issue.project.crowdworks_contracts.exists?(["user_id = ?", current_user.id])
+          logging_crowdworks
+        end
         format.html { redirect_to @workload.issue, notice: 'Work log was successfully stopped.' }
-        format.js
         format.json { render action: 'stop', status: :created, location: @workload }
+        format.js
       end
+    end
+  rescue Crowdworks::Error::PasswordNotFound, Crowdworks::Error::LoginFailed => e
+    respond_to do |format|
+      format.html { redirect_to @workload.issue, alert: "Login failed to Crowdworks. Please check your username or password." }
+      format.json { render json: @workload.errors, status: :unprocessable_entity }
     end
   end
 
@@ -87,17 +97,10 @@ class WorkloadsController < ApplicationController
   def workload_params
     params.require(:workload).permit(:id, :start_at, :end_at, :issue_id, :user_id, :created_at, :updated_at, :password)
   end
-  
-  def logging_crowdworks
-    begin
-      auth = current_user.authentications.where(provider: "crowdworks").first
-      project = @workload.issue.project
-      contract_id = project.crowdworks_contracts.find_by(user: current_user).contract_id
 
-      @crowdworks = Crowdworks.new(auth.username, params[:password])
-      @crowdworks.submit_timesheet(contract_id, @workload)
-    rescue => e
-      logger.debug "#{e.class}: #{e.message}"
-    end
+  def logging_crowdworks
+    @crowdworks = Crowdworks.new
+    @crowdworks.login(current_user.crowdworks.username, params[:password])
+    @crowdworks.submit_timesheet(@workload)
   end
 end

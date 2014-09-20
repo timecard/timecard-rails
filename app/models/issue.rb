@@ -32,7 +32,7 @@ class Issue < ActiveRecord::Base
 
   validates :subject, presence: true
 
-  after_create :track_create_activity
+  after_create :track_create_activity, :create_github_issue
   before_update :track_update_status_activity
 
   def add_github(issue)
@@ -44,7 +44,7 @@ class Issue < ActiveRecord::Base
     issue_github.number = issue.number
     issue_github.html_url = issue.html_url
     issue_github.labels = issue.labels
-    issue_github.save
+    issue_github.save!
   end
 
   def add_ruffnote(number) #index
@@ -82,7 +82,7 @@ class Issue < ActiveRecord::Base
     status == 9 ? true : false
   end
 
-  def labels
+  def github_labels
     return [] if github.blank?
     return [] if github.labels.blank?
     github.labels
@@ -105,6 +105,33 @@ class Issue < ActiveRecord::Base
       else
         self.create_activity(:close, owner: User.current, recipient: self.project)
       end
+    end
+  end
+
+  def state_of_github
+    case status
+    when 1
+      "open"
+    when 9
+      "close"
+    end
+  end
+
+  def create_github_issue
+    if enabled_github
+      owner, repo = project.github.full_name.split("/")
+      client = Github.new(oauth_token: author.github.oauth_token)
+      options = {}
+      options["title"] = subject.presence
+      options["body"] = description.presence
+      options["state"] = state_of_github
+      options["author"] = author.name
+      options["assignee"] = assignee.try(:name)
+      options["labels"] = labels
+      issue = client.issues.create(
+        owner, repo, options
+      )
+      add_github(issue)
     end
   end
 end
