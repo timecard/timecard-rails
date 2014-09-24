@@ -227,7 +227,7 @@ GEM
       sprockets
     launchy (2.4.2)
       addressable (~> 2.3)
-    letter_opener (1.1.2)
+    letter_opener (1.2.0)
       launchy (~> 2.2)
     listen (2.7.9)
       celluloid (>= 0.15.2)
@@ -470,7 +470,7 @@ DEPENDENCIES
   jquery-rails
   kaminari (= 0.14.1)
   konacha
-  letter_opener (= 1.1.2)
+  letter_opener (~> 1.2.0)
   mechanize
   mysql2
   omniauth-github (~> 1.1.1)
