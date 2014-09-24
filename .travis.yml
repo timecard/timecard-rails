@@ -13,8 +13,8 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: QajVvnIARvobeqyL0yFkP/AtxEjJKWKtaYMJ3X+5gtn+R4jw8CDMbOlQeoS92TlNdCPOnxboliKIwUWAir3arN5YJGQcioGT7kDt2T6vgmRTXtDseGoW9rk3g1fHeoGvdV6yOuRd4qX8TJNNUjEHaaJ6jbI5SyHTfnBLuMIrBuw=
-  app: stormy-forest-6291
+    secure: dyrV8h8rfVqEGEMAXW+xU/ToVxvh1ZRDVo8gdm4kOwQs5lmQyR2mdnopt9jNA4fXmBcXRWVA8lZl+dOzqAD16XBZ/1841C7lsEIJ73qvfbX+CKJVed6QTEp3PjhrEWJowNygs+mNE78vTGt7M2GIdvYB43VgYThxciFXHQT/+JY=
+  app: timecard-rails
   on:
-    repo: MiCHiLU/timecard-rails
-    branch: iss-447_ci_deploy
+    repo: timecard/timecard-rails
+    branch: master
