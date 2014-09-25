@@ -1,0 +1,7 @@
+services:
+  github:
+    client_id:
+    client_secret:
+  ruffnote:
+    key:
+    secret:
