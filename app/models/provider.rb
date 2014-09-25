@@ -5,8 +5,8 @@ class Provider < ActiveRecord::Base
 
   def self.github(token)
     Github.new(
-      :client_id => SERVICES['github']['key'],
-      :client_secret => SERVICES['github']['secret'],
+      :client_id => Settings.services.github.client_id,
+      :client_secret => Settings.services.github.client_secret,
       :oauth_token => token
     )
   end
@@ -23,9 +23,9 @@ class Provider < ActiveRecord::Base
 
   def self.ruffnote(token)
     client = OAuth2::Client.new(
-      SERVICES['ruffnote']['key'], 
-      SERVICES['ruffnote']['secret'], 
-      site: SERVICES['ruffnote']['url']
+      Settings.services.ruffnote.key,
+      Settings.services.ruffnote.secret,
+      site: Settings.services.ruffnote.url
     )
     return OAuth2::AccessToken.new(client, token)
   end

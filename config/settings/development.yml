@@ -5,3 +5,4 @@ services:
   ruffnote:
     key:
     secret:
+    url: "http://ruffnote.com/"
