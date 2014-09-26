@@ -22,7 +22,6 @@ RUN mkdir /myapp
 WORKDIR /myapp
 COPY . /myapp
 COPY config/database.yml.sample /myapp/config/database.yml
-COPY config/omniauth.yml.sample /myapp/config/omniauth.yml
 
 ENV RAILS_ENV development
 EXPOSE 3000
