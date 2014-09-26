@@ -60,7 +60,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '~> 4.4.0'
-  gem 'letter_opener', '1.1.2'
+  gem 'letter_opener', '~> 1.2.0'
   gem 'konacha'
   gem 'poltergeist'
   gem 'chai-jquery-rails'
