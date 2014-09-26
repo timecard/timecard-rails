@@ -32,6 +32,9 @@ gem 'chartkick', '~> 1.3.2'
 gem 'time_diff', '~> 0.3.0'
 gem 'pg'
 
+# Configuration
+gem 'rails_config'
+
 group :production do
   gem 'rails_12factor'
 end

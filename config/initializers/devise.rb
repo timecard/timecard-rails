@@ -1,13 +1,5 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-
-omniauth_setting_file = "#{::Rails.root}/config/omniauth.yml"
-if File.exists?(omniauth_setting_file)
-  SERVICES = YAML.load(File.open(omniauth_setting_file).read)[Rails.env]
-else
-  raise "Please set up omniauth setting file."
-end
-
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -239,8 +231,8 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :github, SERVICES['github']['key'], SERVICES['github']['secret'], :scope => 'user,repo,gist'
-  config.omniauth :ruffnote, SERVICES['ruffnote']['key'], SERVICES['ruffnote']['secret']
+  config.omniauth :github, Settings.services.github.client_id, Settings.services.github.client_secret, :scope => 'user,repo,gist'
+  config.omniauth :ruffnote, Settings.services.ruffnote.key, Settings.services.ruffnote.secret
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

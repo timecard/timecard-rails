@@ -20,9 +20,21 @@ Setup
     $ cp config/database.yml.sample config/database.yml
     $ rake db:setup
     $ rake assets:precompile RAILS_ENV=production
-    $ vi config/omniauth.yml # setup Client ID and Client Secret of GitHub and Ruffnote
-      (callback URL is project root ex: http:/yoursite.example.com/)  
+    $ vi config/settings/production.yml # setup Client ID and Client Secret of GitHub and Ruffnote
+      (callback URL is project root ex: http:/yoursite.example.com/)
       https://github.com/settings/applications, https://ruffnote.com/oauth/applications
+      https://github.com/railsconfig/rails_config
+
+Setup with Heroku
+------
+    $ git clone git@github.com:timecard/timecard-rails.git
+    $ cd timecard-rails/
+    $ heroku create (APP_NAME)
+    $ heroku addons:add heroku-postgresql
+    $ heroku config:set HEROKU=true "Settings.services.github.client_id"=CLIENT_ID "Settings.services.github.client_secret"=CLIENT_SECRET "Settings.services.ruffnote.key"=KEY "Settings.services.ruffnote.secret"=SECRET
+    $ git push heroku master
+    $ heroku run rake db:migrate
+    $ heroku open
 
 Dependencies
 ------------

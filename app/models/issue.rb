@@ -55,7 +55,7 @@ class Issue < ActiveRecord::Base
     )
     issue_ruffnote.number = number
     full_name = self.project.ruffnote.full_name
-    issue_ruffnote.html_url = "#{SERVICES['ruffnote']['url']}/#{full_name}/issues/#{number}"
+    issue_ruffnote.html_url = "#{Settings.services.ruffnote.url}/#{full_name}/issues/#{number}"
     issue_ruffnote.save
   end
 
