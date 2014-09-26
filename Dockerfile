@@ -16,7 +16,7 @@ COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 RUN \
   bundle config without test development doc &&\
-  bundle install --jobs `grep processor /proc/cpuinfo|wc -l`
+  bundle install --jobs 4 --retry 10
 
 RUN mkdir /myapp
 WORKDIR /myapp
