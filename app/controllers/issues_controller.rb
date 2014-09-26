@@ -79,35 +79,6 @@ class IssuesController < ApplicationController
   def update
     respond_to do |format|
       if @issue.update(issue_params)
-        if issue_params[:enabled_github]
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @issue.project.github.full_name
-          )
-          issue = mediator.create_issue(issue_params)
-          if issue
-            @issue.add_github(issue)
-          else
-            flash[:alert] = 'Create a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
-            format.html { render action: 'new' }
-            return false
-          end
-        end
-        if @issue.project.github && @issue.github
-          mediator = GithubMediator.new(
-            current_user.github.oauth_token,
-            @issue.project.github.full_name
-          )
-          issue = mediator.edit_issue(issue_params, @issue.github.number)
-          if issue
-            @issue.add_github(issue)
-          else
-            flash[:alert] = 'Update a new issue to Github failed.' + @issue.errors.full_messages.join("\n")
-            format.html { render action: 'edit' }
-            return false
-          end
-        end
-
         if @issue.project.ruffnote && current_user.ruffnote
           issue = @issue.ruffnote.modify(
             current_user.ruffnote.oauth_token, issue_params
@@ -125,19 +96,19 @@ class IssuesController < ApplicationController
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @issue.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @issue.errors.add(:base, e.message)
+    end
+    render "edit"
   end
 
   def close
     current_user.stop_time_track
 
     if @issue.close
-      if @issue.github
-        mediator = GithubMediator.new(
-          current_user.github.oauth_token,
-          @issue.project.github.full_name
-        )
-        issue = mediator.edit_issue({status: 9}, @issue.github.number)
-      end
       if @issue.ruffnote
         @issue.ruffnote.close(current_user.ruffnote.oauth_token)
       end
@@ -146,17 +117,17 @@ class IssuesController < ApplicationController
         format.json { render action: "issue" }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @issue.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @issue.errors.add(:base, e.message)
+    end
+    redirect_to @issue
   end
 
   def reopen
     if @issue.reopen
-      if @issue.github
-        mediator = GithubMediator.new(
-          current_user.github.oauth_token,
-          @issue.project.github.full_name
-        )
-        issue = mediator.edit_issue({status: 1}, @issue.github.number)
-      end
       if @issue.ruffnote
         @issue.ruffnote.reopen(current_user.ruffnote.oauth_token)
       end
@@ -165,6 +136,13 @@ class IssuesController < ApplicationController
         format.json { render action: "issue" }
       end
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      @issue.errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      @issue.errors.add(:base, e.message)
+    end
+    redirect_to @issue
   end
 
   def postpone

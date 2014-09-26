@@ -142,11 +142,12 @@ describe Issue do
   end
 
   describe "#closed?" do
-    context FactoryGirl.create(:issue, status: 9) do
+    context "with closed issue" do
+      subject { FactoryGirl.create(:issue, status: 9) }
       it { is_expected.to be_closed }
     end
-
-    context FactoryGirl.create(:issue, status: 1) do
+    context "with opend issue" do
+      subject { FactoryGirl.create(:issue, status: 1) }
       it { is_expected.not_to be_closed }
     end
   end
