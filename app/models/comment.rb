@@ -6,7 +6,9 @@ class Comment < ActiveRecord::Base
 
   validates :body, presence: true
 
-  after_create :track_public_activity
+  after_create :track_public_activity, :create_github_comment
+  after_update :update_github_comment
+  before_destroy :destroy_github_comment
 
   def github
     CommentGithub.find_by(
@@ -23,7 +25,7 @@ class Comment < ActiveRecord::Base
       foreign_id: self.id
     )
     comment_github.comment_id = comment_id
-    comment_github.save
+    comment_github.save!
   end
 
   def ruffnote
@@ -48,5 +50,39 @@ class Comment < ActiveRecord::Base
 
   def track_public_activity
     self.create_activity(:create, owner: self.user, recipient: self.issue.project)
+  end
+
+  def create_github_comment
+    if issue.github && user.github
+      owner, repo = issue.project.github.full_name.split("/")
+      client = Github.new(oauth_token: user.github.oauth_token)
+      comment = client.issues.comments.create(
+        owner, repo, issue.github.number, body: body
+      )
+      add_github(comment.id)
+    end
+  end
+
+  def update_github_comment
+    if github && user.github
+      owner, repo = issue.project.github.full_name.split("/")
+      client = Github.new(oauth_token: user.github.oauth_token)
+      options = {}
+      options["body"] = body
+      comment = client.issues.comments.edit(
+        owner, repo, github.comment_id, options
+      )
+      add_github(comment.id)
+    end
+  end
+
+  def destroy_github_comment
+    if github && user.github
+      owner, repo = issue.project.github.full_name.split("/")
+      client = Github.new(oauth_token: user.github.oauth_token)
+      client.issues.comments.delete(
+        owner, repo, github.comment_id
+      )
+    end
   end
 end

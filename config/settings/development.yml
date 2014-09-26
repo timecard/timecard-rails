@@ -1,0 +1,8 @@
+services:
+  github:
+    client_id:
+    client_secret:
+  ruffnote:
+    key:
+    secret:
+    url: "http://ruffnote.com/"
