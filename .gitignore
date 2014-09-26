@@ -13,6 +13,9 @@ config/database.yml
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-config/omniauth.yml
 *.swp
 /coverage
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

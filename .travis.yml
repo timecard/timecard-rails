@@ -8,7 +8,14 @@ env: POSTGRES_1_PORT_5432_TCP_ADDR=localhost POSTGRES_1_PORT_5432_TCP_PORT=5432
 before_script:
   - psql -c 'create database timecard_test;' -U postgres
   - cp config/database.yml.sample config/database.yml
-  - cp config/omniauth.yml.sample config/omniauth.yml
 script:
   - bundle exec rake db:setup
   - bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: dyrV8h8rfVqEGEMAXW+xU/ToVxvh1ZRDVo8gdm4kOwQs5lmQyR2mdnopt9jNA4fXmBcXRWVA8lZl+dOzqAD16XBZ/1841C7lsEIJ73qvfbX+CKJVed6QTEp3PjhrEWJowNygs+mNE78vTGt7M2GIdvYB43VgYThxciFXHQT/+JY=
+  app: timecard-rails
+  on:
+    repo: timecard/timecard-rails
+    branch: master

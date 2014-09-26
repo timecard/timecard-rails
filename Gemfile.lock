@@ -227,7 +227,7 @@ GEM
       sprockets
     launchy (2.4.2)
       addressable (~> 2.3)
-    letter_opener (1.1.2)
+    letter_opener (1.2.0)
       launchy (~> 2.2)
     listen (2.7.9)
       celluloid (>= 0.15.2)
@@ -314,6 +314,13 @@ GEM
       sprockets-rails (~> 2.0.0)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
+    rails_12factor (0.0.2)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_config (0.4.2)
+      activesupport (>= 3.0)
+    rails_serve_static_assets (0.0.2)
+    rails_stdout_logging (0.0.3)
     railties (4.0.5)
       actionpack (= 4.0.5)
       activesupport (= 4.0.5)
@@ -464,7 +471,7 @@ DEPENDENCIES
   jquery-rails
   kaminari (= 0.14.1)
   konacha
-  letter_opener (= 1.1.2)
+  letter_opener (~> 1.2.0)
   mechanize
   omniauth-github (~> 1.1.1)
   omniauth-ruffnote!
@@ -474,6 +481,8 @@ DEPENDENCIES
   quiet_assets (= 1.0.2)
   rack-mini-profiler (~> 0.9.2)
   rails (= 4.0.5)
+  rails_12factor
+  rails_config
   redcarpet (= 3.0.0)
   rspec-rails (~> 3.0.0)
   ruffnote_api!

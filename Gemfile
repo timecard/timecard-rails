@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.1.2'
+
 gem 'rails', '4.0.5'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
@@ -29,6 +31,13 @@ gem 'chartkick', '~> 1.3.2'
 gem 'time_diff', '~> 0.3.0'
 gem 'pg'
 
+# Configuration
+gem 'rails_config'
+
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'guard-livereload'
   gem 'guard-rspec'
@@ -50,7 +59,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '~> 4.4.0'
-  gem 'letter_opener', '1.1.2'
+  gem 'letter_opener', '~> 1.2.0'
   gem 'konacha'
   gem 'poltergeist'
   gem 'chai-jquery-rails'
