@@ -9,7 +9,7 @@
     = link_to @project.name, @project
     %small
       TOTAL TIME
-      = @project.time_entries.total_duration
+      = @project.time_entries.formatted_total_duration
   %p
     = @project.issues.open.count
     open issues
@@ -39,7 +39,7 @@
       = @today
       %small
         TOTAL TIME
-        = @project.time_entries.daily(@today).complete.total_duration
+        = @project.time_entries.daily(@today).complete.formatted_total_duration
     %table.table.table-bordered
       %thead
         %tr
@@ -52,7 +52,7 @@
             = image_tag gravatar_url(user.email), class: "img-circle"
             = link_to user.name, user
           %td
-            = user.workloads.where(issue_id: @project.issues.ids).daily(@today).complete.total_duration
+            = user.workloads.where(issue_id: @project.issues.ids).daily(@today).complete.formatted_total_duration
           %td.time-entries
             %ul.time-entries-list
               - user.workloads.where(issue_id: @project.issues.ids).daily(@today).complete.each do |workload|

@@ -97,7 +97,7 @@
         %h2
           = fa_icon "clock-o"
           Time Entries
-          %small= @issue.workloads.total_duration
+          %small= @issue.workloads.formatted_total_duration
       .time-entries__overview
         .row
           .col-lg-12
@@ -111,7 +111,7 @@
                 .time-entries__user__name
                   = user.name
                 .time-entries__user__total-duration.text-muted
-                  = @issue.workloads.where(user: user).total_duration
+                  = @issue.workloads.where(user: user).formatted_total_duration
 
       %ul.media-list.workload-list
         - @issue.workloads.complete.order("updated_at DESC").each do |workload|
