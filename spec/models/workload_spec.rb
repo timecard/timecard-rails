@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe Workload do
   before do
-    Timecop.freeze(Time.local(2014, 01, 01, 0, 0))
+    Time.zone = 'UTC'
+    Timecop.freeze(Time.zone.local(2014, 01, 01, 0, 0))
   end
 
   after do
