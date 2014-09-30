@@ -1,0 +1,9 @@
+.bundle
+.coveralls.yml
+.git
+.gitignore
+.travis.yml
+coverage
+fig.yml
+log
+tmp
