@@ -36,6 +36,27 @@ Setup with Heroku
     $ heroku run rake db:migrate
     $ heroku open
 
+Docker
+------
+
+* Installing Fig: http://www.fig.sh/install.html
+
+    $ sudo pip install -U fig
+
+* deploy
+
+    $ fig up -d web
+    $ fig run --rm web bundle exec rake db:setup
+
+* test
+
+    $ fig up --no-recreate test
+
+* shutdown
+
+    $ fig kill
+    $ fig rm
+
 Dependencies
 ------------
 

@@ -1,0 +1,13 @@
+web:
+  image: michilu/timecard-rails:latest
+  command: bundle exec rackup -p 3000
+  links:
+   - postgres
+  ports:
+   - "3000:3000"
+test:
+  image: michilu/timecard-rails:latest
+  links:
+   - postgres
+postgres:
+  image: postgres

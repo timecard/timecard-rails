@@ -4,6 +4,7 @@ before_install:
 bundler_args: --without development
 cache: bundler
 rvm: 2.1.2
+env: POSTGRES_1_PORT_5432_TCP_ADDR=localhost POSTGRES_1_PORT_5432_TCP_PORT=5432
 before_script:
   - psql -c 'create database timecard_test;' -U postgres
   - cp config/database.yml.sample config/database.yml
