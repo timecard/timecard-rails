@@ -65,6 +65,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'chai-jquery-rails'
   gem 'sinon-rails'
+  gem 'mysql2'
 end
 
 group :doc do
