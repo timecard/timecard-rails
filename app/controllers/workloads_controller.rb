@@ -1,11 +1,9 @@
 class WorkloadsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_workload, only: [:edit, :update, :destroy]
+  load_and_authorize_resource :workload, except: [:index, :create]
 
   rescue_from Crowdworks::Error::PasswordNotFound, with: :crowdworks_errors
   rescue_from Crowdworks::Error::LoginFailed, with: :crowdworks_errors
-
-  authorize_resource
 
   def index
     if params[:user_id].present?
@@ -64,10 +62,6 @@ class WorkloadsController < ApplicationController
   end
 
   private
-
-  def set_workload
-    @workload = Workload.find(params[:id])
-  end
 
   def workload_params
     params.require(:workload).permit(:id, :start_at, :end_at, :issue_id, :user_id, :created_at, :updated_at, :password)
