@@ -16,11 +16,9 @@ class Timecard.Views.TimeEntriesCrowdworksModal extends Backbone.View
     attributes = {end_at: new Date(), password: password}
     if remember_me
       sessionStorage.setItem('crowdworks_password', password)
-    $.blockUI()
     current_entry = @collection.findWhere(end_at: null)
     current_entry.save attributes,
       patch: true
       wait: true
       success: (time_entry) =>
         Timecard.timer.stop()
-        $.unblockUI()

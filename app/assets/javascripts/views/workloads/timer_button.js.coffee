@@ -47,7 +47,6 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
       @update(attrs)
 
   update: (attrs) ->
-    $.blockUI()
     @collection.current_user = true
     @collection.fetch
       success: (collection) =>
@@ -60,4 +59,3 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
             @issue.set('is_running', false)
             $('.timer').removeClass('timer--on')
             $('.timer').addClass('timer--off')
-            $.unblockUI()
