@@ -10,6 +10,7 @@ class Timecard.Views.TimeEntriesCrowdworksModal extends Backbone.View
 
   addCrowdworksPassword: (e) ->
     e.preventDefault()
+    $('.time-entries__start-button a').text('Sending ...').attr('disabled', 'disabled')
     @$el.modal('hide')
     password = @$('.crowdworks-form__password').val()
     remember_me = @$('.crowdworks-form__remember-me').prop('checked')
@@ -22,3 +23,4 @@ class Timecard.Views.TimeEntriesCrowdworksModal extends Backbone.View
       wait: true
       success: (time_entry) =>
         Timecard.timer.stop()
+      error: (time_entry, response, options) =>

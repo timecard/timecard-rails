@@ -74,6 +74,6 @@ class WorkloadsController < ApplicationController
   end
 
   def crowdworks_errors
-    render json: @workload.errors, status: :unprocessable_entity
+    render json: { workload: @workload.to_json, errors: @workload.errors }, status: :unprocessable_entity
   end
 end
