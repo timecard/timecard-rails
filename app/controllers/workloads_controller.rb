@@ -1,6 +1,10 @@
 class WorkloadsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_workload, only: [:edit, :update, :destroy, :stop]
+
+  rescue_from Crowdworks::Error::PasswordNotFound, with: :crowdworks_errors
+  rescue_from Crowdworks::Error::LoginFailed, with: :crowdworks_errors
+
   authorize_resource
 
   def index
@@ -55,11 +59,6 @@ class WorkloadsController < ApplicationController
         format.json { render json: @workload.errors, status: :unprocessable_entity }
       end
     end
-  rescue Crowdworks::Error::PasswordNotFound, Crowdworks::Error::LoginFailed => e
-    respond_to do |format|
-      format.html { redirect_to @workload.issue, alert: "Login failed to Crowdworks. Please check your username or password." }
-      format.json { render json: @workload.errors, status: :unprocessable_entity }
-    end
   end
 
   def destroy
@@ -81,11 +80,6 @@ class WorkloadsController < ApplicationController
         format.js
       end
     end
-  rescue Crowdworks::Error::PasswordNotFound, Crowdworks::Error::LoginFailed => e
-    respond_to do |format|
-      format.html { redirect_to @workload.issue, alert: "Login failed to Crowdworks. Please check your username or password." }
-      format.json { render json: @workload.errors, status: :unprocessable_entity }
-    end
   end
 
   private
@@ -102,5 +96,9 @@ class WorkloadsController < ApplicationController
     @crowdworks = Crowdworks.new
     @crowdworks.login(current_user.crowdworks.username, params[:password])
     @crowdworks.submit_timesheet(@workload)
+  end
+
+  def crowdworks_errors
+    render json: @workload.errors, status: :unprocessable_entity
   end
 end
