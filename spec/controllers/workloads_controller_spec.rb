@@ -51,14 +51,14 @@ describe WorkloadsController do
   describe "POST 'create'" do
     it "creates new workload" do
       expect {
-        post "create", issue_id: @issue, workload: attributes_for(:workload)
+        post "create", format: :json, issue_id: @issue, workload: attributes_for(:workload)
       }.to change(Workload, :count).by(1)
     end
 
     describe "if other issue already running" do
       it "stop previous issue and start new issue" do
         workload = create(:workload, user: @user, issue: @previous_issue, end_at: nil)
-        post 'create', issue_id: @issue, workload: attributes_for(:workload)
+        post 'create', format: :json, issue_id: @issue, workload: attributes_for(:workload)
         workload.reload
         expect(workload.end_at).not_to be_nil
       end
@@ -95,15 +95,6 @@ describe WorkloadsController do
       workload = create(:workload, issue: @issue, user: @user)
       delete 'destroy', id: workload.to_param
       expect(response).to redirect_to workload.issue
-    end
-  end
-
-  describe "PATCH 'stop'" do
-    it "inserts time to end_at" do
-      post 'create', issue_id: @issue, workload: attributes_for(:workload)
-      expect(Workload.last.end_at).to be_nil
-      patch 'stop', id: Workload.last
-      expect(Workload.last.end_at).not_to be_nil
     end
   end
 end
