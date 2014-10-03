@@ -5,8 +5,8 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
   el: '.timer-button__container'
 
   events:
-    'click .timer-button--start': 'startTimer'
-    'click .timer-button--stop': 'stopTimer'
+    'click .timer-button--start': 'start'
+    'click .timer-button--stop': 'stop'
 
   initialize: (@options) ->
     @issue = @options.issue
@@ -15,7 +15,7 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
     @$el.html(@template(issue: @issue))
     @
 
-  startTimer: (e) ->
+  start: (e) ->
     e.preventDefault()
     model = @collection.findWhere(end_at: null)
     if model?
@@ -33,20 +33,20 @@ class Timecard.Views.WorkloadsTimerButton extends Backbone.View
         $('.timer').removeClass('timer--off')
         $('.timer').addClass('timer--on')
 
-  stopTimer: (e) ->
+  stop: (e) ->
     e.preventDefault()
     if @issue.get('is_crowdworks') is true
       password = sessionStorage.getItem('crowdworks_password')
       if password?
         attrs = {end_at: new Date(), password: password}
-        @updateWorkload(attrs)
+        @update(attrs)
       else
         $('.crowdworks-form__modal').modal('show')
     else
       attrs = {end_at: new Date()}
-      @updateWorkload(attrs)
+      @update(attrs)
 
-  updateWorkload: (attrs) ->
+  update: (attrs) ->
     $.blockUI()
     @collection.current_user = true
     @collection.fetch
