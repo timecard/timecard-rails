@@ -54,7 +54,7 @@ group :test do
   gem 'database_rewinder'
   gem 'coveralls', '~> 0.7.1', require: false
   gem 'webmock'
-  gem 'timecop', '0.7.1'
+  gem 'timecop', '~> 0.7.1'
 end
 
 group :development, :test do

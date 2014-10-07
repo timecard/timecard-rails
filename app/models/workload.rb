@@ -5,11 +5,11 @@ class Workload < ActiveRecord::Base
 
   scope :complete, -> { where("end_at is not ?", nil) }
   scope :uncomplete, -> { where("end_at IS NULL") }
-  scope :daily, ->(date = Time.zone.today) do
-    where("start_at >= ? AND start_at < ?", date.beginning_of_day, date.end_of_day) 
+  scope :daily, ->(now = Time.zone.now) do
+    where("start_at >= ? AND start_at < ?", now.beginning_of_day, now.end_of_day) 
   end
-  scope :weekly, ->(date = Time.zone.today) do
-    where("start_at >= ? AND start_at < ?", date.beginning_of_week, date.end_of_week)
+  scope :weekly, ->(now = Time.zone.now) do
+    where("start_at >= ? AND start_at <= ?", now.beginning_of_week, now.end_of_week)
   end
 
   belongs_to :issue
@@ -29,7 +29,11 @@ class Workload < ActiveRecord::Base
   end
 
   def self.total_duration
-    duration = complete.inject(0) {|sum, w| sum += w.duration }
+    complete.inject(0) {|sum, w| sum += w.duration }
+  end
+
+  def self.formatted_total_duration
+    duration = self.total_duration
     hour = (duration / (60 * 60)).floor
     duration = duration - (hour * 60 * 60)
     min = (duration / 60).floor
