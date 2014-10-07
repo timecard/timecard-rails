@@ -8,7 +8,7 @@
   %h2
     Weekly Reports
     %small
-      = current_user.workloads.weekly.total_duration
+      = current_user.workloads.weekly.formatted_total_duration
   %ul.nav.nav-tabs
     - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
       %li{ class: "#{date == Date.today ? 'active' : '' }" }
@@ -31,4 +31,4 @@
         %td Total
         %td
         %td
-        %td= @workloads.total_duration
+        %td= @workloads.formatted_total_duration

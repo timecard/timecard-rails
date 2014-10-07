@@ -1,0 +1,16 @@
+{
+  "name": "Timecard",
+  "description": "Time tracking for your project.",
+  "keywords": [
+    "productivity",
+    "rails",
+    "ruby"
+  ],
+  "repository": "https://github.com/kmiyake/timecard-rails",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate"
+  },
+  "addons": [
+    "heroku-postgresql"
+  ]
+}

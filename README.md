@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/timecard/timecard-rails/badges/gpa.svg)](https://codeclimate.com/github/timecard/timecard-rails)
 [![Build Status](https://travis-ci.org/timecard/timecard-rails.svg?branch=master)](https://travis-ci.org/timecard/timecard-rails)
 [![Coverage Status](https://coveralls.io/repos/timecard/timecard-rails/badge.png)](https://coveralls.io/r/timecard/timecard-rails)
+
 Timecard
 ========
 Timecardとはクリエイターが好きな時に好きなだけ働ける環境をサポートする仕組みです。
@@ -26,7 +27,16 @@ Setup
       https://github.com/railsconfig/rails_config
 
 Setup with Heroku
-------
+-----------------
+
+### Use heroku button
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+or
+
+### Command Line
+
     $ git clone git@github.com:timecard/timecard-rails.git
     $ cd timecard-rails/
     $ heroku create (APP_NAME)
