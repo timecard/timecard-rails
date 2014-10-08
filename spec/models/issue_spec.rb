@@ -56,6 +56,16 @@ describe Issue do
         expect(@issue.github.html_url).to eq(github_issue.html_url)
       end
     end
+
+    describe "#edit_github" do
+      it "updates a IssueGithub" do
+        issue = create(:issue)
+        issue_github = create(:issue_github, foreign_id: issue.id, number: 1, html_url: "http://github.com")
+        issue.edit_github(github_issue)
+        expect(issue.github.number).to eq(github_issue.number)
+        expect(issue.github.html_url).to eq(github_issue.html_url)
+      end
+    end
   end
 
   describe "#ruffnote" do
