@@ -79,6 +79,39 @@ describe Issue do
     end
   end
 
+  describe "#provider" do
+    it "returns a IssueGithub" do
+      issue = create(:issue)
+      issue_github = create(:issue_github, foreign_id: issue.id)
+      expect(issue.provider.class).to be(IssueGithub)
+    end
+
+    it "returns a RuffnoteIssue" do
+      issue = create(:issue)
+      issue_github = create(:issue_ruffnote, foreign_id: issue.id)
+      expect(issue.provider.class).to be(IssueRuffnote)
+    end
+
+    it "returns a nil" do
+      issue = create(:issue)
+      expect(issue.provider).to be_nil
+    end
+  end
+
+  describe "#toggle_status" do
+    it "closes a issue" do
+      issue = create(:issue, status: 1)
+      issue.toggle_status
+      expect(issue.status).to eq(9)
+    end
+
+    it "reopens a issue" do
+      issue = create(:issue, status: 9)
+      issue.toggle_status
+      expect(issue.status).to eq(1)
+    end
+  end
+
   describe "#with_status" do
     before do
       @open_issue = create(:issue, status: 1, will_start_at: nil)
