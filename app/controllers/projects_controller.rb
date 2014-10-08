@@ -4,11 +4,11 @@ class ProjectsController < ApplicationController
   def index
     status = params[:status] || 1
     if user_signed_in?
-      public_projects = Project.public.status(status).where_values.reduce(:and)
+      public_projects = Project.published.status(status).where_values.reduce(:and)
       my_projects = Project.status(status).visible(current_user).where_values.reduce(:and)
       @projects = Project.where(public_projects.or(my_projects))
     else
-      @projects = Project.public.status(status)
+      @projects = Project.published.status(status)
     end
 
     render action: "index", status: :ok
