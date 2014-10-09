@@ -12,7 +12,7 @@
   %ul.nav.nav-tabs
     - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
       %li{ class: "#{date == Date.today ? 'active' : '' }" }
-        = link_to date, "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
+        = link_to l(date, format: :long), "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
   %table.table
     %thead
       %th Project

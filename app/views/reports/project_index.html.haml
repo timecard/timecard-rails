@@ -29,7 +29,7 @@
       = fa_icon "caret-left"
   - @week.each do |date|
     %li{ class: "#{@today == date ? 'active' : ''}" }
-      = link_to date, project_reports_path(@project, date: date), role: "tab"
+      = link_to l(date, format: :long), project_reports_path(@project, date: date), role: "tab"
   %li
     = link_to project_reports_path(@project, date: 1.week.since(@today).beginning_of_week), title: "Next week" do
       = fa_icon "caret-right"
