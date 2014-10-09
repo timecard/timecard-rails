@@ -13,22 +13,23 @@
     - (Time.zone.today.beginning_of_week..Time.zone.today.end_of_week).each do |date|
       %li{ class: "#{date == Date.today ? 'active' : '' }" }
         = link_to l(date, format: :long), "#", class: "js-workloads-on-day-link", data: { year: date.year, month: date.month, day: date.day }
-  %table.table
-    %thead
-      %th Project
-      %th Issue
-      %th Work Hours
-      %th Time
+  .time-sheet
+    %table.table
+      %thead
+        %th Project
+        %th Issue
+        %th Work Hours
+        %th Time
 
-    %tbody#workloads-table
-      - @workloads.each do |workload|
+      %tbody#workloads-table
+        - @workloads.each do |workload|
+          %tr
+            %td= link_to workload.issue.project.name, workload.issue.project
+            %td= link_to workload.issue.subject, workload.issue
+            %td #{workload.formatted_distance_of_time}
+            %td= workload.formatted_duration
         %tr
-          %td= link_to workload.issue.project.name, workload.issue.project
-          %td= link_to workload.issue.subject, workload.issue
-          %td #{workload.formatted_distance_of_time}
-          %td= workload.formatted_duration
-      %tr
-        %td Total
-        %td
-        %td
-        %td= @workloads.formatted_total_duration
+          %td Total
+          %td
+          %td
+          %td= @workloads.formatted_total_duration
