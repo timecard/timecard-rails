@@ -56,6 +56,16 @@ describe Issue do
         expect(@issue.github.html_url).to eq(github_issue.html_url)
       end
     end
+
+    describe "#edit_github" do
+      it "updates a IssueGithub" do
+        issue = create(:issue)
+        issue_github = create(:issue_github, foreign_id: issue.id, number: 1, html_url: "http://github.com")
+        issue.edit_github(github_issue)
+        expect(issue.github.number).to eq(github_issue.number)
+        expect(issue.github.html_url).to eq(github_issue.html_url)
+      end
+    end
   end
 
   describe "#ruffnote" do
@@ -76,6 +86,39 @@ describe Issue do
         issue = create(:issue, project: project)
         expect(issue.add_ruffnote(1)).to be_truthy
       end
+    end
+  end
+
+  describe "#provider" do
+    it "returns a IssueGithub" do
+      issue = create(:issue)
+      issue_github = create(:issue_github, foreign_id: issue.id)
+      expect(issue.provider.class).to be(IssueGithub)
+    end
+
+    it "returns a RuffnoteIssue" do
+      issue = create(:issue)
+      issue_github = create(:issue_ruffnote, foreign_id: issue.id)
+      expect(issue.provider.class).to be(IssueRuffnote)
+    end
+
+    it "returns a nil" do
+      issue = create(:issue)
+      expect(issue.provider).to be_nil
+    end
+  end
+
+  describe "#toggle_status" do
+    it "closes a issue" do
+      issue = create(:issue, status: 1)
+      issue.toggle_status
+      expect(issue.status).to eq(9)
+    end
+
+    it "reopens a issue" do
+      issue = create(:issue, status: 9)
+      issue.toggle_status
+      expect(issue.status).to eq(1)
     end
   end
 

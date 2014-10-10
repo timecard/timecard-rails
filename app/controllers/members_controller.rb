@@ -1,8 +1,7 @@
 class MembersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:index, :create]
+  load_and_authorize_resource :project, only: [:index, :create, :destroy]
   before_action :set_member, only: [:destroy]
-  before_action :require_admin
 
   def index
     if params[:github].blank?
@@ -38,16 +37,7 @@ class MembersController < ApplicationController
 
   private
 
-  def set_project
-    @project = Project.find(params[:project_id])
-  end
-
   def set_member
     @member = Member.find(params[:id])
-  end
-
-  def require_admin
-    project = @project ? @project : @member.project
-    return redirect_to root_path, alert: "You are not project admin." unless project.admin?(current_user)
   end
 end

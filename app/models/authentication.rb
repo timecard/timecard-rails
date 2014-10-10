@@ -1,7 +1,7 @@
 class Authentication < ActiveRecord::Base
   belongs_to :user
-  
-  validates :username, :presence => true
+
+  validates :username, presence: true
 
   def self.selectable_providers(user)
     res = {}

@@ -67,13 +67,6 @@ class IssuesController < ApplicationController
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
-  rescue Github::Error::GithubError => e
-    if e.is_a? Github::Error::ServiceError
-      @issue.errors.add(:base, e.body)
-    elsif e.is_a? Github::Error::ClientError
-      @issue.errors.add(:base, e.message)
-    end
-    render "new"
   end
 
   def update
@@ -96,13 +89,6 @@ class IssuesController < ApplicationController
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
-  rescue Github::Error::GithubError => e
-    if e.is_a? Github::Error::ServiceError
-      @issue.errors.add(:base, e.body)
-    elsif e.is_a? Github::Error::ClientError
-      @issue.errors.add(:base, e.message)
-    end
-    render "edit"
   end
 
   def close

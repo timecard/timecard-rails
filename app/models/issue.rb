@@ -32,20 +32,24 @@ class Issue < ActiveRecord::Base
 
   validates :subject, presence: true
 
-  after_create :track_create_activity, :create_github_issue
-  after_update :update_github_issue
-  before_update :track_update_status_activity
+  before_create :create_github_issue
+  after_create :track_create_activity
+  before_update :track_update_status_activity, :update_github_issue
 
   def add_github(issue)
-    issue_github = IssueGithub.find_or_create_by(
-      name: "github",
-      provided_type: "Issue",
-      foreign_id: self.id
-    )
+    issue_github = build_github
     issue_github.number = issue.number
     issue_github.html_url = issue.html_url
     issue_github.labels = issue.labels
-    issue_github.save!
+    issue_github.save
+  end
+
+  def edit_github(issue)
+    issue_github = github
+    issue_github.number = issue.number
+    issue_github.html_url = issue.html_url
+    issue_github.labels = issue.labels
+    issue_github.save
   end
 
   def add_ruffnote(number) #index
@@ -131,6 +135,13 @@ class Issue < ActiveRecord::Base
       )
       add_github(issue)
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      errors.add(:base, e.message)
+    end
+    false
   end
 
   def update_github_issue
@@ -140,11 +151,18 @@ class Issue < ActiveRecord::Base
       issue = client.issues.edit(
         owner, repo, github.number, github_options
       )
-      add_github(issue)
+      edit_github(issue)
     end
     if enabled_github
       create_github_issue
     end
+  rescue Github::Error::GithubError => e
+    if e.is_a? Github::Error::ServiceError
+      errors.add(:base, e.body)
+    elsif e.is_a? Github::Error::ClientError
+      errors.add(:base, e.message)
+    end
+    false
   end
 
   def github_options
