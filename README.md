@@ -49,20 +49,20 @@ or
 Docker
 ------
 
-* Installing Fig: http://www.fig.sh/install.html
+### 1. Installing Fig: http://www.fig.sh/install.html
 
     $ sudo pip install -U fig
 
-* deploy
+### 2. deploy
 
     $ fig up -d web
     $ fig run --rm web bundle exec rake db:setup
 
-* test
+### 3. test
 
     $ fig up --no-recreate test
 
-* shutdown
+### 4. shutdown
 
     $ fig kill
     $ fig rm
