@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:index, :create]
+  before_action :set_project, only: [:index, :search, :create]
   before_action :set_member, only: [:destroy]
   before_action :require_admin
 
@@ -17,13 +17,19 @@ class MembersController < ApplicationController
     end
   end
 
+  def search
+    @users = User.where("email LIKE '%#{params[:q]}%' OR name LIKE '%#{params[:q]}%'")
+    exists_user_ids = Member.where(project_id: @project.id).pluck(:user_id)
+    @users.delete_if {|u| exists_user_ids.include?(u.id) }
+
+    render json: @users.to_json
+  end
+
   def create
     @member = @project.members.build(user_id: params[:user_id])
-    respond_to do |format|
-      if @member.save
-        format.html { redirect_to project_members_path(@project), notice: 'Member was successfully added.' }
-        format.json { render action: 'show', status: :created, location: @member }
-      end
+
+    if @member.save
+      render "create"
     end
   end
 

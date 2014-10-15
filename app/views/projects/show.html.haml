@@ -13,7 +13,7 @@
                   %li
                     = link_to "Edit", edit_project_path(@project)
                   %li
-                    = link_to "Add member", project_members_path(@project)
+                    = link_to "Manage Members", project_members_path(@project)
                   %li
                     = link_to "Close", close_project_path(@project), method: :patch
                   - if @project.github
