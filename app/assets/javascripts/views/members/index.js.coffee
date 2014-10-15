@@ -4,6 +4,7 @@ class Timecard.Views.MembersIndex extends Backbone.View
 
   events:
     'keydown .search__field': 'search'
+    'change .member__admin-checkbox': 'updateAuthorization'
 
   timerId: null
 
@@ -31,3 +32,19 @@ class Timecard.Views.MembersIndex extends Backbone.View
           @viewUsersList = new Timecard.Views.UsersList(collection: users)
         error: ->
     , 1000
+
+  updateAuthorization: (e) ->
+    e.preventDefault()
+    memberId = $(e.target).data('id')
+    if ($(e.target).is(':checked'))
+      role = 1
+    else
+      role = 2
+    $.ajax
+      type: 'PUT'
+      url: '/members/'+memberId
+      data:
+        member:
+          role: role
+      success: (data) ->
+      error: ->

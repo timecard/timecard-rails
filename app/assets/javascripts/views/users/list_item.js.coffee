@@ -17,6 +17,7 @@ class Timecard.Views.UsersListItem extends Backbone.View
     @
 
   addMember: (e) ->
+    e.preventDefault()
     $.ajax
       type: 'POST'
       url: '/projects/'+@model.collection.projectId+'/members'

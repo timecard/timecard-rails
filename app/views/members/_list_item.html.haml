@@ -1,12 +1,21 @@
-%li.media
+%li.media{ class: "media member-#{member.id}" }
   .pull-left
     .media-object
       = image_tag gravatar_url(member.user.email)
   .media-body
-    %h4.media-heading
-      = link_to member.user.name, member.user
-    %p
-      = member.user.email
-      %br
-      - unless member.is_admin
-        = link_to "Remove", member_path(member), confirm: "Are you sure?", method: :delete
+    .pull-left
+      %h4.media-heading
+        = link_to member.user.name, member.user
+        - if member.is_admin
+          %small
+            （管理者）
+      %p
+        = member.user.email
+        %br
+        - unless member.is_admin
+          = link_to "削除", member_path(member), "data-confirm" => "Are you sure?", method: :delete
+    .pull-right
+      - unless member.admin?
+        = form_for member do |f|
+          = f.check_box :role, class: "member__admin-checkbox", "data-id" => member.id
+          = f.label "管理者権限を与える"

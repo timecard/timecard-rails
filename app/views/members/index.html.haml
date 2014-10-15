@@ -9,9 +9,8 @@
             People with access to this project.
         .col-sm-6
           .search
-            = form_for [@project, Member.new], remote: true do
-              .form-group
-                = text_field_tag :q, nil, class: "form-control search__field", placeholder: "Type username or email"
+            .form-group
+              = text_field_tag :q, nil, class: "form-control search__field", placeholder: "Type username or email"
           %ul.users-list
         .col-sm-6
           %ul.media-list.members-list

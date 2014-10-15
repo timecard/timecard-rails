@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704004848) do
+ActiveRecord::Schema.define(version: 20141016023258) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20140704004848) do
     t.boolean  "is_admin",   default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "role",       default: 0
   end
 
   create_table "projects", force: true do |t|

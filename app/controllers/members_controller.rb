@@ -1,8 +1,7 @@
 class MembersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:index, :search, :create]
-  before_action :set_member, only: [:destroy]
-  before_action :require_admin
+  load_and_authorize_resource :project, only: [:index, :search, :create]
+  load_and_authorize_resource :member, only: [:update, :destroy]
 
   def index
     if params[:github].blank?
@@ -26,10 +25,16 @@ class MembersController < ApplicationController
   end
 
   def create
-    @member = @project.members.build(user_id: params[:user_id])
+    @member = @project.members.build(user_id: params[:user_id], role: 2)
 
     if @member.save
       render "create"
+    end
+  end
+
+  def update
+    if @member.update(member_params)
+      render "update"
     end
   end
 
@@ -43,17 +48,7 @@ class MembersController < ApplicationController
   end
 
   private
-
-  def set_project
-    @project = Project.find(params[:project_id])
-  end
-
-  def set_member
-    @member = Member.find(params[:id])
-  end
-
-  def require_admin
-    project = @project ? @project : @member.project
-    return redirect_to root_path, alert: "You are not project admin." unless project.admin?(current_user)
-  end
+    def member_params
+      params.require(:member).permit(:role)
+    end
 end

@@ -9,7 +9,7 @@ Timecard::Application.routes.draw do
     resources :reports, only: :index
   end
 
-  resources :members, only: [:destroy]
+  resources :members, only: [:update, :destroy]
   resources :data
 
   resources :comments, only: [:edit, :update, :destroy]
