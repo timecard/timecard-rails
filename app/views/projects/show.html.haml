@@ -4,16 +4,16 @@
       .clearfix
         %h1.project__name
           = @project.name
-          .pull-right.dropdown
-            = link_to "#", class: "btn btn-default", "data-toggle" => "dropdown" do
-              = fa_icon "cog"
-            %ul.dropdown-menu{ role: "menu", "aria-labelledby" => "dLabel" }
-              - if can? :update, @project
+          - if can? :update, @project
+            .pull-right.dropdown
+              = link_to "#", class: "btn btn-default", "data-toggle" => "dropdown" do
+                = fa_icon "cog"
+              %ul.dropdown-menu{ role: "menu", "aria-labelledby" => "dLabel" }
                 - if @project.active?
                   %li
                     = link_to "Edit", edit_project_path(@project)
                   %li
-                    = link_to "Add member", project_members_path(@project)
+                    = link_to "Manage Members", project_members_path(@project)
                   %li
                     = link_to "Close", close_project_path(@project), method: :patch
                   - if @project.github

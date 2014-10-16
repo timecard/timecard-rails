@@ -1,0 +1,5 @@
+<%= @user.get('name') %>
+<span class="text-muted">
+  <%= @user.get('email') %>
+</span>
+<a href="#" class="pull-right users-list__add-link">Add</a>

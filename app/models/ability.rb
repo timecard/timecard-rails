@@ -12,6 +12,7 @@ class Ability
       authorize_comment(user)
       authorize_workload(user)
       authorize_user(user)
+      authorize_member(user)
     end
   end
 
@@ -23,7 +24,8 @@ class Ability
       user.persisted? # logged in user
     end
     can [:update, :close, :active, :report], Project do |project|
-      project.admin?(user)
+      member = project.members.find_by(user_id: user.id)
+      member && (member.admin? || member.moderator?)
     end
     cannot :destroy, Project
   end
@@ -52,6 +54,13 @@ class Ability
   def authorize_user(current_user)
     can :report, User do |user|
       current_user == user
+    end
+  end
+
+  def authorize_member(user)
+    can [:update, :destroy], Member do |member|
+      member = user.members.find_by(project_id: member.project.id)
+      member && (member.admin? || member.moderator?)
     end
   end
 end

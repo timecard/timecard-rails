@@ -1,33 +1,21 @@
-.breadcrumb
-  = link_to @project do
-    = fa_icon "angle-double-left"
-    = @project.name
-.page
-  %h2
-    = fa_icon "home"
-    = @project.name
-  .row
-    .col-md-6
-      %h3
-        = fa_icon "users"
-        Project Members
-      %ul.member-list
-        - @members.each do |member|
-          %li.member.clearfix
-            .name
-              = link_to member.user.name, member.user
-            .action
-              - unless member.is_admin
-                = link_to member_path(member), class: "close", confirm: "Are you sure?", method: :delete do
-                  \&times;
-    .col-md-6
-      %h3
-        = fa_icon "users"
-        All Users
-      %ul.member-list
-        - User.where.not(id: @members.pluck(:user_id)).each do |user|
-          %li.member.clearfix
-            .name
-              = link_to user.name, user
-            .action
-              = link_to "Add", project_members_path(@project, user_id: user.id), class: "btn btn-xs btn-primary", method: :post
+.row
+  .col-sm-offset-2.col-sm-8
+    .page
+      .row
+        .col-sm-12
+          %h2
+            = link_to @project.name, @project
+          %p
+            People with access to this project.
+        .col-sm-6
+          .search
+            .form-group
+              = text_field_tag :q, nil, class: "form-control search__field", placeholder: "Type username or email"
+          %ul.users-list
+        .col-sm-6
+          %ul.media-list.members-list
+            - @members.each do |member|
+              = render partial: 'list_item', locals: { member: member }
+
+:javascript
+  new Timecard.Views.MembersIndex({projectId: "#{@project.id}"})

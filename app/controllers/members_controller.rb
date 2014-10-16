@@ -1,8 +1,7 @@
 class MembersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:index, :create]
-  before_action :set_member, only: [:destroy]
-  before_action :require_admin
+  load_and_authorize_resource :project, only: [:index, :search, :create]
+  load_and_authorize_resource :member, only: [:update, :destroy]
 
   def index
     if params[:github].blank?
@@ -17,13 +16,25 @@ class MembersController < ApplicationController
     end
   end
 
+  def search
+    @users = User.where("email LIKE '%#{params[:q]}%' OR name LIKE '%#{params[:q]}%'")
+    exists_user_ids = Member.where(project_id: @project.id).pluck(:user_id)
+    @users.delete_if {|u| exists_user_ids.include?(u.id) }
+
+    render json: @users.to_json
+  end
+
   def create
-    @member = @project.members.build(user_id: params[:user_id])
-    respond_to do |format|
-      if @member.save
-        format.html { redirect_to project_members_path(@project), notice: 'Member was successfully added.' }
-        format.json { render action: 'show', status: :created, location: @member }
-      end
+    @member = @project.members.build(user_id: params[:user_id], role: 2)
+
+    if @member.save
+      render "create"
+    end
+  end
+
+  def update
+    if @member.update(member_params)
+      render "update"
     end
   end
 
@@ -37,17 +48,7 @@ class MembersController < ApplicationController
   end
 
   private
-
-  def set_project
-    @project = Project.find(params[:project_id])
-  end
-
-  def set_member
-    @member = Member.find(params[:id])
-  end
-
-  def require_admin
-    project = @project ? @project : @member.project
-    return redirect_to root_path, alert: "You are not project admin." unless project.admin?(current_user)
-  end
+    def member_params
+      params.require(:member).permit(:role)
+    end
 end
