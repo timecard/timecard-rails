@@ -14,18 +14,24 @@ class Timecard.Views.WorkloadsCrowdworksModal extends Backbone.View
     @
 
   addCrowdworksPassword: ->
+    $('.timer-button--stop').text('Sending ...').attr('disabled', 'disabled')
     password = @$('.crowdworks-form__password').val()
     remember_me = @$('.crowdworks-form__remember-me').prop('checked')
     attrs = {end_at: new Date(), password: password}
     if remember_me
       sessionStorage.setItem('crowdworks_password', password)
-    $.blockUI()
     model = @options.workloads.findWhere(end_at: null)
     model.save attrs,
-      success: (model) =>
+      success: (workload) =>
         issue = @options.issues.findWhere(id: model.get('issue').id)
         issue.set('is_running', false)
         Timecard.timer.stop()
-        $('.timer').removeClass('timer--on')
-        $('.timer').addClass('timer--off')
-        $.unblockUI()
+      error: (workload, response, options) =>
+        json = $.parseJSON(response.responseText)
+        workload = new Timecard.Models.Workload(
+          $.parseJSON(json.workload)
+        )
+        if workload.isStopped
+          issue = @options.issues.findWhere(id: model.get('issue').id)
+          issue.set('is_running', false)
+          Timecard.timer.stop()

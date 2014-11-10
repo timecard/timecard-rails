@@ -34,3 +34,6 @@ class Timecard.Models.Workload extends Backbone.Model
       Date.parse(@get('end_at'))
     else
       new Date()
+
+  isStopped: ->
+    @get('end_at')?
